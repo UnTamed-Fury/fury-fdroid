@@ -85,8 +85,48 @@ jobs:
         run: |
           mkdir -p public/repo
           cp -r website/* public/
-          # Copy the generated repo content (including APKs and index)
-          cp -r fdroid/repo/* public/repo/
+
+          # Copy the F-Droid repository files
+          # We'll selectively copy files to stay under the GitHub Pages artifact size limit
+          # Copy repository index files
+          if [ -f "fdroid/repo/index-v1.json" ]; then
+            cp fdroid/repo/index-v1.json public/repo/
+          fi
+          if [ -f "fdroid/repo/index-v2.json" ]; then
+            cp fdroid/repo/index-v2.json public/repo/
+          fi
+          if [ -f "fdroid/repo/index-v1.jar" ]; then
+            cp fdroid/repo/index-v1.jar public/repo/
+          fi
+
+          # Copy APK files but implement size limits
+          # Only copy the most recent APKs to avoid exceeding limits
+          APK_COUNT=$(find fdroid/repo -name "*.apk" | wc -l)
+          echo "Found $APK_COUNT APK files"
+
+          if [ $APK_COUNT -gt 0 ]; then
+            # Copy only a limited number of APKs to stay under size limits
+            # Find APKs and copy them, but limit total size
+            TOTAL_SIZE=0
+            MAX_SIZE=$((800 * 1024 * 1024))  # 800MB to leave room for other files
+            APK_FILES=$(find fdroid/repo -name "*.apk" | sort)
+
+            for apk in $APK_FILES; do
+              APK_SIZE=$(stat -c%s "$apk" 2>/dev/null || echo 0)
+              if [ $((TOTAL_SIZE + APK_SIZE)) -lt $MAX_SIZE ]; then
+                cp "$apk" public/repo/
+                TOTAL_SIZE=$((TOTAL_SIZE + APK_SIZE))
+                echo "Copied $apk (size: $APK_SIZE, total: $TOTAL_SIZE)"
+              else
+                echo "Skipping $apk due to size limit"
+                # Log the skipped APKs for later processing
+                echo "$apk" >> skipped_apks.txt
+              fi
+            done
+          fi
+
+          # Also copy other repository files (signature files, etc.)
+          find fdroid/repo -type f ! -name "*.apk" -exec cp {} public/repo/ \; 2>/dev/null || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5 # Updated to v5
