@@ -183,7 +183,8 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             # 2. Download and Convert Icon
             if icon_url:
                 icon_filename = f"{app_id}.png"
-                icon_path = os.path.join(metadata_dir, icon_filename)
+                icon_path = os.path.join(metadata_dir, "icons", icon_filename)
+                os.makedirs(os.path.join(metadata_dir, "icons"), exist_ok=True)
                 download_and_convert_icon(icon_url, icon_path)
 
             # 3. Fetch latest release info

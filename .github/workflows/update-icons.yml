@@ -56,8 +56,9 @@ jobs:
               app_data = yaml.safe_load(f)
 
           metadata_dir = 'fdroid/metadata'
-          if not os.path.exists(metadata_dir):
-              os.makedirs(metadata_dir)
+          icons_dir = os.path.join(metadata_dir, 'icons')
+          if not os.path.exists(icons_dir):
+              os.makedirs(icons_dir)
 
           updated_icons = []
           skipped_icons = []
@@ -134,7 +135,7 @@ jobs:
                           new_icon_hash = hashlib.md5(new_icon_content).hexdigest()
 
                           # Check if we have an existing icon for this app
-                          icon_path = os.path.join(metadata_dir, f'{app_id}.png')
+                          icon_path = os.path.join(icons_dir, f'{app_id}.png')
 
                           if os.path.exists(icon_path):
                               # Compare with existing icon
@@ -214,8 +215,8 @@ jobs:
           git config --local user.name 'GitHub Action'
 
           # Check if there are any changes to commit
-          if [[ -n $(git status --porcelain fdroid/metadata/*.png) ]]; then
-            git add fdroid/metadata/*.png
+          if [[ -n $(git status --porcelain fdroid/metadata/icons/*.png) ]]; then
+            git add fdroid/metadata/icons/*.png
             git commit -m 'Automated: Update app icons from GitHub raw URLs' -m 'Daily update of app icons from mipmap-xxxhdpi resources' -m 'Only updated icons that have changed'
             git push
             echo 'Icons updated and pushed successfully'

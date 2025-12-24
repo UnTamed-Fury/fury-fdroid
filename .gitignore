@@ -38,7 +38,9 @@ fdroid/repo/*
 fdroid/tmp/
 fdroid/archive/
 fdroid/metadata/*.yml # Generated metadata files
-fdroid/metadata/*.png # Generated icon files
+fdroid/metadata/*.png # Generated icon files (in root metadata dir only, not in subdirectories)
+!fdroid/metadata/icons/ # Don't ignore the icons subdirectory
+!fdroid/metadata/icons/*.png # Don't ignore icon files in the icons subdirectory
 fdroid/index-v1.json
 fdroid/index-v2.json
 fdroid/index-v1.jar
