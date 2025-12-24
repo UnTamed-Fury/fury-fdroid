@@ -1,0 +1,15 @@
+AuthorName: dead8309
+AutoUpdateMode: Version %v
+Builds:
+- commit: '6.2'
+  subdir: apks
+  versionCode: 1
+  versionName: '6.2'
+Categories:
+- Misc
+Name: Kizzy
+SourceCode: https://github.com/dead8309/Kizzy
+Summary: A Discord Rich Presence manager for Android fully written in Kotlin. Made
+  with jetpack compose and material3
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

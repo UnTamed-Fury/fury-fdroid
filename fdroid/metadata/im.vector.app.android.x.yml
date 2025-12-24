@@ -1,0 +1,15 @@
+AuthorName: element-hq
+AutoUpdateMode: Version %v
+Builds:
+- commit: v25.12.0
+  subdir: apks
+  versionCode: 1
+  versionName: v25.12.0
+Categories:
+- Communication
+Name: Element X
+SourceCode: https://github.com/element-hq/element-x-android
+Summary: Android Matrix messenger application using the Matrix Rust Sdk and Jetpack
+  Compose
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

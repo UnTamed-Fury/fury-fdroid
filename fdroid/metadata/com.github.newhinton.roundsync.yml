@@ -1,0 +1,15 @@
+AuthorName: newhinton
+AutoUpdateMode: Version %v
+Builds:
+- commit: v2.5.6
+  subdir: apks
+  versionCode: 1
+  versionName: v2.5.6
+Categories:
+- System
+Name: Round Sync
+SourceCode: https://github.com/newhinton/Round-Sync
+Summary: An android cloud file manager, powered by rclone. Visit https://roundsync.com
+  for more information!
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

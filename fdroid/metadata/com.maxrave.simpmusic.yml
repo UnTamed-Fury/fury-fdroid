@@ -1,0 +1,14 @@
+AuthorName: maxrave-dev
+AutoUpdateMode: Version %v
+Builds:
+- commit: v1.0.1-hf
+  subdir: apks
+  versionCode: 1
+  versionName: v1.0.1-hf
+Categories:
+- Entertainment
+Name: SimpMusic
+SourceCode: https://github.com/maxrave-dev/SimpMusic
+Summary: A cross-platform music app using YouTube Music for backend
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

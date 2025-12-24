@@ -1,0 +1,14 @@
+AuthorName: Xed-Editor
+AutoUpdateMode: Version %v
+Builds:
+- commit: v3.2.5
+  subdir: apks
+  versionCode: 1
+  versionName: v3.2.5
+Categories:
+- Development
+Name: Xed Editor
+SourceCode: https://github.com/Xed-Editor/Xed-Editor
+Summary: Advanced Text Editor for Android
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

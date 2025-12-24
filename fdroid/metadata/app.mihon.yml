@@ -1,0 +1,14 @@
+AuthorName: mihonapp
+AutoUpdateMode: Version %v
+Builds:
+- commit: v0.19.3
+  subdir: apks
+  versionCode: 1
+  versionName: v0.19.3
+Categories:
+- Entertainment
+Name: Mihon
+SourceCode: https://github.com/mihonapp/mihon
+Summary: Free and open source manga reader for Android
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

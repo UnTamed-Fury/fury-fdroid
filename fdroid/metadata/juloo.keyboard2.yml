@@ -1,0 +1,14 @@
+AuthorName: Julow
+AutoUpdateMode: Version %v
+Builds:
+- commit: 1.32.1
+  subdir: apks
+  versionCode: 1
+  versionName: 1.32.1
+Categories:
+- System
+Name: Unexpected Keyboard
+SourceCode: https://github.com/Julow/Unexpected-Keyboard
+Summary: A lightweight keyboard for Android
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

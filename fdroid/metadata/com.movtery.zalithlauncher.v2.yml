@@ -1,0 +1,14 @@
+AuthorName: ZalithLauncher
+AutoUpdateMode: Version %v
+Builds:
+- commit: 2.0.0_beta-20251222a
+  subdir: apks
+  versionCode: 1
+  versionName: 2.0.0_beta-20251222a
+Categories:
+- Gaming
+Name: Zalith Launcher 2
+SourceCode: https://github.com/ZalithLauncher/ZalithLauncher2
+Summary: 'A Minecraft: Java Edition Launcher for Android'
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

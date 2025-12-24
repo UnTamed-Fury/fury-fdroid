@@ -1,0 +1,14 @@
+AuthorName: komikku-app
+AutoUpdateMode: Version %v
+Builds:
+- commit: v0.1.4
+  subdir: apks
+  versionCode: 1
+  versionName: v0.1.4
+Categories:
+- Entertainment
+Name: Anikku
+SourceCode: https://github.com/komikku-app/anikku
+Summary: Free and open source anime watcher for Android
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

@@ -1,0 +1,14 @@
+AuthorName: NeoApplications
+AutoUpdateMode: Version %v
+Builds:
+- commit: 1.2.0
+  subdir: apks
+  versionCode: 1
+  versionName: 1.2.0
+Categories:
+- System
+Name: Neo Store
+SourceCode: https://github.com/NeoApplications/Neo-Store
+Summary: An F-Droid client with modern UI and an arsenal of extra features.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

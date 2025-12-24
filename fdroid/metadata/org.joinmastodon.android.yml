@@ -1,0 +1,14 @@
+AuthorName: Mastodon
+AutoUpdateMode: Version %v
+Builds:
+- commit: v2.11.8
+  subdir: apks
+  versionCode: 1
+  versionName: v2.11.8
+Categories:
+- Communication
+Name: Mastodon
+SourceCode: https://github.com/mastodon/mastodon-android
+Summary: Official Android app for Mastodon
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

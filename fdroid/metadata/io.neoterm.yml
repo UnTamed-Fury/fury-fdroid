@@ -1,0 +1,14 @@
+AuthorName: NeoTerrm
+AutoUpdateMode: Version %v
+Builds:
+- commit: v2.0.5
+  subdir: apks
+  versionCode: 1
+  versionName: v2.0.5
+Categories:
+- Development
+Name: NeoTerm
+SourceCode: https://github.com/NeoTerrm/NeoTerm
+Summary: 👍 modern terminal emulator for Android
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

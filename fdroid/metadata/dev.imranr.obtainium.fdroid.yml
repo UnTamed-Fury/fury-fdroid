@@ -1,0 +1,14 @@
+AuthorName: ImranR98
+AutoUpdateMode: Version %v
+Builds:
+- commit: v1.2.9
+  subdir: apks
+  versionCode: 1
+  versionName: v1.2.9
+Categories:
+- System
+Name: Obtainium
+SourceCode: https://github.com/ImranR98/Obtainium
+Summary: Get Android app updates straight from the source.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags
