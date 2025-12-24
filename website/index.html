@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fury's F-Droid Repo</title>
+  <meta name="description" content="Custom F-Droid repository for open-source Android apps." />
+
+  <style>
+    :root {
+      --scarlet-500: #fa052a;
+      --scarlet-600: #c80421;
+      --scarlet-300: #fc697f;
+
+      --space-950: #0d1016;
+      --space-900: #131720;
+      --space-800: #262e40;
+      --space-700: #394560;
+
+      --white: #ffffff;
+      --text-muted: #b8c0cb;
+
+      --bg: linear-gradient(180deg, var(--space-950), var(--space-900));
+      --card-bg: linear-gradient(180deg, var(--space-900), var(--space-800));
+      --border: var(--space-700);
+      --accent: var(--scarlet-500);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: clamp(2rem, 6vw, 3rem) 1.2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      max-width: 640px;
+      margin: auto;
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 2.8vw, 1rem);
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 1.2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: clamp(1.5rem, 4vw, 2.2rem);
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+    }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    p {
+      font-size: clamp(0.9rem, 2.8vw, 1rem);
+    }
+
+    /* INPUT ROW */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--space-950);
+      color: var(--white);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: clamp(0.75rem, 3.2vw, 0.95rem);
+      letter-spacing: 0.02em;
+    }
+
+    input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    button,
+    .tag {
+      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(180deg, var(--scarlet-500), var(--scarlet-600));
+      color: #fff;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .tag {
+      background: var(--space-950);
+      color: var(--scarlet-300);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    /* QR */
+    .qr {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .qr img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 12px;
+      border: 3px solid var(--white);
+    }
+
+    /* STEPS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .step {
+      background: var(--space-950);
+      border-radius: 14px;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+    }
+
+    .step h3 {
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* MOBILE FIXES */
+    @media (max-width: 768px) {
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+
+      .tag {
+        text-align: center;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Fury's F-Droid Repo</h1>
+    <p>Open-source Android apps distributed through a custom F-Droid repository.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Repository URL</h2>
+      <p>Add this URL inside the F-Droid client.</p>
+
+      <div class="field-row">
+        <input id="repo" value="https://fury.untamedfury.space/repo" readonly />
+        <button data-copy="repo">Copy</button>
+        <span class="tag">URL</span>
+      </div>
+
+      <div class="qr">
+        <img src="qr.png" alt="F-Droid repository QR code" />
+      </div>
+
+      <h3>Repository Fingerprint</h3>
+      <p style="color:var(--text-muted);">Standard F-Droid format.</p>
+
+      <div class="field-row">
+        <input id="fp-colon" readonly />
+        <button data-copy="fp-colon">Copy</button>
+        <span class="tag">SHA-256</span>
+      </div>
+
+      <h3 style="margin-top:1.6rem;">Neo Store Compatible Fingerprint</h3>
+      <p style="color:var(--text-muted);">Same fingerprint without separators.</p>
+
+      <div class="field-row">
+        <input id="fp-raw" readonly />
+        <button data-copy="fp-raw">Copy</button>
+        <span class="tag">RAW</span>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <h3>1. Install an F-Droid client</h3>
+          <p>
+            You can use the official F-Droid app or any compatible client.
+            Recommended: <strong>F-Droid (official)</strong> or <strong>Neo Store</strong>.
+          </p>
+        </div>
+        <div class="step">
+          <h3>2. Add Repository</h3>
+          <p>Settings → Repositories → Add.</p>
+        </div>
+        <div class="step">
+          <h3>3. Refresh</h3>
+          <p>Update indexes and install apps.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <footer>
+    © 2025 · <a href="https://github.com/UnTamed-Fury/fury-fdroid">Fury's F-Droid Repository</a> · Open Source
+    </footer>
+
+  <script>
+    const FINGERPRINT =
+      "BD:3D:60:C7:D6:AA:34:20:42:78:62:9B:0F:BC:EC:E7:B6:80:2E:6B:C6:7C:5F:11:12:D2:60:D4:21:86:EE:E6";
+
+    document.getElementById("fp-colon").value = FINGERPRINT;
+    document.getElementById("fp-raw").value = FINGERPRINT.replace(/:/g, "");
+
+    document.querySelectorAll("[data-copy]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        navigator.clipboard.writeText(
+          document.getElementById(btn.dataset.copy).value
+        );
+      });
+    });
+  </script>
+</body>
+</html>

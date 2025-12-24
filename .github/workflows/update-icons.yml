@@ -1,0 +1,224 @@
+# Workflow to update app icons from GitHub raw URLs daily with enhanced path detection
+name: Update App Icons Daily
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Runs daily at 6:00 UTC
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update-icons:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push icon updates
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout pip cache repository
+        uses: actions/checkout@v4
+        with:
+          repository: UnTamedFury/pip-fdroid-fury
+          path: pip-cache
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'  # Cache pip dependencies to speed up workflow
+          cache-dependency-path: 'pip-cache/requirements.txt'  # Use requirements from cache repo
+
+      - name: Install dependencies from cache
+        run: |
+          # Try to install from the cached wheel files first
+          if [ -d "pip-cache/wheels" ]; then
+            pip install --find-links pip-cache/wheels --no-index -r pip-cache/requirements.txt || pip install -r pip-cache/requirements.txt
+          else
+            pip install -r pip-cache/requirements.txt
+          fi
+
+      - name: Update app icons from GitHub raw URLs
+        run: |
+          python -c "
+          import os
+          import yaml
+          import requests
+          import hashlib
+          from PIL import Image
+          from io import BytesIO
+
+          # Load apps.yaml
+          with open('apps.yaml', 'r') as f:
+              app_data = yaml.safe_load(f)
+
+          metadata_dir = 'fdroid/metadata'
+          if not os.path.exists(metadata_dir):
+              os.makedirs(metadata_dir)
+
+          updated_icons = []
+          skipped_icons = []
+          failed_icons = []
+
+          for app in app_data.get('apps', []):
+              app_id = app['id']
+
+              # Get icon URL from assets section
+              icon_config = app.get('assets', {}).get('icon', {})
+              if icon_config.get('type') == 'github-repo' and icon_config.get('url'):
+                  icon_url = icon_config['url']
+
+                  # Try the configured URL first
+                  urls_to_try = [icon_url]
+
+                  # If the configured URL fails, try common alternatives
+                  # Extract repository information to construct alternatives
+                  if 'mipmap-xxxhdpi' in icon_url or 'mipmap-xxhdpi' in icon_url or 'mipmap-xhdpi' in icon_url or 'mipmap-hdpi' in icon_url:
+                      # Determine the base density folder name to replace
+                      if 'mipmap-xxxhdpi' in icon_url:
+                          base_density = 'mipmap-xxxhdpi'
+                      elif 'mipmap-xxhdpi' in icon_url:
+                          base_density = 'mipmap-xxhdpi'
+                      elif 'mipmap-xhdpi' in icon_url:
+                          base_density = 'mipmap-xhdpi'
+                      else:
+                          base_density = 'mipmap-hdpi'
+
+                      # Try different density folders
+                      for density in ['mipmap-xxhdpi', 'mipmap-xhdpi', 'mipmap-hdpi']:
+                          if density != base_density:
+                              alt_url = icon_url.replace(base_density, density)
+                              urls_to_try.append(alt_url)
+
+                      # Try drawable alternatives (these might be at different levels in repo structure)
+                      drawable_variants = [
+                          'drawable-xxxhdpi', 'drawable-xxhdpi',
+                          'drawable-xhdpi', 'drawable-hdpi', 'drawable'
+                      ]
+                      for variant in drawable_variants:
+                          alt_url = icon_url.replace(base_density, variant)
+                          urls_to_try.append(alt_url)
+
+                  # If it's a drawable folder, try other drawable sizes
+                  elif 'drawable' in icon_url:
+                      drawable_variants = [
+                          'drawable-xxxhdpi', 'drawable-xxhdpi',
+                          'drawable-xhdpi', 'drawable-hdpi', 'drawable'
+                      ]
+                      base_drawable = None
+                      for variant in drawable_variants:
+                          if variant in icon_url:
+                              base_drawable = variant
+                              break
+
+                      if base_drawable:
+                          for variant in drawable_variants:
+                              if variant != base_drawable:
+                                  alt_url = icon_url.replace(base_drawable, variant)
+                                  urls_to_try.append(alt_url)
+
+                  success = False
+                  for url in urls_to_try:
+                      try:
+                          print(f'Trying icon for {app_id} from {url}')
+
+                          # Get the current icon content from GitHub
+                          response = requests.get(url)
+                          response.raise_for_status()
+
+                          # Calculate hash of the new icon
+                          new_icon_content = response.content
+                          new_icon_hash = hashlib.md5(new_icon_content).hexdigest()
+
+                          # Check if we have an existing icon for this app
+                          icon_path = os.path.join(metadata_dir, f'{app_id}.png')
+
+                          if os.path.exists(icon_path):
+                              # Compare with existing icon
+                              with open(icon_path, 'rb') as f:
+                                  existing_content = f.read()
+                                  existing_icon_hash = hashlib.md5(existing_content).hexdigest()
+
+                              if existing_icon_hash == new_icon_hash:
+                                  print(f'  -> Icon unchanged for {app_id}, skipping update')
+                                  skipped_icons.append(app_id)
+                                  success = True
+                                  break  # Skip to next app
+                              else:
+                                  print(f'  -> Icon changed for {app_id}, updating')
+                          else:
+                              print(f'  -> New icon for {app_id}, adding')
+
+                          # Process the image
+                          img = Image.open(BytesIO(new_icon_content))
+
+                          # Convert to RGBA if necessary (to preserve transparency)
+                          if img.mode in ('P', 'CMYK'):
+                              img = img.convert('RGBA')
+
+                          # Save as PNG with app ID as filename
+                          img.save(icon_path, 'PNG')
+
+                          updated_icons.append(app_id)
+                          print(f'  -> Successfully updated {icon_path}')
+                          success = True
+                          break  # Exit the loop once we find a working URL
+
+                      except requests.exceptions.HTTPError as e:
+                          if e.response.status_code == 404:
+                              if url == urls_to_try[-1]:  # If this is the last URL to try
+                                  print(f'  -> Failed to update icon for {app_id} with all tried URLs: {e}')
+                                  failed_icons.append((app_id, str(e)))
+                              else:
+                                  print(f'    -> Not found: {url}, trying next...')
+                          else:
+                              print(f'  -> HTTP error with {url}: {e}')
+                              if url == urls_to_try[-1]:
+                                  failed_icons.append((app_id, str(e)))
+                      except Exception as e:
+                          if url == urls_to_try[-1]:  # If this is the last URL to try
+                              print(f'  -> Failed to update icon for {app_id} with all tried URLs: {e}')
+                              failed_icons.append((app_id, str(e)))
+                          else:
+                              print(f'    -> Failed with {url}, trying next...')
+
+                  if not success:
+                      print(f'  -> All URL attempts failed for {app_id}')
+              else:
+                  print(f'Skipping {app_id} - no valid icon URL found')
+
+          print(f'\nSummary:')
+          print(f'Updated icons: {len(updated_icons)}')
+          print(f'Skipped icons (no change): {len(skipped_icons)}')
+          print(f'Failed icons: {len(failed_icons)}')
+
+          if updated_icons:
+              print(f'Updated: {\", \".join(updated_icons[:10])}{\"...\" if len(updated_icons) > 10 else \"\"}')
+
+          if skipped_icons:
+              print(f'Skipped: {\", \".join(skipped_icons[:10])}{\"...\" if len(skipped_icons) > 10 else \"\"}')
+
+          if failed_icons:
+              print(f'Failed: {[app_id for app_id, _ in failed_icons[:10]]}{\"...\" if len(failed_icons) > 10 else \"\"}')
+              # Exit with error if all icons failed
+              if len(updated_icons) == 0 and len(failed_icons) > 0:
+                  exit(1)
+          "
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email 'action@github.com'
+          git config --local user.name 'GitHub Action'
+
+          # Check if there are any changes to commit
+          if [[ -n $(git status --porcelain fdroid/metadata/*.png) ]]; then
+            git add fdroid/metadata/*.png
+            git commit -m 'Automated: Update app icons from GitHub raw URLs' -m 'Daily update of app icons from mipmap-xxxhdpi resources' -m 'Only updated icons that have changed'
+            git push
+            echo 'Icons updated and pushed successfully'
+          else
+            echo 'No icon changes to commit'
+          fi

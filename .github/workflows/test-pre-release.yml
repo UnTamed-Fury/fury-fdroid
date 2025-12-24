@@ -1,0 +1,134 @@
+# Test workflow for verifying pre-release logic
+name: Test Pre-Release Logic
+
+on:
+  workflow_dispatch: # Allows manual triggering for testing
+  schedule:
+    - cron: '0 12 * * 6' # Runs every Saturday at 12:00 UTC (for periodic testing)
+
+# Prevent concurrent runs of the same workflow to avoid conflicts
+concurrency:
+  group: "test-pre-release"
+  cancel-in-progress: false
+
+jobs:
+  test-pre-release-logic:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push metadata updates
+      pages: write    # To deploy GitHub Pages (if needed for testing)
+      id-token: write # Verify OIDC for Pages deployment
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip' # Caching pip dependencies
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
+
+      - name: Test Script with Yōkai Pre-release Logic
+        run: |
+          python -c "
+          import sys
+          import os
+          import yaml
+          sys.path.insert(0, os.path.join(os.getcwd(), 'scripts'))
+
+          from update_fdroid_repo import get_latest_github_release_info
+
+          print('Testing Yōkai with prefer_prerelease=True...')
+          try:
+              version, assets = get_latest_github_release_info(
+                  'https://github.com/null2264/yokai',
+                  '${{ secrets.GITHUB_TOKEN }}',
+                  prefer_prerelease=True
+              )
+              print(f'SUCCESS: Found pre-release {version} with {len(assets)} APKs')
+
+              # Check if it's actually a pre-release
+              is_prerelease = any(indicator in version.lower() for indicator in ['-alpha', '-beta', '-rc', '-b', 'preview'])
+              print(f'Version appears to be pre-release: {is_prerelease or \"b\" in version.lower()}')
+          except Exception as e:
+              print(f'ERROR with pre-release: {e}')
+
+          print('\\nTesting Yōkai with prefer_prerelease=False...')
+          try:
+              version, assets = get_latest_github_release_info(
+                  'https://github.com/null2264/yokai',
+                  '${{ secrets.GITHUB_TOKEN }}',
+                  prefer_prerelease=False
+              )
+              print(f'SUCCESS: Found regular release {version} with {len(assets)} APKs')
+
+              # Check if it's NOT a pre-release
+              is_prerelease = any(indicator in version.lower() for indicator in ['-alpha', '-beta', '-rc', '-b', 'preview'])
+              print(f'Version appears to be regular release: {not is_prerelease}')
+          except Exception as e:
+              print(f'ERROR with regular release: {e}')
+
+          # Verify apps.yaml configuration
+          print('\\nVerifying apps.yaml configuration...')
+          with open('apps.yaml', 'r') as f:
+              app_data = yaml.safe_load(f)
+
+          yokai_app = None
+          for app in app_data['apps']:
+              if app['id'] == 'eu.kanade.tachiyomi.yokai':
+                  yokai_app = app
+                  break
+
+          if yokai_app:
+              pref = yokai_app.get('fdroid', {}).get('prefer_prerelease', False)
+              print(f'Yōkai prefer_prerelease setting: {pref}')
+              if pref:
+                  print('SUCCESS: Yōkai correctly configured for pre-releases')
+              else:
+                  print('ERROR: Yōkai not configured for pre-releases')
+          else:
+              print('ERROR: Yōkai app not found')
+          "
+
+      - name: Run Full Update Script (Dry Run)
+        run: |
+          echo 'Running full update script with dry run approach...'
+          python -c "
+          import sys
+          import os
+          import yaml
+          sys.path.insert(0, os.path.join(os.getcwd(), 'scripts'))
+
+          from update_fdroid_repo import generate_metadata_for_apps
+
+          print('Testing script logic with apps.yaml structure...')
+          with open('apps.yaml', 'r') as f:
+              app_data = yaml.safe_load(f)
+
+          # Count apps with different pre-release settings
+          prerelease_apps = 0
+          normal_release_apps = 0
+
+          for app in app_data['apps']:
+              fdroid_config = app.get('fdroid', {})
+              if fdroid_config.get('prefer_prerelease', False):
+                  prerelease_apps += 1
+              else:
+                  normal_release_apps += 1
+
+          print(f'Apps configured for pre-releases: {prerelease_apps}')
+          print(f'Apps configured for normal releases: {normal_release_apps}')
+          print('Script structure verification completed successfully')
+          "

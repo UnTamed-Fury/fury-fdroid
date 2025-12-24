@@ -1,0 +1,7 @@
+requests
+pyyaml
+fdroidserver
+gitpython
+qrcode
+yamllint
+Pillow

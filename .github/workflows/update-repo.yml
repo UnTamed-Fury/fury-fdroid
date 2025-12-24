@@ -1,0 +1,99 @@
+# Repo Update & Web Deploy
+name: Build CI
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # Runs every 12 hours
+  workflow_dispatch: # Allows manual triggering
+
+# Prevent concurrent runs of the same workflow to avoid conflicts
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push metadata updates
+      pages: write    # To deploy to GitHub Pages
+      id-token: write # Verify OIDC for Pages deployment
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout pip cache repository
+        uses: actions/checkout@v4
+        with:
+          repository: UnTamedFury/pip-fdroid-fury
+          path: pip-cache
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip' # Caching pip dependencies
+          cache-dependency-path: 'pip-cache/requirements.txt'  # Use requirements from cache repo
+
+      - name: Install Python dependencies from cache
+        run: |
+          pip install --upgrade pip
+          # Try to install from the cached wheel files first
+          if [ -d "pip-cache/wheels" ]; then
+            pip install --find-links pip-cache/wheels --no-index requests pyyaml fdroidserver gitpython qrcode yamllint || pip install requests pyyaml fdroidserver gitpython qrcode yamllint
+          else
+            pip install requests pyyaml fdroidserver gitpython qrcode yamllint
+          fi
+
+      - name: Create secure config file
+        run: |
+          # Create a temporary config file with secrets from environment
+          cat > fdroid/config_secure.yml << EOF
+          repo_url: "https://fury.untamedfury.space/repo"
+          repo_name: "Fury's F-Droid Repo"
+          repo_icon: "icon.png"
+          repo_description: "A repository of apps I use and recommend."
+          archive_older: 3
+          archive_keep_signed: 1
+          serverwebroot: "."
+          make_current_version_link: false
+          keystore: keystore.p12
+          keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
+          repo_keyalias: fdroid_key
+          keystorepass: $KEYSTORE_PASS
+          keypass: $KEY_PASS
+          EOF
+
+          # Use this secure config file in the script instead of the one with placeholders
+          python3 scripts/update_fdroid_repo.py
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+
+      - name: Prepare Website Content
+        run: |
+          mkdir -p public/repo
+          cp -r website/* public/
+          # Copy the generated repo content (including APKs and index)
+          cp -r fdroid/repo/* public/repo/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5 # Updated to v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

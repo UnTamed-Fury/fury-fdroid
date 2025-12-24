@@ -1,0 +1,202 @@
+# Gitignore for F-Droid Repository project
+
+# Python
+.python-version
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+.venv/
+.env
+.ENV
+requirements.txt.bak
+requirements_backup.txt
+
+# F-Droid specific ignores
+fdroid/repo/*
+!fdroid/repo/.gitkeep # Keep an empty .gitkeep file to track the directory
+fdroid/tmp/
+fdroid/archive/
+fdroid/metadata/*.yml # Generated metadata files
+fdroid/metadata/*.png # Generated icon files
+fdroid/index-v1.json
+fdroid/index-v2.json
+fdroid/index-v1.jar
+
+# Virtual Environment
+.venv
+pyvenv.cfg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+ehthumbs.db
+Icon?
+Network Trash Folder
+Temporary Items
+.trash
+.Trashes
+*.xsession-errors*
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+.pycache/
+.coverage
+coverage.xml
+*.coverage
+
+# Testing
+.pytest_cache/
+.coverage*/
+
+# Node.js (if any)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.envrc
+
+# Backup files
+*~
+*.bak
+*.swp
+*.swo
+._*
+
+# Local configuration
+config_local.yml
+local_settings.py
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Certificate files (in case any are generated locally)
+*.crt
+*.key
+*.pem
+# Note: keystore.p12 is needed for F-Droid repo signing, so it's not ignored
+# Only ignore other .p12 files if they are temporary
+*.p12
+!fdroid/keystore.p12
+
+# Generated files that are not meant to be committed
+*.apk # Individual APK files (they should be in fdroid/repo which is gitignored)
+*.aab # Android App Bundle files
+
+# Website related (if any temp files)
+website/temp/
+website/build/
+website/dist/
+
+# Cache directories
+.cache/
+__pycache__/
+*.cache/
+
+# Sensitive files
+*.key
+*.secret
+secrets.json
+credentials.json
+.env
+.env.prod
+.env.production
+.env.staging
+.env.backup
+.env.save
+
+# System files
+.DS_Store
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor-specific files
+# Vim
+*.un~
+Session.vim
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Atom
+.atom/
+
+# Backup & temp files
+*.bak
+*.tmp
+*.temp
+~$*
+
+# Other common temp files
+*.tmp
+tmp/
+temp/
+.DS_Store
+._*
+
+# Local secrets (not the main keystore which is needed)
+secret.local
+local.properties
+
+# System junk
+*.DS_Store
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Network Trash Folder
+Temporary Items
+.apdisk
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
