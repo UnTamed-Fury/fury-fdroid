@@ -342,9 +342,14 @@ if __name__ == '__main__':
             f.write(secure_config_content)
 
     try:
+        # Set environment variables for fdroid command
+        env = os.environ.copy()
+        env['FDROID_KEY_STORE_PASS'] = keystore_pass
+        env['FDROID_KEY_PASS'] = key_pass
+
         # Run fdroid update from inside the fdroid directory
         # We use --verbose to see what happens.
-        subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, check=True)
+        subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, check=True, env=env)
         print("F-Droid repository index updated successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error updating F-Droid repository index: {e}")

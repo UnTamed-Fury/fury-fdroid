@@ -78,6 +78,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           KEY_PASS: ${{ secrets.KEY_PASS }}
+          FDROID_KEY_STORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          FDROID_KEY_PASS: ${{ secrets.KEY_PASS }}
 
       - name: Prepare Website Content
         run: |
