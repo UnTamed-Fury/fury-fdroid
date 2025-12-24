@@ -229,12 +229,9 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             print(f"  -> Latest version: {latest_version}")
             print(f"  -> Selected APK: {apk_filename}")
 
-            # 5. Download APK
-            target_apk_path = os.path.join(repo_dir, apk_filename)
-            if not os.path.exists(target_apk_path):
-                download_file(download_url, target_apk_path)
-            else:
-                print(f"  -> APK already exists: {target_apk_path}")
+            # 5. Reference remote APK (don't download to repo)
+            print(f"  -> Referencing remote APK from: {download_url}")
+            # Don't download the APK locally, just reference it remotely in metadata
 
             # 6. Generate Metadata File
             metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
@@ -242,21 +239,34 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
             category = categories[0] if categories else 'Other'
 
-            # Construct metadata dictionary
+            # Construct proper F-Droid metadata format for a prebuilt APK
             metadata = {
                 'Categories': [category],
                 'AuthorName': author,
                 'Name': app['name'],
                 'Summary': summary,
+                'Description': summary,
                 'SourceCode': app_url,
+                'WebSite': app_url,
+                'IssueTracker': f"{app_url}/issues" if app_url else '',
+                'Changelog': f"{app_url}/releases",
+                'License': 'Unknown',
+
+                # For prebuilt APKs, we use NullType repository
+                'RepoType': 'NullType',  # For repositories with prebuilt APKs
+
+                # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
                 'UpdateCheckMode': 'Tags',
-                'UpdateCheckData': '%c',
+
+                # Builds section - minimal for prebuilt APKs
                 'Builds': [{
                     'versionName': latest_version,
                     'versionCode': 1,
                     'commit': latest_version,
-                    'subdir': 'apks'
+                    'subdir': '.',
+                    'gradle': ['yes'],  # Use gradle build
+                    'output': apk_filename,
                 }]
             }
 
