@@ -218,6 +218,10 @@ jobs:
           if [[ -n $(git status --porcelain fdroid/metadata/icons/*.png) ]]; then
             git add fdroid/metadata/icons/*.png
             git commit -m 'Automated: Update app icons from GitHub raw URLs' -m 'Daily update of app icons from mipmap-xxxhdpi resources' -m 'Only updated icons that have changed'
+
+            # Pull latest changes to avoid conflicts
+            git pull --rebase origin main
+
             git push
             echo 'Icons updated and pushed successfully'
           else
