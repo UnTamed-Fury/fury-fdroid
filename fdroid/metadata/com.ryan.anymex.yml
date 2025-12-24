@@ -1,0 +1,14 @@
+AuthorName: RyanYuuki
+AutoUpdateMode: Version %v
+Builds:
+- commit: v3.0.3
+  subdir: apks
+  versionCode: 1
+  versionName: v3.0.3
+Categories:
+- Entertainment
+Name: AnymeX
+SourceCode: https://github.com/RyanYuuki/AnymeX
+Summary: An Open Source app for Tracking Multi Service (AL, MAL, SIMKL)
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

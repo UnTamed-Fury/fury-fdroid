@@ -1,0 +1,14 @@
+AuthorName: Signal Foundation
+AutoUpdateMode: Version %v
+Builds:
+- commit: v7.68.5
+  subdir: apks
+  versionCode: 1
+  versionName: v7.68.5
+Categories:
+- Communication
+Name: Signal
+SourceCode: https://github.com/signalapp/Signal-Android
+Summary: A private messenger for Android.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

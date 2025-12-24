@@ -1,0 +1,14 @@
+AuthorName: null2264
+AutoUpdateMode: Version %v
+Builds:
+- commit: v1.10.0-b4
+  subdir: apks
+  versionCode: 1
+  versionName: v1.10.0-b4
+Categories:
+- Entertainment
+Name: Yōkai
+SourceCode: https://github.com/null2264/yokai
+Summary: Free and open source manga reader for Android
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

@@ -1,0 +1,14 @@
+AuthorName: termux
+AutoUpdateMode: Version %v
+Builds:
+- commit: nightly
+  subdir: apks
+  versionCode: 1
+  versionName: nightly
+Categories:
+- Development
+Name: Termux:X11
+SourceCode: https://github.com/termux/termux-x11
+Summary: Termux X-server add-on.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

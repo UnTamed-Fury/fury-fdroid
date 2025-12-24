@@ -1,0 +1,15 @@
+AuthorName: ZalithLauncher
+AutoUpdateMode: Version %v
+Builds:
+- commit: '141200'
+  subdir: apks
+  versionCode: 1
+  versionName: '141200'
+Categories:
+- Gaming
+Name: Zalith Launcher
+SourceCode: https://github.com/ZalithLauncher/ZalithLauncher
+Summary: 'Zalith Launcher is a Minecraft launcher developed based on PojavLauncher,
+  capable of running Minecraft: Java Edition on Android devices.'
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

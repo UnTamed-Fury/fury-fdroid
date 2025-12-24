@@ -1,0 +1,14 @@
+AuthorName: Zenda-Cross
+AutoUpdateMode: Version %v
+Builds:
+- commit: v3.2.6
+  subdir: apks
+  versionCode: 1
+  versionName: v3.2.6
+Categories:
+- Entertainment
+Name: Vega
+SourceCode: https://github.com/Zenda-Cross/vega-app
+Summary: A media streaming streaming app.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

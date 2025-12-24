@@ -1,0 +1,14 @@
+AuthorName: Iamlooker
+AutoUpdateMode: Version %v
+Builds:
+- commit: v0.6.6
+  subdir: apks
+  versionCode: 1
+  versionName: v0.6.6
+Categories:
+- System
+Name: DROID-IFY
+SourceCode: https://github.com/Droid-ify/client
+Summary: Clutterfree F-Droid client
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

@@ -1,0 +1,14 @@
+AuthorName: KRTirtho
+AutoUpdateMode: Version %v
+Builds:
+- commit: v5.1.0
+  subdir: apks
+  versionCode: 1
+  versionName: v5.1.0
+Categories:
+- Entertainment
+Name: SpoTube
+SourceCode: https://github.com/KRTirtho/spotube
+Summary: 🎧 Open source music streaming app! Available for both desktop & mobile!
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

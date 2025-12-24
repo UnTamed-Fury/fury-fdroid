@@ -1,0 +1,15 @@
+AuthorName: kodjodevf
+AutoUpdateMode: Version %v
+Builds:
+- commit: v0.6.90
+  subdir: apks
+  versionCode: 1
+  versionName: v0.6.90
+Categories:
+- Entertainment
+Name: Mangayomi
+SourceCode: https://github.com/kodjodevf/mangayomi
+Summary: Free and open source application for reading manga, novels, and watching
+  animes available on Android, iOS, macOS, Linux and Windows
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

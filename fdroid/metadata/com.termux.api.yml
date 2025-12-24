@@ -1,0 +1,15 @@
+AuthorName: termux
+AutoUpdateMode: Version %v
+Builds:
+- commit: v0.53.0
+  subdir: apks
+  versionCode: 1
+  versionName: v0.53.0
+Categories:
+- Development
+Name: Termux:API
+SourceCode: https://github.com/termux/termux-api
+Summary: Termux add-on app which exposes device functionality as API to command line
+  programs.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

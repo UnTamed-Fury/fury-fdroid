@@ -1,0 +1,15 @@
+AuthorName: FlutterGenerator
+AutoUpdateMode: Version %v
+Builds:
+- commit: 4.0.1
+  subdir: apks
+  versionCode: 1
+  versionName: 4.0.1
+Categories:
+- Development
+Name: Termux:Monet
+SourceCode: https://github.com/FlutterGenerator/termux-monet
+Summary: Termux Monet - a (unmaintained) terminal emulator application for Android
+  8+ OS extendible by variety of packages, with Monet support and experimental features.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

@@ -1,0 +1,14 @@
+AuthorName: mpv-android
+AutoUpdateMode: Version %v
+Builds:
+- commit: '2025-08-25'
+  subdir: apks
+  versionCode: 1
+  versionName: '2025-08-25'
+Categories:
+- Entertainment
+Name: mpv-android
+SourceCode: https://github.com/mpv-android/mpv-android
+Summary: 'video player for Android based on libmpv ↦ #mpv-android @ irc.libera.chat'
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

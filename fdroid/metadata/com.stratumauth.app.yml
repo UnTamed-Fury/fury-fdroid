@@ -1,0 +1,14 @@
+AuthorName: StratumAuth
+AutoUpdateMode: Version %v
+Builds:
+- commit: v1.4.0
+  subdir: apks
+  versionCode: 1
+  versionName: v1.4.0
+Categories:
+- Security
+Name: Stratum
+SourceCode: https://github.com/stratumauth/app
+Summary: 📱 Two-Factor Authentication (2FA) client for Android + Wear OS
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags

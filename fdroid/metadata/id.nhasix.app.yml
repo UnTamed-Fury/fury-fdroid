@@ -1,0 +1,16 @@
+AuthorName: shirokun20
+AutoUpdateMode: Version %v
+Builds:
+- commit: v0.7.1
+  subdir: apks
+  versionCode: 1
+  versionName: v0.7.1
+Categories:
+- Entertainment
+Name: Kuron
+SourceCode: https://github.com/shirokun20/nhasixapp
+Summary: Flutter Android app clone of nhentai.net built with Clean Architecture, BLoC
+  pattern, and modern development practices. Features offline reading, advanced search,
+  favorites management, and download system.
+UpdateCheckData: '%c'
+UpdateCheckMode: Tags
