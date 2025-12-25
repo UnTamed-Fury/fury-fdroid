@@ -4,7 +4,7 @@ Binaries: https://github.com/e18lab/NHAppAndroid/releases/download/1.2.0/NHApp-A
 Builds:
 - commit: 1.2.0
   output: NHApp-Android-Setup-1.2.0.apk
-  versionCode: 1
+  versionCode: 0
   versionName: 1.2.0
 Categories:
 - Entertainment

@@ -4,7 +4,7 @@ Binaries: https://github.com/KRTirtho/spotube/releases/download/v5.1.0/Spotube-a
 Builds:
 - commit: v5.1.0
   output: Spotube-android-all-arch.apk
-  versionCode: 1
+  versionCode: 0
   versionName: v5.1.0
 Categories:
 - Entertainment

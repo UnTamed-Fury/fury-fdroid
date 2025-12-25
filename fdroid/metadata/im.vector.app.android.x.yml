@@ -4,7 +4,7 @@ Binaries: https://github.com/element-hq/element-x-android/releases/download/v25.
 Builds:
 - commit: v25.12.0
   output: app-fdroid-arm64-v8a-release-signed.apk
-  versionCode: 1
+  versionCode: 0
   versionName: v25.12.0
 Categories:
 - Communication

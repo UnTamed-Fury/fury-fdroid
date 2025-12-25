@@ -4,7 +4,7 @@ Binaries: https://github.com/termux/termux-float/releases/download/v0.17.0/termu
 Builds:
 - commit: v0.17.0
   output: termux-float-app_v0.17.0+github.debug.apk
-  versionCode: 1
+  versionCode: 0
   versionName: v0.17.0
 Categories:
 - Development

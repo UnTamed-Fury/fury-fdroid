@@ -4,7 +4,7 @@ Binaries: https://github.com/NeoTerrm/NeoTerm/releases/download/v2.0.5/NeoTerm-2
 Builds:
 - commit: v2.0.5
   output: NeoTerm-2.0.5.apk
-  versionCode: 1
+  versionCode: 5
   versionName: v2.0.5
 Categories:
 - Development

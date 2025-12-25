@@ -4,7 +4,7 @@ Binaries: https://github.com/termux/termux-api/releases/download/v0.53.0/termux-
 Builds:
 - commit: v0.53.0
   output: termux-api-app_v0.53.0+github.debug.apk
-  versionCode: 1
+  versionCode: 0
   versionName: v0.53.0
 Categories:
 - Development
