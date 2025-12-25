@@ -233,8 +233,8 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             print(f"  -> Latest version: {latest_version}")
             print(f"  -> Selected APK: {apk_filename}")
 
-            # 5. Download APK temporarily for F-Droid server processing
-            # We need to download APKs for F-Droid server to process them, but they won't be hosted in repo
+            # 5. Download APK for F-Droid server processing
+            # F-Droid server needs APKs locally to scan and create repository index
             target_apk_path = os.path.join(repo_dir, apk_filename)
             if not os.path.exists(target_apk_path):
                 download_file(download_url, target_apk_path)

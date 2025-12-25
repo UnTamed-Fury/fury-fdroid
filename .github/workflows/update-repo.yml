@@ -86,27 +86,11 @@ jobs:
           mkdir -p public/repo
           cp -r website/* public/
 
-          # Copy only the F-Droid repository index files, not APKs
-          # Since we're using remote APK references, we only need the index files
-          if [ -f "fdroid/repo/index-v1.json" ]; then
-            cp fdroid/repo/index-v1.json public/repo/
-          fi
-          if [ -f "fdroid/repo/index-v2.json" ]; then
-            cp fdroid/repo/index-v2.json public/repo/
-          fi
-          if [ -f "fdroid/repo/index-v1.jar" ]; then
-            cp fdroid/repo/index-v1.jar public/repo/
-          fi
+          # Copy ALL repository files including APKs for F-Droid client access
+          # F-Droid clients need to download APKs from the repository URL
+          cp -r fdroid/repo/* public/repo/
 
-          # Copy signature files and other essential repo files (but not APKs)
-          find fdroid/repo -type f \( -name "*.asc" -o -name "*.jar" -o -name "*.json" -o -name "*.xml" \) -exec cp {} public/repo/ \; 2>/dev/null || true
-
-          echo "Only repository index and signature files copied (no APKs for size efficiency)"
-
-          # Remove APK files from the repo directory after index generation but before deployment
-          # This allows F-Droid server to process them during build but keeps deployment small
-          find fdroid/repo -name "*.apk" -delete 2>/dev/null || true
-          echo "APK files removed from local repo after index generation for size efficiency"
+          echo "All repository files copied including APKs for F-Droid client access"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5 # Updated to v5

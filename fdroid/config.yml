@@ -13,10 +13,10 @@ repo_icon: "icon.png"
 repo_description: "A repository of apps I use and recommend."
 
 # How many older versions of APKs to keep in the archive.
-archive_older: 3
+archive_older: 0  # Don't keep old versions to reduce size
 
 # Whether to keep signed older versions in the archive.
-archive_keep_signed: 1
+archive_keep_signed: 0  # Don't archive signed old versions
 
 # The root directory for serving the web interface of the repository.
 # "." means the current directory (fdroid/).
@@ -27,6 +27,12 @@ make_current_version_link: false
 
 # Whether to mirror APKs locally (false for remote references only)
 mirror: false
+
+# Don't build from source, only use prebuilt APKs
+build_from_source: false
+
+# Only keep the latest version of each app to reduce repository size
+keep_latest: true
 
 # Path to the keystore file used for signing the repository.
 # This file is crucial for the integrity and authenticity of your repo.
