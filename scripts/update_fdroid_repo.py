@@ -433,9 +433,10 @@ if __name__ == '__main__':
     backup_config = config_content
 
     # Replace placeholder values with actual secrets from environment
+    # Try multiple possible environment variable names for compatibility
     import os
-    keystore_pass = os.environ.get('KEYSTORE_PASS', '')
-    key_pass = os.environ.get('KEY_PASS', '')
+    keystore_pass = os.environ.get('FDROID_KEY_STORE_PASS') or os.environ.get('KEYSTORE_PASS', '')
+    key_pass = os.environ.get('FDROID_KEY_PASS') or os.environ.get('KEY_PASS', '')
 
     if keystore_pass and key_pass:
         # Replace the placeholder values with actual secrets
@@ -450,6 +451,9 @@ if __name__ == '__main__':
         # Write the secure config temporarily
         with open(config_path, 'w') as f:
             f.write(secure_config_content)
+    else:
+        print("Warning: Keystore passwords not found in environment. Using placeholder values.")
+        print(f"Available environment variables: {[k for k in os.environ.keys() if 'PASS' in k.upper() or 'KEY' in k.upper()]}")
 
     try:
         # Set environment variables for fdroid command
