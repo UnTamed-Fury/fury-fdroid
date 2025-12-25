@@ -28,15 +28,19 @@ def get_github_repo_details(repo_url, github_token):
     try:
         owner, repo = repo_url.replace('https://github.com/', '').split('/')[:2]
         api_url = f"https://api.github.com/repos/{owner}/{repo}"
-        
-        response = requests.get(api_url, headers=get_github_headers(github_token))
+
+        # Add timeout to prevent hanging requests
+        response = requests.get(api_url, headers=get_github_headers(github_token), timeout=30)
         response.raise_for_status()
         data = response.json()
-        
+
         return {
             'description': data.get('description'),
             'avatar_url': data.get('owner', {}).get('avatar_url')
         }
+    except requests.exceptions.Timeout:
+        print(f"  -> Warning: Timed out fetching repo details for {repo_url}")
+        return None
     except Exception as e:
         print(f"  -> Warning: Could not fetch repo details for {repo_url}: {e}")
         return None
@@ -46,7 +50,8 @@ def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=Fal
     # Get all releases (including pre-releases) instead of just the latest
     api_url = f"https://api.github.com/repos/{owner}/{repo}/releases"
 
-    response = requests.get(api_url, headers=get_github_headers(github_token))
+    # Add timeout to prevent hanging requests
+    response = requests.get(api_url, headers=get_github_headers(github_token), timeout=30)
     response.raise_for_status()
     releases_data = response.json()
 
@@ -99,34 +104,43 @@ def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=Fal
 def download_file(url, target_path):
     print(f"Downloading {url} to {target_path}...")
     try:
-        with requests.get(url, stream=True) as r:
+        # Add timeout to prevent hanging downloads
+        with requests.get(url, stream=True, timeout=60) as r:
             r.raise_for_status()
             with open(target_path, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
         print("Download complete.")
+    except requests.exceptions.Timeout:
+        print(f"  -> Error downloading {url}: Request timed out after 60 seconds")
+        raise
     except Exception as e:
         print(f"  -> Error downloading {url}: {e}")
+        raise
 
 def download_and_convert_icon(url, target_path):
     """Downloads an image and converts it to PNG using Pillow."""
     print(f"Downloading icon {url}...")
     try:
-        response = requests.get(url)
+        # Add timeout to prevent hanging icon downloads
+        response = requests.get(url, timeout=30)
         response.raise_for_status()
-        
+
         img = Image.open(BytesIO(response.content))
-        
+
         # Convert to RGBA if necessary (to preserve transparency)
         if img.mode in ('P', 'CMYK'):
             img = img.convert('RGBA')
-            
+
         img.save(target_path, "PNG")
         print(f"Icon saved and converted to PNG at {target_path}")
         return True
+    except requests.exceptions.Timeout:
+        print(f"  -> Error downloading icon {url}: Request timed out after 30 seconds")
+        return False
     except Exception as e:
         print(f"  -> Error processing icon {url}: {e}")
-        traceback.print_exc() 
+        traceback.print_exc()
         return False
 
 # --- App Processing and Metadata Generation ---
@@ -213,6 +227,10 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             if not apk_assets:
                 print(f"  -> Skipping: No APK assets found for latest release.")
                 continue
+
+            # Add a small delay between processing apps to avoid rate limiting
+            import time
+            time.sleep(1)
 
             # 4. Select Best APK
             def select_best_apk(apk_options):
