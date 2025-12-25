@@ -4,7 +4,7 @@ Binaries: https://github.com/mihonapp/mihon/releases/download/v0.19.3/mihon-arm6
 Builds:
 - commit: v0.19.3
   output: mihon-arm64-v8a-v0.19.3.apk
-  versionCode: 1
+  versionCode: 3
   versionName: v0.19.3
 Categories:
 - Entertainment

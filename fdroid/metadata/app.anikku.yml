@@ -4,7 +4,7 @@ Binaries: https://github.com/komikku-app/anikku/releases/download/v0.1.4/Anikku-
 Builds:
 - commit: v0.1.4
   output: Anikku-arm64-v8a-v0.1.4.apk
-  versionCode: 1
+  versionCode: 4
   versionName: v0.1.4
 Categories:
 - Entertainment

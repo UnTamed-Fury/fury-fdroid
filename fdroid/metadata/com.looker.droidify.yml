@@ -4,7 +4,7 @@ Binaries: https://github.com/Droid-ify/client/releases/download/v0.6.6/app-relea
 Builds:
 - commit: v0.6.6
   output: app-release.apk
-  versionCode: 1
+  versionCode: 6
   versionName: v0.6.6
 Categories:
 - System

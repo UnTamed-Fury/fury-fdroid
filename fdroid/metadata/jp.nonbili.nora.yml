@@ -4,7 +4,7 @@ Binaries: https://github.com/nonbili/Nora/releases/download/v0.4.13/app-arm64-v8
 Builds:
 - commit: v0.4.13
   output: app-arm64-v8a-release.apk
-  versionCode: 1
+  versionCode: 13
   versionName: v0.4.13
 Categories:
 - Entertainment

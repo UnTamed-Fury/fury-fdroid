@@ -4,7 +4,7 @@ Binaries: https://github.com/Xed-Editor/Xed-Editor/releases/download/v3.2.5/xed-
 Builds:
 - commit: v3.2.5
   output: xed-editor-v3.2.5.apk
-  versionCode: 1
+  versionCode: 5
   versionName: v3.2.5
 Categories:
 - Development

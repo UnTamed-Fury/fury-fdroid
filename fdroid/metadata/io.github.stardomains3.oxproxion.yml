@@ -4,7 +4,7 @@ Binaries: https://github.com/stardomains3/oxproxion/releases/download/v2.1.25/ap
 Builds:
 - commit: v2.1.25
   output: app-release.apk
-  versionCode: 1
+  versionCode: 25
   versionName: v2.1.25
 Categories:
 - Communication

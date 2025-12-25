@@ -4,7 +4,7 @@ Binaries: https://github.com/recloudstream/cloudstream/releases/download/v4.6.0/
 Builds:
 - commit: v4.6.0
   output: 4.6.0.apk
-  versionCode: 1
+  versionCode: 0
   versionName: v4.6.0
 Categories:
 - Entertainment

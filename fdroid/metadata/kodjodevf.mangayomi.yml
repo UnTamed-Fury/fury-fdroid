@@ -4,7 +4,7 @@ Binaries: https://github.com/kodjodevf/mangayomi/releases/download/v0.6.90/Manga
 Builds:
 - commit: v0.6.90
   output: Mangayomi-v0.6.90-android-arm64-v8a.apk
-  versionCode: 1
+  versionCode: 90
   versionName: v0.6.90
 Categories:
 - Entertainment
