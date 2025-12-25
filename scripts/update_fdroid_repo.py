@@ -349,14 +349,15 @@ def cleanup_old_apks(repo_dir, current_app_ids, metadata_dir):
                         metadata = yaml.safe_load(f)
 
                     builds = metadata.get('Builds', [])
-                    if builds:
+                    if builds and len(builds) > 0:
                         apk_output = builds[0].get('output', '')
                         if apk_output == apk_filename:
                             # This APK matches the current metadata for this app
                             apk_belongs_to_active_app = True
                             app_id_for_apk = app_id
                             break
-                except yaml.YAMLError:
+                except Exception:
+                    # If there's any error parsing the metadata file, continue
                     continue
 
         # If this APK doesn't belong to any active app, it should be deleted
