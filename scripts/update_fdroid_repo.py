@@ -249,6 +249,7 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             category = categories[0] if categories else 'Other'
 
             # Construct proper F-Droid metadata format for remote APK references
+            # This format is compatible with F-Droid server and clients
             metadata = {
                 'Categories': [category],
                 'AuthorName': author,
@@ -261,19 +262,21 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'Changelog': f"{app_url}/releases",
                 'License': 'Unknown',
 
-                # For remote APK references
-                'Binaries': download_url,  # Direct URL to the APK
+                # For remote APK references - this tells F-Droid where to get the APK
+                'Binaries': download_url,  # Direct URL to the APK from GitHub Releases
 
                 # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
                 'UpdateCheckMode': 'Tags',
 
-                # Builds section - minimal for remote APKs
+                # Builds section - for F-Droid server processing
                 'Builds': [{
                     'versionName': latest_version,
-                    'versionCode': 1,
+                    'versionCode': int(latest_version.split('.')[-1]) if latest_version.count('.') > 0 and latest_version.split('.')[-1].isdigit() else 1,
                     'commit': latest_version,
                     'output': apk_filename,
+                    'forceversion': True,
+                    'forceupdate': True,
                 }]
             }
 
