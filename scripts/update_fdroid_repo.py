@@ -45,6 +45,65 @@ def get_github_repo_details(repo_url, github_token):
         print(f"  -> Warning: Could not fetch repo details for {repo_url}: {e}")
         return None
 
+def get_all_github_releases_info(repo_url, github_token, prefer_prerelease=False):
+    """
+    Fetches ALL GitHub releases (not just latest) to enable downgrade capability.
+
+    Returns a list of release_info dictionaries for all releases with APKs.
+    """
+    owner, repo = repo_url.replace('https://github.com/', '').split('/')[:2]
+    # Get all releases (including pre-releases) from the repository
+    api_url = f"https://api.github.com/repos/{owner}/{repo}/releases"
+
+    # Add timeout to prevent hanging requests
+    response = requests.get(api_url, headers=get_github_headers(github_token), timeout=30)
+    response.raise_for_status()
+    releases_data = response.json()
+
+    all_releases_with_apks = []
+
+    for release in releases_data:
+        apk_assets = []
+        for asset in release['assets']:
+            if asset['name'].endswith('.apk'):
+                apk_assets.append((asset['name'], asset['browser_download_url']))
+
+        # Only consider releases that have APK assets
+        if apk_assets:
+            release_info = {
+                'version': release['tag_name'],
+                'is_prerelease': release.get('prerelease', False),
+                'published_at': release.get('published_at', ''),
+                'apk_assets': apk_assets
+            }
+
+            # Depending on the prefer_prerelease setting, add to appropriate list
+            if prefer_prerelease and release_info['is_prerelease']:
+                # If prefer_prerelease is True, only add pre-releases
+                all_releases_with_apks.append(release_info)
+            elif not prefer_prerelease and not release_info['is_prerelease']:
+                # If prefer_prerelease is False, only add regular releases
+                all_releases_with_apks.append(release_info)
+
+    if all_releases_with_apks:
+        # Return all releases with APKs, sorted by published date (newest first)
+        # Sort by published_at timestamp if available, otherwise by tag name
+        try:
+            # Filter out empty published_at values before sorting
+            valid_releases = [r for r in all_releases_with_apks if r['published_at']]
+            other_releases = [r for r in all_releases_with_apks if not r['published_at']]
+            valid_releases.sort(key=lambda x: x['published_at'], reverse=True)
+            other_releases.sort(key=lambda x: x['version'], reverse=True)
+            all_releases_with_apks = valid_releases + other_releases
+        except Exception:
+            # If published_at sorting fails, sort by version string
+            all_releases_with_apks.sort(key=lambda x: x['version'], reverse=True)
+
+        return all_releases_with_apks
+    else:
+        raise Exception("No releases with APK assets found")
+
+
 def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=False):
     owner, repo = repo_url.replace('https://github.com/', '').split('/')[:2]
     # Get all releases (including pre-releases) instead of just the latest
