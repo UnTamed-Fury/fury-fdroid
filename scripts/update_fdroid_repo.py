@@ -447,6 +447,7 @@ if __name__ == '__main__':
 
     try:
         # Set environment variables for fdroid command
+        # F-Droid server expects specific environment variable names
         env = os.environ.copy()
         env['FDROID_KEY_STORE_PASS'] = keystore_pass
         env['FDROID_KEY_PASS'] = key_pass

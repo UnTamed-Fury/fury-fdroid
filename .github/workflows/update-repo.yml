@@ -73,6 +73,9 @@ jobs:
           EOF
 
           # Use this secure config file in the script instead of the one with placeholders
+          # Set the environment variables that fdroid server expects
+          export FDROID_KEY_STORE_PASS="$KEYSTORE_PASS"
+          export FDROID_KEY_PASS="$KEY_PASS"
           python3 scripts/update_fdroid_repo.py
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
