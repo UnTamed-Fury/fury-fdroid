@@ -1,14 +1,19 @@
 AuthorName: StratumAuth
 AutoUpdateMode: Version %v
+Binaries: https://github.com/stratumauth/app/releases/download/v1.4.0/com.stratumauth.app-arm64-v8a.fdroid.apk
 Builds:
 - commit: v1.4.0
-  subdir: apks
+  output: com.stratumauth.app-arm64-v8a.fdroid.apk
   versionCode: 1
   versionName: v1.4.0
 Categories:
 - Security
+Changelog: https://github.com/stratumauth/app/releases
+Description: 📱 Two-Factor Authentication (2FA) client for Android + Wear OS
+IssueTracker: https://github.com/stratumauth/app/issues
+License: Unknown
 Name: Stratum
 SourceCode: https://github.com/stratumauth/app
 Summary: 📱 Two-Factor Authentication (2FA) client for Android + Wear OS
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/stratumauth/app

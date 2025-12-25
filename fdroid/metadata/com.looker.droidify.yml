@@ -1,14 +1,19 @@
 AuthorName: Iamlooker
 AutoUpdateMode: Version %v
+Binaries: https://github.com/Droid-ify/client/releases/download/v0.6.6/app-release.apk
 Builds:
 - commit: v0.6.6
-  subdir: apks
+  output: app-release.apk
   versionCode: 1
   versionName: v0.6.6
 Categories:
 - System
+Changelog: https://github.com/Droid-ify/client/releases
+Description: Clutterfree F-Droid client
+IssueTracker: https://github.com/Droid-ify/client/issues
+License: Unknown
 Name: DROID-IFY
 SourceCode: https://github.com/Droid-ify/client
 Summary: Clutterfree F-Droid client
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/Droid-ify/client

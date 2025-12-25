@@ -1,15 +1,21 @@
 AuthorName: PojavLauncherTeam
 AutoUpdateMode: Version %v
+Binaries: https://github.com/PojavLauncherTeam/PojavLauncher/releases/download/gladiolus/PojavLauncher.apk
 Builds:
 - commit: gladiolus
-  subdir: apks
+  output: PojavLauncher.apk
   versionCode: 1
   versionName: gladiolus
 Categories:
 - Gaming
+Changelog: https://github.com/PojavLauncherTeam/PojavLauncher/releases
+Description: 'A Minecraft: Java Edition Launcher for Android and iOS based on Boardwalk.
+  Succeeded by https://github.com/AngelAuraMC/Amethyst-Android'
+IssueTracker: https://github.com/PojavLauncherTeam/PojavLauncher/issues
+License: Unknown
 Name: 'PojavLauncher (Minecraft: Java Edition for Android)'
 SourceCode: https://github.com/PojavLauncherTeam/PojavLauncher
 Summary: 'A Minecraft: Java Edition Launcher for Android and iOS based on Boardwalk.
   Succeeded by https://github.com/AngelAuraMC/Amethyst-Android'
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/PojavLauncherTeam/PojavLauncher

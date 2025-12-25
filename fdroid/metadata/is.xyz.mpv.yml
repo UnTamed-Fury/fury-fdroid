@@ -1,14 +1,19 @@
 AuthorName: mpv-android
 AutoUpdateMode: Version %v
+Binaries: https://github.com/mpv-android/mpv-android/releases/download/2025-08-25/app-default-arm64-v8a-release.apk
 Builds:
 - commit: '2025-08-25'
-  subdir: apks
+  output: app-default-arm64-v8a-release.apk
   versionCode: 1
   versionName: '2025-08-25'
 Categories:
 - Entertainment
+Changelog: https://github.com/mpv-android/mpv-android/releases
+Description: 'video player for Android based on libmpv ↦ #mpv-android @ irc.libera.chat'
+IssueTracker: https://github.com/mpv-android/mpv-android/issues
+License: Unknown
 Name: mpv-android
 SourceCode: https://github.com/mpv-android/mpv-android
 Summary: 'video player for Android based on libmpv ↦ #mpv-android @ irc.libera.chat'
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/mpv-android/mpv-android

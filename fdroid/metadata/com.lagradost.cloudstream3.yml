@@ -1,14 +1,19 @@
 AuthorName: recloudstream
 AutoUpdateMode: Version %v
+Binaries: https://github.com/recloudstream/cloudstream/releases/download/v4.6.0/4.6.0.apk
 Builds:
 - commit: v4.6.0
-  subdir: apks
+  output: 4.6.0.apk
   versionCode: 1
   versionName: v4.6.0
 Categories:
 - Entertainment
+Changelog: https://github.com/recloudstream/cloudstream/releases
+Description: Android app for streaming and downloading media.
+IssueTracker: https://github.com/recloudstream/cloudstream/issues
+License: Unknown
 Name: CloudStream
 SourceCode: https://github.com/recloudstream/cloudstream
 Summary: Android app for streaming and downloading media.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/recloudstream/cloudstream

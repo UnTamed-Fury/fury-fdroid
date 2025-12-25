@@ -1,15 +1,21 @@
 AuthorName: ZalithLauncher
 AutoUpdateMode: Version %v
+Binaries: https://github.com/ZalithLauncher/ZalithLauncher/releases/download/141200/ZalithLauncher-1.4.1.2-arm64-v8a.apk
 Builds:
 - commit: '141200'
-  subdir: apks
+  output: ZalithLauncher-1.4.1.2-arm64-v8a.apk
   versionCode: 1
   versionName: '141200'
 Categories:
 - Gaming
+Changelog: https://github.com/ZalithLauncher/ZalithLauncher/releases
+Description: 'Zalith Launcher is a Minecraft launcher developed based on PojavLauncher,
+  capable of running Minecraft: Java Edition on Android devices.'
+IssueTracker: https://github.com/ZalithLauncher/ZalithLauncher/issues
+License: Unknown
 Name: Zalith Launcher
 SourceCode: https://github.com/ZalithLauncher/ZalithLauncher
 Summary: 'Zalith Launcher is a Minecraft launcher developed based on PojavLauncher,
   capable of running Minecraft: Java Edition on Android devices.'
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/ZalithLauncher/ZalithLauncher

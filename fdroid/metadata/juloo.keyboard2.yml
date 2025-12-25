@@ -1,14 +1,19 @@
 AuthorName: Julow
 AutoUpdateMode: Version %v
+Binaries: https://github.com/Julow/Unexpected-Keyboard/releases/download/1.32.1/juloo.keyboard2.apk
 Builds:
 - commit: 1.32.1
-  subdir: apks
+  output: juloo.keyboard2.apk
   versionCode: 1
   versionName: 1.32.1
 Categories:
 - System
+Changelog: https://github.com/Julow/Unexpected-Keyboard/releases
+Description: A lightweight keyboard for Android
+IssueTracker: https://github.com/Julow/Unexpected-Keyboard/issues
+License: Unknown
 Name: Unexpected Keyboard
 SourceCode: https://github.com/Julow/Unexpected-Keyboard
 Summary: A lightweight keyboard for Android
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/Julow/Unexpected-Keyboard

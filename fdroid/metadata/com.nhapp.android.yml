@@ -1,14 +1,19 @@
 AuthorName: e18lab
 AutoUpdateMode: Version %v
+Binaries: https://github.com/e18lab/NHAppAndroid/releases/download/1.2.0/NHApp-Android-Setup-1.2.0.apk
 Builds:
 - commit: 1.2.0
-  subdir: apks
+  output: NHApp-Android-Setup-1.2.0.apk
   versionCode: 1
   versionName: 1.2.0
 Categories:
 - Entertainment
+Changelog: https://github.com/e18lab/NHAppAndroid/releases
+Description: nhentai app is a modern and lightweight android client for nhentai
+IssueTracker: https://github.com/e18lab/NHAppAndroid/issues
+License: Unknown
 Name: nhappandroid
 SourceCode: https://github.com/e18lab/NHAppAndroid
 Summary: nhentai app is a modern and lightweight android client for nhentai
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/e18lab/NHAppAndroid

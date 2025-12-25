@@ -1,14 +1,19 @@
 AuthorName: NeoTerrm
 AutoUpdateMode: Version %v
+Binaries: https://github.com/NeoTerrm/NeoTerm/releases/download/v2.0.5/NeoTerm-2.0.5.apk
 Builds:
 - commit: v2.0.5
-  subdir: apks
+  output: NeoTerm-2.0.5.apk
   versionCode: 1
   versionName: v2.0.5
 Categories:
 - Development
+Changelog: https://github.com/NeoTerrm/NeoTerm/releases
+Description: 👍 modern terminal emulator for Android
+IssueTracker: https://github.com/NeoTerrm/NeoTerm/issues
+License: Unknown
 Name: NeoTerm
 SourceCode: https://github.com/NeoTerrm/NeoTerm
 Summary: 👍 modern terminal emulator for Android
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/NeoTerrm/NeoTerm

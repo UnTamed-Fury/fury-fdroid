@@ -1,15 +1,21 @@
 AuthorName: kodjodevf
 AutoUpdateMode: Version %v
+Binaries: https://github.com/kodjodevf/mangayomi/releases/download/v0.6.90/Mangayomi-v0.6.90-android-arm64-v8a.apk
 Builds:
 - commit: v0.6.90
-  subdir: apks
+  output: Mangayomi-v0.6.90-android-arm64-v8a.apk
   versionCode: 1
   versionName: v0.6.90
 Categories:
 - Entertainment
+Changelog: https://github.com/kodjodevf/mangayomi/releases
+Description: Free and open source application for reading manga, novels, and watching
+  animes available on Android, iOS, macOS, Linux and Windows
+IssueTracker: https://github.com/kodjodevf/mangayomi/issues
+License: Unknown
 Name: Mangayomi
 SourceCode: https://github.com/kodjodevf/mangayomi
 Summary: Free and open source application for reading manga, novels, and watching
   animes available on Android, iOS, macOS, Linux and Windows
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/kodjodevf/mangayomi

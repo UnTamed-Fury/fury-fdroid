@@ -1,14 +1,19 @@
 AuthorName: ZalithLauncher
 AutoUpdateMode: Version %v
+Binaries: https://github.com/ZalithLauncher/ZalithLauncher2/releases/download/2.0.0_beta-20251222a/ZalithLauncher-2.0.0_beta-20251222a-arm64-v8a.apk
 Builds:
 - commit: 2.0.0_beta-20251222a
-  subdir: apks
+  output: ZalithLauncher-2.0.0_beta-20251222a-arm64-v8a.apk
   versionCode: 1
   versionName: 2.0.0_beta-20251222a
 Categories:
 - Gaming
+Changelog: https://github.com/ZalithLauncher/ZalithLauncher2/releases
+Description: 'A Minecraft: Java Edition Launcher for Android'
+IssueTracker: https://github.com/ZalithLauncher/ZalithLauncher2/issues
+License: Unknown
 Name: Zalith Launcher 2
 SourceCode: https://github.com/ZalithLauncher/ZalithLauncher2
 Summary: 'A Minecraft: Java Edition Launcher for Android'
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/ZalithLauncher/ZalithLauncher2
