@@ -5,40 +5,29 @@ repo_url: "https://fury.untamedfury.space/repo"
 # The human-readable name of your F-Droid repository.
 repo_name: "Fury's F-Droid Repo"
 
-# The icon file for your repository, displayed in F-Droid clients.
-# This file should be placed in the fdroid/ directory.
-repo_icon: "icon.png"
-
 # A brief description of your F-Droid repository.
 repo_description: "A repository of apps I use and recommend."
 
+# The icon file for your repository, displayed in F-Droid clients.
+repo_icon: "icon.png"
+
 # How many older versions of APKs to keep in the archive.
 archive_older: 3
-
-# Whether to keep signed older versions in the archive.
-archive_keep_signed: 1
-
-# The root directory for serving the web interface of the repository.
-# "." means the current directory (fdroid/).
-serverwebroot: "."
 
 # Whether to create a symbolic link for the current version of an app.
 make_current_version_link: false
 
 # Path to the keystore file used for signing the repository.
-# This file is crucial for the integrity and authenticity of your repo.
 keystore: keystore.p12
-
-# The distinguished name (dname) used when generating the signing key.
-keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
 
 # The alias of the key within the keystore.
 repo_keyalias: fdroid_key
 
 # The password for the keystore.
-# It is highly recommended to keep this as a GitHub Secret in a real-world scenario.
-keystorepass: ${{ secrets.KEYSTORE_PASS }}
+keystorepass: fdroid123
 
 # The password for the private key within the keystore.
-# It is highly recommended to keep this as a GitHub Secret in a real-world scenario.
-keypass: ${{ secrets.KEY_PASS }}
+keypass: fdroid123
+
+# The distinguished name used for generating keys.
+keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
