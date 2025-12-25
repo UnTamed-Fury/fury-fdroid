@@ -452,11 +452,28 @@ if __name__ == '__main__':
         env['FDROID_KEY_STORE_PASS'] = keystore_pass
         env['FDROID_KEY_PASS'] = key_pass
 
+        # Additionally, make sure GitHub token is available to subprocess
+        if 'GH_TOKEN' in os.environ:
+            env['GH_TOKEN'] = os.environ['GH_TOKEN']
+
         # Run fdroid update from inside the fdroid directory
         # Use the secure config file that has the actual passwords
-        subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, check=True, env=env)
-        print("F-Droid repository index updated successfully.")
-    except subprocess.CalledProcessError as e:
+        result = subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
+
+        if result.returncode != 0:
+            print(f"Error updating F-Droid repository index: Command failed with return code {result.returncode}")
+            print(f"STDOUT: {result.stdout}")
+            print(f"STDERR: {result.stderr}")
+            # Restore original config before exiting
+            if backup_config:
+                with open(config_path, 'w') as f:
+                    f.write(backup_config)
+            exit(result.returncode)
+        else:
+            print("F-Droid repository index updated successfully.")
+            if result.stdout:
+                print(f"Command output: {result.stdout}")
+    except Exception as e:
         print(f"Error updating F-Droid repository index: {e}")
         # Restore original config before exiting
         if backup_config:
