@@ -6,6 +6,14 @@ Builds:
   output: app-release.apk
   versionCode: 25
   versionName: v2.1.25
+- commit: v2.1.24
+  output: app-release.apk
+  versionCode: 24
+  versionName: v2.1.24
+- commit: v2.1.23
+  output: app-release.apk
+  versionCode: 23
+  versionName: v2.1.23
 Categories:
 - Communication
 Changelog: https://github.com/stardomains3/oxproxion/releases

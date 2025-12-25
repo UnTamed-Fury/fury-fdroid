@@ -6,6 +6,10 @@ Builds:
   output: termux-float-app_v0.17.0+github.debug.apk
   versionCode: 0
   versionName: v0.17.0
+- commit: v0.15.0
+  output: termux-float_v0.15.0+github-debug.apk
+  versionCode: 0
+  versionName: v0.15.0
 Categories:
 - Development
 Changelog: https://github.com/termux/termux-float/releases

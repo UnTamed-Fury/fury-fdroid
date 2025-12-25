@@ -6,6 +6,14 @@ Builds:
   output: juloo.keyboard2.apk
   versionCode: 1
   versionName: 1.32.1
+- commit: 1.32.0
+  output: juloo.keyboard2.apk
+  versionCode: 0
+  versionName: 1.32.0
+- commit: 1.31.1
+  output: juloo.keyboard2.apk
+  versionCode: 1
+  versionName: 1.31.1
 Categories:
 - System
 Changelog: https://github.com/Julow/Unexpected-Keyboard/releases

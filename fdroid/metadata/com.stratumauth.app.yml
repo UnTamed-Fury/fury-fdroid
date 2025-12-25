@@ -6,6 +6,14 @@ Builds:
   output: com.stratumauth.app-arm64-v8a.fdroid.apk
   versionCode: 0
   versionName: v1.4.0
+- commit: v1.3.0
+  output: com.stratumauth.app-arm64-v8a.fdroid.apk
+  versionCode: 0
+  versionName: v1.3.0
+- commit: v1.2.5
+  output: com.stratumauth.app-arm64-v8a.fdroid.apk
+  versionCode: 5
+  versionName: v1.2.5
 Categories:
 - Security
 Changelog: https://github.com/stratumauth/app/releases

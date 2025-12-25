@@ -4,8 +4,16 @@ Binaries: https://github.com/null2264/yokai/releases/download/v1.10.0-b4/yokai-a
 Builds:
 - commit: v1.10.0-b4
   output: yokai-arm64-v8a-v1.10.0-b4.apk
-  versionCode: 1
+  versionCode: 10
   versionName: v1.10.0-b4
+- commit: v1.10.0-b3
+  output: yokai-arm64-v8a-v1.10.0-b3.apk
+  versionCode: 10
+  versionName: v1.10.0-b3
+- commit: v1.10.0-b2
+  output: yokai-arm64-v8a-v1.10.0-b2.apk
+  versionCode: 10
+  versionName: v1.10.0-b2
 Categories:
 - Entertainment
 Changelog: https://github.com/null2264/yokai/releases
