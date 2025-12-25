@@ -23,11 +23,11 @@ keystore: keystore.p12
 # The alias of the key within the keystore.
 repo_keyalias: fdroid_key
 
-# The password for the keystore.
-keystorepass: fdroid123
-
-# The password for the private key within the keystore.
-keypass: fdroid123
-
 # The distinguished name used for generating keys.
 keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
+
+# The password for the keystore.
+keystorepass: ${{ secrets.KEYSTORE_PASS }}
+
+# The password for the private key within the keystore.
+keypass: ${{ secrets.KEY_PASS }}

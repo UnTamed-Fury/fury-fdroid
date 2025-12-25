@@ -453,7 +453,7 @@ if __name__ == '__main__':
         env['FDROID_KEY_PASS'] = key_pass
 
         # Run fdroid update from inside the fdroid directory
-        # We use --verbose to see what happens.
+        # Use the secure config file that has the actual passwords
         subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, check=True, env=env)
         print("F-Droid repository index updated successfully.")
     except subprocess.CalledProcessError as e:
