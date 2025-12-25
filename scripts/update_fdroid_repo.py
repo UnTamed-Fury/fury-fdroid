@@ -139,6 +139,12 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
     # This is required for the fdroid server to work properly
     os.makedirs(os.path.join(repo_dir, "archive"), exist_ok=True)
 
+    # Keep track of apps currently in apps.yaml to identify removals later
+    current_app_ids = set()
+    for app in apps_to_process:
+        current_app_ids.add(app['id'])
+
+    # Process each app
     for app in apps_to_process:
         try:
             app_id = app['id']
@@ -233,17 +239,39 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             print(f"  -> Latest version: {latest_version}")
             print(f"  -> Selected APK: {apk_filename}")
 
-            # 5. Download APK for F-Droid server processing
-            # F-Droid server needs APKs locally to scan and create repository index
+            # 5. Check if APK is already indexed with the same version
+            metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
+            apk_needs_processing = True
+
+            if os.path.exists(metadata_path):
+                # Check if this is the same APK version as previously indexed
+                import yaml
+                with open(metadata_path, 'r') as f:
+                    try:
+                        existing_metadata = yaml.safe_load(f)
+                        existing_builds = existing_metadata.get('Builds', [])
+                        if existing_builds:
+                            existing_version = existing_builds[0].get('versionName', '') if existing_builds else ''
+                            if existing_version == latest_version:
+                                print(f"  -> APK for {app_id} version {latest_version} already indexed, skipping download")
+                                apk_needs_processing = False
+                            else:
+                                print(f"  -> APK version changed from {existing_version} to {latest_version}, will re-download")
+                    except yaml.YAMLError:
+                        print(f"  -> Error parsing existing metadata for {app_id}, will re-download")
+
+            # Only download APK if it's not already indexed with the same version
             target_apk_path = os.path.join(repo_dir, apk_filename)
-            if not os.path.exists(target_apk_path):
-                download_file(download_url, target_apk_path)
-                print(f"  -> Downloaded APK for F-Droid processing: {target_apk_path}")
+            if apk_needs_processing:
+                if not os.path.exists(target_apk_path):
+                    download_file(download_url, target_apk_path)
+                    print(f"  -> Downloaded APK for F-Droid processing: {target_apk_path}")
+                else:
+                    print(f"  -> APK already exists for processing: {target_apk_path}")
             else:
-                print(f"  -> APK already exists for processing: {target_apk_path}")
+                print(f"  -> Skipping download, APK already indexed for {app_id}")
 
             # 6. Generate Metadata File
-            metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
             print(f"  -> Creating metadata file at {metadata_path}")
 
             category = categories[0] if categories else 'Other'
@@ -288,6 +316,60 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             print(f"  -> ERROR processing {app.get('name', 'Unknown app')}: {e}")
             traceback.print_exc()
             continue
+
+    # After processing all apps, clean up APKs that are no longer needed
+    print("\n--- Cleaning up APK files after processing ---")
+    cleanup_old_apks(repo_dir, current_app_ids, metadata_dir)
+
+
+def cleanup_old_apks(repo_dir, current_app_ids, metadata_dir):
+    """
+    Clean up APK files that are no longer needed:
+    1. APKs for apps that have been removed from apps.yaml
+    2. Old APKs that are no longer the latest version
+    """
+    import os
+    import glob
+
+    # Get all APK files in repo directory
+    apk_files = glob.glob(os.path.join(repo_dir, "*.apk"))
+
+    for apk_path in apk_files:
+        apk_filename = os.path.basename(apk_path)
+
+        # Check if this APK is for an app that's still in apps.yaml
+        apk_belongs_to_active_app = False
+        app_id_for_apk = None
+
+        # Look for the app_id by checking which metadata file contains this APK
+        for app_id in current_app_ids:
+            metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
+            if os.path.exists(metadata_path):
+                import yaml
+                try:
+                    with open(metadata_path, 'r') as f:
+                        metadata = yaml.safe_load(f)
+
+                    builds = metadata.get('Builds', [])
+                    if builds:
+                        apk_output = builds[0].get('output', '')
+                        if apk_output == apk_filename:
+                            # This APK matches the current metadata for this app
+                            apk_belongs_to_active_app = True
+                            app_id_for_apk = app_id
+                            break
+                except yaml.YAMLError:
+                    continue
+
+        # If this APK doesn't belong to any active app, it should be deleted
+        if not apk_belongs_to_active_app:
+            try:
+                os.remove(apk_path)
+                print(f"  -> Removed APK for inactive app: {apk_filename}")
+            except OSError as e:
+                print(f"  -> Could not remove {apk_filename}: {e}")
+        else:
+            print(f"  -> Keeping APK: {apk_filename} (belongs to active app {app_id_for_apk})")
 
 # --- Git Operations ---
 def git_commit_and_push(commit_message, files_to_add):
