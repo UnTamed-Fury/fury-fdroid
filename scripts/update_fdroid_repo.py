@@ -317,8 +317,8 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             continue
 
     # After processing all apps, clean up APKs that are no longer needed
-    print("\n--- Cleaning up APK files after processing ---")
-    cleanup_old_apks(repo_dir, current_app_ids, metadata_dir)
+    print("\n--- Skipping APK cleanup for now to debug workflow ---")
+    # cleanup_old_apks(repo_dir, current_app_ids, metadata_dir)  # Temporarily commented for debugging
 
 
 def cleanup_old_apks(repo_dir, current_app_ids, metadata_dir):
