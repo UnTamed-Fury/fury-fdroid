@@ -103,6 +103,11 @@ jobs:
 
           echo "Only repository index and signature files copied (no APKs for size efficiency)"
 
+          # Remove APK files from the repo directory after index generation but before deployment
+          # This allows F-Droid server to process them during build but keeps deployment small
+          find fdroid/repo -name "*.apk" -delete 2>/dev/null || true
+          echo "APK files removed from local repo after index generation for size efficiency"
+
       - name: Setup Pages
         uses: actions/configure-pages@v5 # Updated to v5
 
