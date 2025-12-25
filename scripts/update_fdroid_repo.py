@@ -258,7 +258,12 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
                 return best_apk
 
-            apk_filename, download_url = select_best_apk(apk_assets)
+            selected_apk_result = select_best_apk(apk_assets)
+            if selected_apk_result is None:
+                print(f"  -> Skipping: No suitable APK found in release assets")
+                continue
+
+            apk_filename, download_url = selected_apk_result
 
             print(f"  -> Latest version: {latest_version}")
             print(f"  -> Selected APK: {apk_filename}")
