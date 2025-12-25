@@ -1,14 +1,19 @@
 AuthorName: Visual-Code-Space
 AutoUpdateMode: Version %v
+Binaries: https://github.com/Visual-Code-Space/Visual-Code-Space/releases/download/v2.0.1/app-release.apk
 Builds:
 - commit: v2.0.1
-  subdir: apks
+  output: app-release.apk
   versionCode: 1
   versionName: v2.0.1
 Categories:
 - Development
+Changelog: https://github.com/Visual-Code-Space/Visual-Code-Space/releases
+Description: A Modern Code Editor for Android
+IssueTracker: https://github.com/Visual-Code-Space/Visual-Code-Space/issues
+License: Unknown
 Name: Visual Code Space
 SourceCode: https://github.com/Visual-Code-Space/Visual-Code-Space
 Summary: A Modern Code Editor for Android
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/Visual-Code-Space/Visual-Code-Space

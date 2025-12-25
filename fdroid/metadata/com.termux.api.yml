@@ -1,15 +1,21 @@
 AuthorName: termux
 AutoUpdateMode: Version %v
+Binaries: https://github.com/termux/termux-api/releases/download/v0.53.0/termux-api-app_v0.53.0%2Bgithub.debug.apk
 Builds:
 - commit: v0.53.0
-  subdir: apks
+  output: termux-api-app_v0.53.0+github.debug.apk
   versionCode: 1
   versionName: v0.53.0
 Categories:
 - Development
+Changelog: https://github.com/termux/termux-api/releases
+Description: Termux add-on app which exposes device functionality as API to command
+  line programs.
+IssueTracker: https://github.com/termux/termux-api/issues
+License: Unknown
 Name: Termux:API
 SourceCode: https://github.com/termux/termux-api
 Summary: Termux add-on app which exposes device functionality as API to command line
   programs.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/termux/termux-api

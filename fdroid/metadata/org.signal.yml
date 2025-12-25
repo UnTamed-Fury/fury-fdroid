@@ -1,14 +1,19 @@
 AuthorName: Signal Foundation
 AutoUpdateMode: Version %v
+Binaries: https://github.com/signalapp/Signal-Android/releases/download/v7.68.5/Signal-Android-website-prod-universal-release-7.68.5.apk
 Builds:
 - commit: v7.68.5
-  subdir: apks
+  output: Signal-Android-website-prod-universal-release-7.68.5.apk
   versionCode: 1
   versionName: v7.68.5
 Categories:
 - Communication
+Changelog: https://github.com/signalapp/Signal-Android/releases
+Description: A private messenger for Android.
+IssueTracker: https://github.com/signalapp/Signal-Android/issues
+License: Unknown
 Name: Signal
 SourceCode: https://github.com/signalapp/Signal-Android
 Summary: A private messenger for Android.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/signalapp/Signal-Android

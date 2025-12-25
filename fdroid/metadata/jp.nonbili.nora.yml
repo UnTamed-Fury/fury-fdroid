@@ -1,14 +1,19 @@
 AuthorName: nonbili
 AutoUpdateMode: Version %v
+Binaries: https://github.com/nonbili/Nora/releases/download/v0.4.13/app-arm64-v8a-release.apk
 Builds:
 - commit: v0.4.13
-  subdir: apks
+  output: app-arm64-v8a-release.apk
   versionCode: 1
   versionName: v0.4.13
 Categories:
 - Entertainment
+Changelog: https://github.com/nonbili/Nora/releases
+Description: Facebook, Instagram, Reddit, Threads and X in a single app. No ads.
+IssueTracker: https://github.com/nonbili/Nora/issues
+License: Unknown
 Name: Nora
 SourceCode: https://github.com/nonbili/Nora
 Summary: Facebook, Instagram, Reddit, Threads and X in a single app. No ads.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/nonbili/Nora

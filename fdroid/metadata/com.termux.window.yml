@@ -1,14 +1,19 @@
 AuthorName: termux
 AutoUpdateMode: Version %v
+Binaries: https://github.com/termux/termux-float/releases/download/v0.17.0/termux-float-app_v0.17.0%2Bgithub.debug.apk
 Builds:
 - commit: v0.17.0
-  subdir: apks
+  output: termux-float-app_v0.17.0+github.debug.apk
   versionCode: 1
   versionName: v0.17.0
 Categories:
 - Development
+Changelog: https://github.com/termux/termux-float/releases
+Description: Termux add-on app to show the terminal in a floating terminal window.
+IssueTracker: https://github.com/termux/termux-float/issues
+License: Unknown
 Name: Termux:Float
 SourceCode: https://github.com/termux/termux-float
 Summary: Termux add-on app to show the terminal in a floating terminal window.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/termux/termux-float

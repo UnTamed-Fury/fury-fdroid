@@ -1,16 +1,23 @@
 AuthorName: stardomains3
 AutoUpdateMode: Version %v
+Binaries: https://github.com/stardomains3/oxproxion/releases/download/v2.1.25/app-release.apk
 Builds:
 - commit: v2.1.25
-  subdir: apks
+  output: app-release.apk
   versionCode: 1
   versionName: v2.1.25
 Categories:
 - Communication
+Changelog: https://github.com/stardomains3/oxproxion/releases
+Description: oxproxion is a versatile and user-centric Android chat application designed
+  to interact with various Large Language Models (LLMs). It provides a seamless interface
+  for managing conversations, customizing bot personas, and saving chat histories.
+IssueTracker: https://github.com/stardomains3/oxproxion/issues
+License: Unknown
 Name: Oxproxion
 SourceCode: https://github.com/stardomains3/oxproxion
 Summary: oxproxion is a versatile and user-centric Android chat application designed
   to interact with various Large Language Models (LLMs). It provides a seamless interface
   for managing conversations, customizing bot personas, and saving chat histories.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/stardomains3/oxproxion

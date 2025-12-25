@@ -1,14 +1,19 @@
 AuthorName: Mastodon
 AutoUpdateMode: Version %v
+Binaries: https://github.com/mastodon/mastodon-android/releases/download/v2.11.8/mastodon-githubRelease.apk
 Builds:
 - commit: v2.11.8
-  subdir: apks
+  output: mastodon-githubRelease.apk
   versionCode: 1
   versionName: v2.11.8
 Categories:
 - Communication
+Changelog: https://github.com/mastodon/mastodon-android/releases
+Description: Official Android app for Mastodon
+IssueTracker: https://github.com/mastodon/mastodon-android/issues
+License: Unknown
 Name: Mastodon
 SourceCode: https://github.com/mastodon/mastodon-android
 Summary: Official Android app for Mastodon
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/mastodon/mastodon-android

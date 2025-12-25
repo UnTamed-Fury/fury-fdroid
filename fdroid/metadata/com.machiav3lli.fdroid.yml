@@ -1,14 +1,19 @@
 AuthorName: NeoApplications
 AutoUpdateMode: Version %v
+Binaries: https://github.com/NeoApplications/Neo-Store/releases/download/1.2.0/Neo_Store_1.2.0-rc08_release.apk
 Builds:
 - commit: 1.2.0
-  subdir: apks
+  output: Neo_Store_1.2.0-rc08_release.apk
   versionCode: 1
   versionName: 1.2.0
 Categories:
 - System
+Changelog: https://github.com/NeoApplications/Neo-Store/releases
+Description: An F-Droid client with modern UI and an arsenal of extra features.
+IssueTracker: https://github.com/NeoApplications/Neo-Store/issues
+License: Unknown
 Name: Neo Store
 SourceCode: https://github.com/NeoApplications/Neo-Store
 Summary: An F-Droid client with modern UI and an arsenal of extra features.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/NeoApplications/Neo-Store

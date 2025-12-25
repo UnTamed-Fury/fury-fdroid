@@ -1,14 +1,19 @@
 AuthorName: maxrave-dev
 AutoUpdateMode: Version %v
+Binaries: https://github.com/maxrave-dev/SimpMusic/releases/download/v1.0.1-hf/SimpMusic-foss-arm64-v8a-release.apk
 Builds:
 - commit: v1.0.1-hf
-  subdir: apks
+  output: SimpMusic-foss-arm64-v8a-release.apk
   versionCode: 1
   versionName: v1.0.1-hf
 Categories:
 - Entertainment
+Changelog: https://github.com/maxrave-dev/SimpMusic/releases
+Description: A cross-platform music app using YouTube Music for backend
+IssueTracker: https://github.com/maxrave-dev/SimpMusic/issues
+License: Unknown
 Name: SimpMusic
 SourceCode: https://github.com/maxrave-dev/SimpMusic
 Summary: A cross-platform music app using YouTube Music for backend
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/maxrave-dev/SimpMusic

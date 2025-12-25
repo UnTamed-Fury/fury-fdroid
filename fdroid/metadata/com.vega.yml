@@ -1,14 +1,19 @@
 AuthorName: Zenda-Cross
 AutoUpdateMode: Version %v
+Binaries: https://github.com/vega-org/vega-app/releases/download/v3.2.6/Vega-arm64-v8a-v3.2.6.apk
 Builds:
 - commit: v3.2.6
-  subdir: apks
+  output: Vega-arm64-v8a-v3.2.6.apk
   versionCode: 1
   versionName: v3.2.6
 Categories:
 - Entertainment
+Changelog: https://github.com/Zenda-Cross/vega-app/releases
+Description: A media streaming streaming app.
+IssueTracker: https://github.com/Zenda-Cross/vega-app/issues
+License: Unknown
 Name: Vega
 SourceCode: https://github.com/Zenda-Cross/vega-app
 Summary: A media streaming streaming app.
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/Zenda-Cross/vega-app

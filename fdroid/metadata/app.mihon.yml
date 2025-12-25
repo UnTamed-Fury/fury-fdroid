@@ -1,14 +1,19 @@
 AuthorName: mihonapp
 AutoUpdateMode: Version %v
+Binaries: https://github.com/mihonapp/mihon/releases/download/v0.19.3/mihon-arm64-v8a-v0.19.3.apk
 Builds:
 - commit: v0.19.3
-  subdir: apks
+  output: mihon-arm64-v8a-v0.19.3.apk
   versionCode: 1
   versionName: v0.19.3
 Categories:
 - Entertainment
+Changelog: https://github.com/mihonapp/mihon/releases
+Description: Free and open source manga reader for Android
+IssueTracker: https://github.com/mihonapp/mihon/issues
+License: Unknown
 Name: Mihon
 SourceCode: https://github.com/mihonapp/mihon
 Summary: Free and open source manga reader for Android
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/mihonapp/mihon

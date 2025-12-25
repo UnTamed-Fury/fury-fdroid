@@ -1,14 +1,19 @@
 AuthorName: KRTirtho
 AutoUpdateMode: Version %v
+Binaries: https://github.com/KRTirtho/spotube/releases/download/v5.1.0/Spotube-android-all-arch.apk
 Builds:
 - commit: v5.1.0
-  subdir: apks
+  output: Spotube-android-all-arch.apk
   versionCode: 1
   versionName: v5.1.0
 Categories:
 - Entertainment
+Changelog: https://github.com/KRTirtho/spotube/releases
+Description: 🎧 Open source music streaming app! Available for both desktop & mobile!
+IssueTracker: https://github.com/KRTirtho/spotube/issues
+License: Unknown
 Name: SpoTube
 SourceCode: https://github.com/KRTirtho/spotube
 Summary: 🎧 Open source music streaming app! Available for both desktop & mobile!
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/KRTirtho/spotube

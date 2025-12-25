@@ -1,14 +1,19 @@
 AuthorName: RyanYuuki
 AutoUpdateMode: Version %v
+Binaries: https://github.com/RyanYuuki/AnymeX/releases/download/v3.0.3/AnymeX-Android-arm64-v8a.apk
 Builds:
 - commit: v3.0.3
-  subdir: apks
+  output: AnymeX-Android-arm64-v8a.apk
   versionCode: 1
   versionName: v3.0.3
 Categories:
 - Entertainment
+Changelog: https://github.com/RyanYuuki/AnymeX/releases
+Description: An Open Source app for Tracking Multi Service (AL, MAL, SIMKL)
+IssueTracker: https://github.com/RyanYuuki/AnymeX/issues
+License: Unknown
 Name: AnymeX
 SourceCode: https://github.com/RyanYuuki/AnymeX
 Summary: An Open Source app for Tracking Multi Service (AL, MAL, SIMKL)
-UpdateCheckData: '%c'
 UpdateCheckMode: Tags
+WebSite: https://github.com/RyanYuuki/AnymeX
