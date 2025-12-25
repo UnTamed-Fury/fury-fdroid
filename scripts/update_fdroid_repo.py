@@ -331,8 +331,6 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                     'versionCode': int(latest_version.split('.')[-1]) if latest_version.count('.') > 0 and latest_version.split('.')[-1].isdigit() else 1,
                     'commit': latest_version,
                     'output': apk_filename,
-                    'forceversion': True,
-                    'forceupdate': True,
                 }]
             }
 
