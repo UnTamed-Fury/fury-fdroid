@@ -138,10 +138,16 @@ def download_and_convert_icon(url, target_path):
     except requests.exceptions.Timeout:
         print(f"  -> Error downloading icon {url}: Request timed out after 30 seconds")
         return False
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 404:
+            print(f"  -> Icon not found at {url}: 404 Not Found")
+        else:
+            print(f"  -> HTTP error downloading icon {url}: {e}")
+        return False  # Continue processing even if icon fails
     except Exception as e:
         print(f"  -> Error processing icon {url}: {e}")
         traceback.print_exc()
-        return False
+        return False  # Continue processing even if icon fails
 
 # --- App Processing and Metadata Generation ---
 def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_token):
