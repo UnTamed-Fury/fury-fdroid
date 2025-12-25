@@ -240,6 +240,7 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             category = categories[0] if categories else 'Other'
 
             # Construct proper F-Droid metadata format for a prebuilt APK
+            # This follows the standard format for F-Droid repositories with prebuilt binaries
             metadata = {
                 'Categories': [category],
                 'AuthorName': author,
@@ -252,21 +253,22 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'Changelog': f"{app_url}/releases",
                 'License': 'Unknown',
 
-                # For prebuilt APKs, we use NullType repository
-                'RepoType': 'NullType',  # For repositories with prebuilt APKs
+                # For prebuilt APKs, use the correct RepoType
+                'RepoType': 'single',  # For repositories with prebuilt APKs
 
                 # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
                 'UpdateCheckMode': 'Tags',
 
-                # Builds section - minimal for prebuilt APKs
+                # Builds section - simplified for prebuilt APKs
                 'Builds': [{
                     'versionName': latest_version,
                     'versionCode': 1,
                     'commit': latest_version,
                     'subdir': '.',
-                    'gradle': ['yes'],  # Use gradle build
+                    'gradle': ['yes'],
                     'output': apk_filename,
+                    'disable': False,
                 }]
             }
 
