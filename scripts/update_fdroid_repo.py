@@ -203,7 +203,7 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 os.makedirs(os.path.join(metadata_dir, "icons"), exist_ok=True)
                 download_and_convert_icon(icon_url, icon_path)
 
-            # 3. Fetch latest release info
+            # 3. Fetch latest release info with timeout protection
             try:
                 latest_version, apk_assets = get_latest_github_release_info(app_url, github_token, prefer_prerelease)
             except Exception as e:
@@ -425,9 +425,18 @@ if __name__ == '__main__':
     config_path = os.path.join(FDROID_DIR, 'config.yml')
     backup_config = None
 
+    # Check if config file exists before reading
+    if not os.path.exists(config_path):
+        print(f"Error: Config file does not exist at {config_path}")
+        exit(1)
+
+    print(f"Reading config file from: {config_path}")
+
     # Read the current config file
     with open(config_path, 'r') as f:
         config_content = f.read()
+
+    print(f"Config file read successfully, length: {len(config_content)} characters")
 
     # Store backup
     backup_config = config_content
@@ -437,6 +446,9 @@ if __name__ == '__main__':
     import os
     keystore_pass = os.environ.get('FDROID_KEY_STORE_PASS') or os.environ.get('KEYSTORE_PASS', '')
     key_pass = os.environ.get('FDROID_KEY_PASS') or os.environ.get('KEY_PASS', '')
+
+    print(f"Keystore password found: {'YES' if keystore_pass else 'NO'}")
+    print(f"Key password found: {'YES' if key_pass else 'NO'}")
 
     if keystore_pass and key_pass:
         # Replace the placeholder values with actual secrets
@@ -451,9 +463,12 @@ if __name__ == '__main__':
         # Write the secure config temporarily
         with open(config_path, 'w') as f:
             f.write(secure_config_content)
+        print("Secure config file written with actual passwords")
     else:
         print("Warning: Keystore passwords not found in environment. Using placeholder values.")
         print(f"Available environment variables: {[k for k in os.environ.keys() if 'PASS' in k.upper() or 'KEY' in k.upper()]}")
+        # Print all environment variables for debugging
+        print(f"All environment variables: {list(os.environ.keys())}")
 
     try:
         # Set environment variables for fdroid command
@@ -468,7 +483,7 @@ if __name__ == '__main__':
 
         # Run fdroid update from inside the fdroid directory
         # Use the secure config file that has the actual passwords
-        result = subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
+        result = subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True, timeout=120)  # 2-minute timeout
 
         if result.returncode != 0:
             print(f"Error updating F-Droid repository index: Command failed with return code {result.returncode}")
@@ -483,8 +498,18 @@ if __name__ == '__main__':
             print("F-Droid repository index updated successfully.")
             if result.stdout:
                 print(f"Command output: {result.stdout}")
+    except subprocess.TimeoutExpired:
+        print("Timeout occurred while running fdroid update command.")
+        print("This might indicate an issue with the keystore or repository configuration.")
+        # Restore original config before exiting
+        if backup_config:
+            with open(config_path, 'w') as f:
+                f.write(backup_config)
+        exit(1)
     except Exception as e:
         print(f"Error updating F-Droid repository index: {e}")
+        import traceback
+        traceback.print_exc()
         # Restore original config before exiting
         if backup_config:
             with open(config_path, 'w') as f:
