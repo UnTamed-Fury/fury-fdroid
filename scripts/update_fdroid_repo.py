@@ -358,12 +358,76 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             else:
                 print(f"  -> Skipping download, APK already indexed for {app_id}")
 
-            # 6. Generate Metadata File
+            # 6. Generate Metadata File with downgrade capability
             print(f"  -> Creating metadata file at {metadata_path}")
 
             category = categories[0] if categories else 'Other'
 
-            # Construct proper F-Droid metadata format for remote APK references
+            # Fetch additional versions for downgrade capability (up to 3 total versions)
+            all_builds = []
+
+            # Add the current latest version
+            latest_version_code = 1
+            if '.' in latest_version:
+                try:
+                    parts = latest_version.replace('-alpha', '.').replace('-beta', '.').replace('-rc', '.').replace('+', '.').split('.')
+                    for part in reversed(parts):
+                        if part.isdigit():
+                            latest_version_code = int(part)
+                            break
+                except:
+                    latest_version_code = abs(hash(latest_version)) % 10000  # Fallback to hash-based version code
+
+            all_builds.append({
+                'versionName': latest_version,
+                'versionCode': latest_version_code,
+                'commit': latest_version,
+                'output': apk_filename,
+            })
+
+            # Try to fetch additional recent versions for downgrade capability
+            try:
+                all_releases = get_all_github_releases_info(app_url, github_token, prefer_prerelease)
+
+                # Add up to 2 more recent versions (in addition to the latest) for downgrade capability
+                additional_versions_added = 0
+                for release_info in all_releases[1:3]:  # Skip the first (latest) and take up to 2 more
+                    if additional_versions_added >= 2:  # Only add up to 2 additional versions
+                        break
+
+                    # Select best APK for this additional version
+                    additional_apk_result = select_best_apk(release_info['apk_assets'])
+                    if additional_apk_result:
+                        additional_apk_filename, additional_download_url = additional_apk_result
+
+                        # Calculate version code for this additional version
+                        additional_version_code = 1
+                        if '.' in release_info['version']:
+                            try:
+                                parts = release_info['version'].replace('-alpha', '.').replace('-beta', '.').replace('-rc', '.').replace('+', '.').split('.')
+                                for part in reversed(parts):
+                                    if part.isdigit():
+                                        additional_version_code = int(part)
+                                        break
+                            except:
+                                additional_version_code = abs(hash(release_info['version'])) % 10000  # Fallback to hash-based version code
+
+                        all_builds.append({
+                            'versionName': release_info['version'],
+                            'versionCode': additional_version_code,
+                            'commit': release_info['version'],
+                            'output': additional_apk_filename,
+                        })
+                        additional_versions_added += 1
+
+                        print(f"  -> Added version {release_info['version']} for downgrade capability")
+            except Exception as e:
+                print(f"  -> Warning: Could not fetch additional versions for downgrade capability: {e}")
+                # Continue with just the latest version if additional versions can't be fetched
+
+            print(f"  -> Including {len(all_builds)} versions in metadata for downgrade capability")
+
+            # Construct proper F-Droid metadata format with multiple versions for downgrade capability
             # This format is compatible with F-Droid server and clients
             metadata = {
                 'Categories': [category],
@@ -384,13 +448,8 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'AutoUpdateMode': 'Version %v',
                 'UpdateCheckMode': 'Tags',
 
-                # Builds section - for F-Droid server processing
-                'Builds': [{
-                    'versionName': latest_version,
-                    'versionCode': int(latest_version.split('.')[-1]) if latest_version.count('.') > 0 and latest_version.split('.')[-1].isdigit() else 1,
-                    'commit': latest_version,
-                    'output': apk_filename,
-                }]
+                # Builds section - include multiple versions for downgrade capability
+                'Builds': all_builds,
             }
 
             # Use yaml.dump to safely write the file
