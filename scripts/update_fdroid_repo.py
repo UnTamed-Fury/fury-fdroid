@@ -245,7 +245,6 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
             if os.path.exists(metadata_path):
                 # Check if this is the same APK version as previously indexed
-                import yaml
                 with open(metadata_path, 'r') as f:
                     try:
                         existing_metadata = yaml.safe_load(f)
@@ -345,7 +344,6 @@ def cleanup_old_apks(repo_dir, current_app_ids, metadata_dir):
         for app_id in current_app_ids:
             metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
             if os.path.exists(metadata_path):
-                import yaml
                 try:
                     with open(metadata_path, 'r') as f:
                         metadata = yaml.safe_load(f)
