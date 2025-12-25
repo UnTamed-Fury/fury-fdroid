@@ -11,10 +11,16 @@ from io import BytesIO
 # --- GitHub API Helpers ---
 def get_github_headers(github_token):
     headers = {
-        'Accept': 'application/vnd.github.v3+json'
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Fury-FDroid-Bot/1.0'
     }
     if github_token:
         headers['Authorization'] = f'token {github_token}'
+    else:
+        # If no token provided directly, try to get from environment
+        env_token = os.environ.get('GH_TOKEN') or os.environ.get('GITHUB_TOKEN')
+        if env_token:
+            headers['Authorization'] = f'token {env_token}'
     return headers
 
 def get_github_repo_details(repo_url, github_token):
