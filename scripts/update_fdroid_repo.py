@@ -368,7 +368,9 @@ def cleanup_old_apks(repo_dir, current_app_ids, metadata_dir):
             except OSError as e:
                 print(f"  -> Could not remove {apk_filename}: {e}")
         else:
-            print(f"  -> Keeping APK: {apk_filename} (belongs to active app {app_id_for_apk})")
+            # Use conditional to avoid potential error if app_id_for_apk is still None
+            app_identifier = app_id_for_apk if app_id_for_apk else "unknown"
+            print(f"  -> Keeping APK: {apk_filename} (belongs to active app {app_identifier})")
 
 # --- Git Operations ---
 def git_commit_and_push(commit_message, files_to_add):
