@@ -135,6 +135,10 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
     if not os.path.exists(repo_dir):
         os.makedirs(repo_dir)
 
+    # Create the repo directory structure even if we're not downloading APKs
+    # This is required for the fdroid server to work properly
+    os.makedirs(os.path.join(repo_dir, "archive"), exist_ok=True)
+
     for app in apps_to_process:
         try:
             app_id = app['id']

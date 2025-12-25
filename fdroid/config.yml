@@ -17,14 +17,17 @@ archive_older: 3
 
 # Whether to keep signed older versions in the archive.
 archive_keep_signed: 1
-    
+
 # The root directory for serving the web interface of the repository.
 # "." means the current directory (fdroid/).
 serverwebroot: "."
 
 # Whether to create a symbolic link for the current version of an app.
 make_current_version_link: false
-    
+
+# Whether to mirror APKs locally (false for remote references only)
+mirror: false
+
 # Path to the keystore file used for signing the repository.
 # This file is crucial for the integrity and authenticity of your repo.
 keystore: keystore.p12
