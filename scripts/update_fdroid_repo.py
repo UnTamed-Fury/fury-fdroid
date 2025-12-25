@@ -45,9 +45,14 @@ def get_github_repo_details(repo_url, github_token):
         print(f"  -> Warning: Could not fetch repo details for {repo_url}: {e}")
         return None
 
-def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=False):
+def get_all_github_releases_info(repo_url, github_token, prefer_prerelease=False):
+    """
+    Fetches ALL GitHub releases (not just latest) to enable downgrade capability.
+
+    Returns a list of (version, apk_assets) tuples for all releases with APKs.
+    """
     owner, repo = repo_url.replace('https://github.com/', '').split('/')[:2]
-    # Get all releases (including pre-releases) instead of just the latest
+    # Get all releases (including pre-releases) from the repository
     api_url = f"https://api.github.com/repos/{owner}/{repo}/releases"
 
     # Add timeout to prevent hanging requests
@@ -55,9 +60,7 @@ def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=Fal
     response.raise_for_status()
     releases_data = response.json()
 
-    # Separate pre-releases and regular releases
-    pre_releases = []
-    regular_releases = []
+    all_releases_with_apks = []
 
     for release in releases_data:
         apk_assets = []
@@ -74,32 +77,40 @@ def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=Fal
                 'apk_assets': apk_assets
             }
 
-            if release_info['is_prerelease']:
-                pre_releases.append(release_info)
-            else:
-                regular_releases.append(release_info)
+            # Depending on the prefer_prerelease setting, add to appropriate list
+            if prefer_prerelease and release_info['is_prerelease']:
+                all_releases_with_apks.append(release_info)
+            elif not prefer_prerelease and not release_info['is_prerelease']:
+                all_releases_with_apks.append(release_info)
+            elif prefer_prerelease and not release_info['is_prerelease']:
+                # If prefer_prerelease is True, also include regular releases
+                all_releases_with_apks.append(release_info)
+            # Note: If prefer_prerelease is False, we don't include pre-releases
 
-    if prefer_prerelease:
-        # If prefer_prerelease is True, ONLY return pre-releases (no fallback to regular releases)
-        if pre_releases:
-            # Return the most recent pre-release (first in the list since GitHub API returns newest first)
-            selected_release = pre_releases[0]
-            return selected_release['version'], selected_release['apk_assets']
-        else:
-            # No pre-releases available, raise an exception instead of falling back
-            raise Exception("No pre-releases with APK assets found")
+    if all_releases_with_apks:
+        # Return all releases with APKs, sorted by published date (newest first)
+        # Sort by published_at timestamp if available, otherwise by tag name
+        try:
+            all_releases_with_apks.sort(key=lambda x: x['published_at'], reverse=True)
+        except TypeError:
+            # If published_at is None or empty, sort by version string
+            all_releases_with_apks.sort(key=lambda x: x['version'], reverse=True)
+
+        return all_releases_with_apks
     else:
-        # If prefer_prerelease is False, ONLY return regular releases (no pre-releases)
-        if regular_releases:
-            # Return the most recent regular release
-            selected_release = regular_releases[0]
-            return selected_release['version'], selected_release['apk_assets']
-        else:
-            # No regular releases available, raise an exception
-            raise Exception("No regular releases with APK assets found")
+        raise Exception("No releases with APK assets found")
 
-    # If no releases with APKs found, raise an exception
-    raise Exception("No releases with APK assets found")
+
+def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=False):
+    """
+    Gets the latest release info (for backwards compatibility).
+    """
+    all_releases = get_all_github_releases_info(repo_url, github_token, prefer_prerelease)
+    if all_releases:
+        latest_release = all_releases[0]  # First in the sorted list is the latest
+        return latest_release['version'], latest_release['apk_assets']
+    else:
+        raise Exception("No releases with APK assets found")
 
 def download_file(url, target_path):
     print(f"Downloading {url} to {target_path}...")
@@ -223,95 +234,125 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 os.makedirs(os.path.join(metadata_dir, "icons"), exist_ok=True)
                 download_and_convert_icon(icon_url, icon_path)
 
-            # 3. Fetch latest release info with timeout protection
+            # 3. Fetch ALL releases info to enable downgrade capability
             try:
-                latest_version, apk_assets = get_latest_github_release_info(app_url, github_token, prefer_prerelease)
+                all_releases = get_all_github_releases_info(app_url, github_token, prefer_prerelease)
             except Exception as e:
                 print(f"  -> Skipping: {e}")
                 continue
 
-            if not apk_assets:
-                print(f"  -> Skipping: No APK assets found for latest release.")
+            if not all_releases:
+                print(f"  -> Skipping: No releases with APK assets found.")
                 continue
+
+            print(f"  -> Found {len(all_releases)} releases with APK assets")
 
             # Add a small delay between processing apps to avoid rate limiting
             import time
             time.sleep(1)
 
-            # 4. Select Best APK
-            def select_best_apk(apk_options):
-                preferred_order = ['arm64-v8a', 'universal', 'armeabi-v7a']
-                best_apk = None
-                best_rank = len(preferred_order)
+            # Process each release to enable downgrade capability
+            all_builds = []
+            for release_info in all_releases:
+                release_version = release_info['version']
+                release_apk_assets = release_info['apk_assets']
 
-                for apk_name, download_url_asset in apk_options:
-                    apk_name_lower = apk_name.lower()
-                    rank = len(preferred_order)
+                # Select Best APK for this release
+                def select_best_apk(apk_options):
+                    preferred_order = ['arm64-v8a', 'universal', 'armeabi-v7a']
+                    best_apk = None
+                    best_rank = len(preferred_order)
 
-                    if 'arm64-v8a' in apk_name_lower:
-                        rank = 0
-                    elif 'universal' in apk_name_lower or ('arm' not in apk_name_lower and 'x86' not in apk_name_lower):
-                        rank = 1
-                    elif 'armeabi-v7a' in apk_name_lower:
-                        rank = 2
+                    for apk_name, download_url_asset in apk_options:
+                        apk_name_lower = apk_name.lower()
+                        rank = len(preferred_order)
 
-                    if rank < best_rank:
-                        best_rank = rank
-                        best_apk = (apk_name, download_url_asset)
+                        if 'arm64-v8a' in apk_name_lower:
+                            rank = 0
+                        elif 'universal' in apk_name_lower or ('arm' not in apk_name_lower and 'x86' not in apk_name_lower):
+                            rank = 1
+                        elif 'armeabi-v7a' in apk_name_lower:
+                            rank = 2
 
-                if not best_apk and apk_options:
-                    return apk_options[0]
+                        if rank < best_rank:
+                            best_rank = rank
+                            best_apk = (apk_name, download_url_asset)
 
-                return best_apk
+                    if not best_apk and apk_options:
+                        return apk_options[0]
 
-            selected_apk_result = select_best_apk(apk_assets)
-            if selected_apk_result is None:
-                print(f"  -> Skipping: No suitable APK found in release assets")
-                continue
+                    return best_apk
 
-            apk_filename, download_url = selected_apk_result
+                apk_filename, download_url = select_best_apk(release_apk_assets)
 
-            print(f"  -> Latest version: {latest_version}")
-            print(f"  -> Selected APK: {apk_filename}")
+                print(f"  -> Processing version: {release_version}")
+                print(f"  -> Selected APK: {apk_filename}")
 
-            # 5. Check if APK is already indexed with the same version
-            metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
-            apk_needs_processing = True
+                # Check if this specific version APK is already indexed
+                version_needs_processing = True
 
-            if os.path.exists(metadata_path):
-                # Check if this is the same APK version as previously indexed
-                with open(metadata_path, 'r') as f:
-                    try:
-                        existing_metadata = yaml.safe_load(f)
-                        existing_builds = existing_metadata.get('Builds', [])
-                        if existing_builds:
-                            existing_version = existing_builds[0].get('versionName', '') if existing_builds else ''
-                            if existing_version == latest_version:
-                                print(f"  -> APK for {app_id} version {latest_version} already indexed, skipping download")
-                                apk_needs_processing = False
-                            else:
-                                print(f"  -> APK version changed from {existing_version} to {latest_version}, will re-download")
-                    except yaml.YAMLError:
-                        print(f"  -> Error parsing existing metadata for {app_id}, will re-download")
+                # Check if this specific version is already indexed
+                import yaml
+                current_metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
+                if os.path.exists(current_metadata_path):
+                    with open(current_metadata_path, 'r') as f:
+                        try:
+                            existing_metadata = yaml.safe_load(f)
+                            existing_builds = existing_metadata.get('Builds', [])
 
-            # Only download APK if it's not already indexed with the same version
-            target_apk_path = os.path.join(repo_dir, apk_filename)
-            if apk_needs_processing:
-                if not os.path.exists(target_apk_path):
-                    download_file(download_url, target_apk_path)
-                    print(f"  -> Downloaded APK for F-Droid processing: {target_apk_path}")
+                            # Check if this specific version is already in the builds
+                            version_already_exists = False
+                            for build in existing_builds:
+                                if build.get('versionName') == release_version:
+                                    version_already_exists = True
+                                    break
+
+                            if version_already_exists:
+                                print(f"  -> Version {release_version} for {app_id} already indexed, skipping download")
+                                version_needs_processing = False
+                        except yaml.YAMLError:
+                            print(f"  -> Error parsing existing metadata for {app_id}, will process version {release_version}")
+
+                # Only download APK if it's not already indexed with the same version
+                target_apk_path = os.path.join(repo_dir, apk_filename)
+                if version_needs_processing:
+                    if not os.path.exists(target_apk_path):
+                        download_file(download_url, target_apk_path)
+                        print(f"  -> Downloaded APK for F-Droid processing: {target_apk_path}")
+                    else:
+                        print(f"  -> APK already exists for processing: {target_apk_path}")
                 else:
-                    print(f"  -> APK already exists for processing: {target_apk_path}")
-            else:
-                print(f"  -> Skipping download, APK already indexed for {app_id}")
+                    print(f"  -> Skipping download, version {release_version} already indexed for {app_id}")
 
-            # 6. Generate Metadata File
-            print(f"  -> Creating metadata file at {metadata_path}")
+                # Calculate version code for this release
+                version_code = 1
+                if '.' in release_version:
+                    # Try to extract version code from version string
+                    try:
+                        # Get the last numeric part of the version
+                        parts = release_version.replace('-alpha', '.').replace('-beta', '.').replace('-rc', '.').replace('+', '.').split('.')
+                        for part in reversed(parts):
+                            if part.isdigit():
+                                version_code = int(part)
+                                break
+                    except:
+                        version_code = abs(hash(release_version)) % 10000  # Fallback to hash-based version code
+
+                # Add this build to the builds list
+                all_builds.append({
+                    'versionName': release_version,
+                    'versionCode': version_code,
+                    'commit': release_version,
+                    'output': apk_filename,
+                })
+
+            # 4. Generate Metadata File with ALL versions for downgrade capability
+            metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
+            print(f"  -> Creating metadata file with all versions at {metadata_path}")
 
             category = categories[0] if categories else 'Other'
 
-            # Construct proper F-Droid metadata format for remote APK references
-            # This format is compatible with F-Droid server and clients
+            # Construct proper F-Droid metadata format with ALL versions for downgrade capability
             metadata = {
                 'Categories': [category],
                 'AuthorName': author,
@@ -324,25 +365,23 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'Changelog': f"{app_url}/releases",
                 'License': 'Unknown',
 
-                # For remote APK references - this tells F-Droid where to get the APK
-                'Binaries': download_url,  # Direct URL to the APK from GitHub Releases
+                # For remote APK references - this tells F-Droid where to get the APKs
+                # Use the latest version's download URL as the primary reference
+                'Binaries': download_url,  # This will be the latest version's URL
 
                 # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
                 'UpdateCheckMode': 'Tags',
 
-                # Builds section - for F-Droid server processing
-                'Builds': [{
-                    'versionName': latest_version,
-                    'versionCode': int(latest_version.split('.')[-1]) if latest_version.count('.') > 0 and latest_version.split('.')[-1].isdigit() else 1,
-                    'commit': latest_version,
-                    'output': apk_filename,
-                }]
+                # Builds section - include ALL versions for downgrade capability
+                'Builds': all_builds,
             }
 
             # Use yaml.dump to safely write the file
             with open(metadata_path, 'w') as f_meta:
                 yaml.dump(metadata, f_meta, default_flow_style=False, allow_unicode=True)
+
+            print(f"  -> Created metadata with {len(all_builds)} versions for {app_id}")
 
         except Exception as e:
             print(f"  -> ERROR processing {app.get('name', 'Unknown app')}: {e}")
