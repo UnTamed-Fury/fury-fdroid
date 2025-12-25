@@ -426,8 +426,11 @@ if __name__ == '__main__':
     print("Installed packages:")
     subprocess.run(['pip', 'list'])
 
-    APPS_LIST_FILE = 'apps.yaml'
-    FDROID_DIR = 'fdroid'
+    # Define paths relative to the script location to ensure they work in all environments
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.dirname(SCRIPT_DIR)
+    APPS_LIST_FILE = os.path.join(ROOT_DIR, 'apps.yaml')
+    FDROID_DIR = os.path.join(ROOT_DIR, 'fdroid')
     METADATA_DIR = os.path.join(FDROID_DIR, 'metadata')
     REPO_DIR = os.path.join(FDROID_DIR, 'repo')
     GITHUB_TOKEN = os.getenv('GH_TOKEN')
