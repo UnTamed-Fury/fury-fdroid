@@ -79,24 +79,39 @@ def get_all_github_releases_info(repo_url, github_token, prefer_prerelease=False
 
             # Depending on the prefer_prerelease setting, add to appropriate list
             if prefer_prerelease and release_info['is_prerelease']:
+                # If prefer_prerelease is True, only add pre-releases
                 all_releases_with_apks.append(release_info)
             elif not prefer_prerelease and not release_info['is_prerelease']:
+                # If prefer_prerelease is False, only add regular releases
                 all_releases_with_apks.append(release_info)
-            elif prefer_prerelease and not release_info['is_prerelease']:
-                # If prefer_prerelease is True, also include regular releases
-                all_releases_with_apks.append(release_info)
-            # Note: If prefer_prerelease is False, we don't include pre-releases
 
     if all_releases_with_apks:
         # Return all releases with APKs, sorted by published date (newest first)
         # Sort by published_at timestamp if available, otherwise by tag name
         try:
-            all_releases_with_apks.sort(key=lambda x: x['published_at'], reverse=True)
-        except TypeError:
-            # If published_at is None or empty, sort by version string
+            # Filter out empty published_at values before sorting
+            valid_releases = [r for r in all_releases_with_apks if r['published_at']]
+            other_releases = [r for r in all_releases_with_apks if not r['published_at']]
+            valid_releases.sort(key=lambda x: x['published_at'], reverse=True)
+            other_releases.sort(key=lambda x: x['version'], reverse=True)
+            all_releases_with_apks = valid_releases + other_releases
+        except Exception:
+            # If published_at sorting fails, sort by version string
             all_releases_with_apks.sort(key=lambda x: x['version'], reverse=True)
 
         return all_releases_with_apks
+    else:
+        raise Exception("No releases with APK assets found")
+
+
+def get_latest_github_release_info(repo_url, github_token, prefer_prerelease=False):
+    """
+    Gets the latest release info (for backwards compatibility).
+    """
+    all_releases = get_all_github_releases_info(repo_url, github_token, prefer_prerelease)
+    if all_releases:
+        latest_release = all_releases[0]  # First in the sorted list is the latest
+        return latest_release['version'], latest_release['apk_assets']
     else:
         raise Exception("No releases with APK assets found")
 
@@ -366,8 +381,8 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'License': 'Unknown',
 
                 # For remote APK references - this tells F-Droid where to get the APKs
-                # Use the latest version's download URL as the primary reference
-                'Binaries': download_url,  # This will be the latest version's URL
+                # Use the download URL of the most recently processed release (likely the latest)
+                'Binaries': download_url,  # This will be the most recent release's download URL
 
                 # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
