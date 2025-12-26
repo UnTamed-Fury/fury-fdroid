@@ -736,7 +736,7 @@ if __name__ == '__main__':
 
         # Now run fdroid update to generate the repository index
         print("Updating F-Droid repository index...")
-        result = subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True, timeout=120)  # 2-minute timeout
+        result = subprocess.run(['fdroid', 'update', '--verbose', '--create-metadata', '--pretty'], cwd=FDROID_DIR, env=env, capture_output=True, text=True, timeout=120)  # 2-minute timeout with additional flags
 
         if result.returncode != 0:
             print(f"Error updating F-Droid repository index: Command failed with return code {result.returncode}")
