@@ -1,6 +1,5 @@
 AuthorName: stardomains3
 AutoUpdateMode: Version %v
-Binaries: https://github.com/stardomains3/oxproxion/releases/download/v2.1.25/app-release.apk
 Builds:
 - commit: v2.1.25
   output: app-release.apk

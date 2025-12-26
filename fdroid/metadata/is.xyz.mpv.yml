@@ -1,6 +1,5 @@
 AuthorName: mpv-android
 AutoUpdateMode: Version %v
-Binaries: https://github.com/mpv-android/mpv-android/releases/download/2025-08-25/app-default-arm64-v8a-release.apk
 Builds:
 - commit: '2025-08-25'
   output: app-default-arm64-v8a-release.apk

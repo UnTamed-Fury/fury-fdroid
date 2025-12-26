@@ -1,6 +1,5 @@
 AuthorName: null2264
 AutoUpdateMode: Version %v
-Binaries: https://github.com/null2264/yokai/releases/download/v1.10.0-b4/yokai-arm64-v8a-v1.10.0-b4.apk
 Builds:
 - commit: v1.10.0-b4
   output: yokai-arm64-v8a-v1.10.0-b4.apk

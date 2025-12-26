@@ -1,6 +1,5 @@
 AuthorName: Visual-Code-Space
 AutoUpdateMode: Version %v
-Binaries: https://github.com/Visual-Code-Space/Visual-Code-Space/releases/download/v2.0.1/app-release.apk
 Builds:
 - commit: v2.0.1
   output: app-release.apk

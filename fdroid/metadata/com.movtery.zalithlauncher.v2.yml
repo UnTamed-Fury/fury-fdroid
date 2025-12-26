@@ -1,6 +1,5 @@
 AuthorName: ZalithLauncher
 AutoUpdateMode: Version %v
-Binaries: https://github.com/ZalithLauncher/ZalithLauncher2/releases/download/2.0.0_pre-release_2/ZalithLauncher-2.0.0_pre-release_2-arm64-v8a.apk
 Builds:
 - commit: 2.0.0_pre-release_2
   output: ZalithLauncher-2.0.0_pre-release_2-arm64-v8a.apk

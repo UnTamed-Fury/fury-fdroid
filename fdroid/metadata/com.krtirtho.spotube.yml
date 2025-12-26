@@ -1,6 +1,5 @@
 AuthorName: KRTirtho
 AutoUpdateMode: Version %v
-Binaries: https://github.com/KRTirtho/spotube/releases/download/v5.1.0/Spotube-android-all-arch.apk
 Builds:
 - commit: v5.1.0
   output: Spotube-android-all-arch.apk

@@ -1,6 +1,5 @@
 AuthorName: StratumAuth
 AutoUpdateMode: Version %v
-Binaries: https://github.com/stratumauth/app/releases/download/v1.4.0/com.stratumauth.app-arm64-v8a.fdroid.apk
 Builds:
 - commit: v1.4.0
   output: com.stratumauth.app-arm64-v8a.fdroid.apk

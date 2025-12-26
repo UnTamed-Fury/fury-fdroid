@@ -1,6 +1,5 @@
 AuthorName: komikku-app
 AutoUpdateMode: Version %v
-Binaries: https://github.com/komikku-app/anikku/releases/download/v0.1.4/Anikku-arm64-v8a-v0.1.4.apk
 Builds:
 - commit: v0.1.4
   output: Anikku-arm64-v8a-v0.1.4.apk

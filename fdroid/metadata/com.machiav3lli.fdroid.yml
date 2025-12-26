@@ -1,6 +1,5 @@
 AuthorName: NeoApplications
 AutoUpdateMode: Version %v
-Binaries: https://github.com/NeoApplications/Neo-Store/releases/download/1.2.0/Neo_Store_1.2.0-rc08_release.apk
 Builds:
 - commit: 1.2.0
   output: Neo_Store_1.2.0-rc08_release.apk

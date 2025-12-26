@@ -1,6 +1,5 @@
 AuthorName: termux
 AutoUpdateMode: Version %v
-Binaries: https://github.com/termux/termux-float/releases/download/v0.17.0/termux-float-app_v0.17.0%2Bgithub.debug.apk
 Builds:
 - commit: v0.17.0
   output: termux-float-app_v0.17.0+github.debug.apk

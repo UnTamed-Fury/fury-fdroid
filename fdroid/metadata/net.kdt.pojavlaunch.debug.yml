@@ -1,6 +1,5 @@
 AuthorName: PojavLauncherTeam
 AutoUpdateMode: Version %v
-Binaries: https://github.com/PojavLauncherTeam/PojavLauncher/releases/download/gladiolus/PojavLauncher.apk
 Builds:
 - commit: gladiolus
   output: PojavLauncher.apk

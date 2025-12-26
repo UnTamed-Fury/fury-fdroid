@@ -1,6 +1,5 @@
 AuthorName: recloudstream
 AutoUpdateMode: Version %v
-Binaries: https://github.com/recloudstream/cloudstream/releases/download/v4.6.0/4.6.0.apk
 Builds:
 - commit: v4.6.0
   output: 4.6.0.apk

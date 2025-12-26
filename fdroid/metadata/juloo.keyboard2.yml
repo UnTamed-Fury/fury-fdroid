@@ -1,6 +1,5 @@
 AuthorName: Julow
 AutoUpdateMode: Version %v
-Binaries: https://github.com/Julow/Unexpected-Keyboard/releases/download/1.32.1/juloo.keyboard2.apk
 Builds:
 - commit: 1.32.1
   output: juloo.keyboard2.apk

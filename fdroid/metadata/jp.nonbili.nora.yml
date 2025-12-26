@@ -1,6 +1,5 @@
 AuthorName: nonbili
 AutoUpdateMode: Version %v
-Binaries: https://github.com/nonbili/Nora/releases/download/v0.4.13/app-arm64-v8a-release.apk
 Builds:
 - commit: v0.4.13
   output: app-arm64-v8a-release.apk

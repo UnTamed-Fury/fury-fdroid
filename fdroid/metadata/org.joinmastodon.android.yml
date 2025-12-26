@@ -1,6 +1,5 @@
 AuthorName: Mastodon
 AutoUpdateMode: Version %v
-Binaries: https://github.com/mastodon/mastodon-android/releases/download/v2.11.9/mastodon-githubRelease.apk
 Builds:
 - commit: v2.11.9
   output: mastodon-githubRelease.apk

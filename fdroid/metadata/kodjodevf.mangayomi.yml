@@ -1,6 +1,5 @@
 AuthorName: kodjodevf
 AutoUpdateMode: Version %v
-Binaries: https://github.com/kodjodevf/mangayomi/releases/download/v0.6.90/Mangayomi-v0.6.90-android-arm64-v8a.apk
 Builds:
 - commit: v0.6.90
   output: Mangayomi-v0.6.90-android-arm64-v8a.apk

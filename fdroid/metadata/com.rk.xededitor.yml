@@ -1,6 +1,5 @@
 AuthorName: Xed-Editor
 AutoUpdateMode: Version %v
-Binaries: https://github.com/Xed-Editor/Xed-Editor/releases/download/v3.2.5/xed-editor-v3.2.5.apk
 Builds:
 - commit: v3.2.5
   output: xed-editor-v3.2.5.apk
