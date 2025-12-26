@@ -121,6 +121,24 @@ jobs:
                                   alt_url = icon_url.replace(base_drawable, variant)
                                   urls_to_try.append(alt_url)
 
+                  # If it's a drawable folder, try other drawable sizes
+                  elif 'drawable' in icon_url:
+                      drawable_variants = [
+                          'drawable-xxxhdpi', 'drawable-xxhdpi',
+                          'drawable-xhdpi', 'drawable-hdpi', 'drawable'
+                      ]
+                      base_drawable = None
+                      for variant in drawable_variants:
+                          if variant in icon_url:
+                              base_drawable = variant
+                              break
+
+                      if base_drawable:
+                          for variant in drawable_variants:
+                              if variant != base_drawable:
+                                  alt_url = icon_url.replace(base_drawable, variant)
+                                  urls_to_try.append(alt_url)
+
                   success = False
                   for url in urls_to_try:
                       try:
@@ -219,8 +237,8 @@ jobs:
             git add fdroid/metadata/icons/*.png
             git commit -m 'Automated: Update app icons from GitHub raw URLs' -m 'Daily update of app icons from mipmap-xxxhdpi resources' -m 'Only updated icons that have changed'
 
-            # Pull latest changes to avoid conflicts
-            git pull --rebase origin main
+            # Pull latest changes to avoid conflicts using merge strategy
+            git pull origin main --no-edit
 
             git push
             echo 'Icons updated and pushed successfully'
