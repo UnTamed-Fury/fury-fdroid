@@ -441,9 +441,6 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'Changelog': f"{app_url}/releases",
                 'License': 'Unknown',
 
-                # For remote APK references - this tells F-Droid where to get the APK
-                'Binaries': download_url,  # Direct URL to the APK from GitHub Releases
-
                 # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
                 'UpdateCheckMode': 'Tags',
@@ -451,6 +448,11 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 # Builds section - include multiple versions for downgrade capability
                 'Builds': all_builds,
             }
+
+            # Remove the Binaries field for standard local APK hosting
+            # Standard F-Droid repositories host APKs locally and don't use Binaries field
+            if 'Binaries' in metadata:
+                del metadata['Binaries']
 
             # Use yaml.dump to safely write the file
             with open(metadata_path, 'w') as f_meta:
