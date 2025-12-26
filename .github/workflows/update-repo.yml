@@ -55,9 +55,8 @@ jobs:
 
       - name: Create secure config file
         run: |
-          # The script will temporarily replace the placeholders with actual secrets
-          # Use the original config file with placeholders which the script will update
           # Set the environment variables that fdroid server expects
+          # The script will handle temporary config file replacement internally
           export FDROID_KEY_STORE_PASS="$KEYSTORE_PASS"
           export FDROID_KEY_PASS="$KEY_PASS"
           python3 scripts/update_fdroid_repo.py
