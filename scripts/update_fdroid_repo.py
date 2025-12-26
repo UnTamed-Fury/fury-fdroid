@@ -374,20 +374,35 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             # Fetch additional versions for downgrade capability (up to 3 total versions)
             all_builds = []
 
-            # Generate proper F-Droid APK filename for the latest version: {app_id}_{version_code}.apk
-            # This ensures consistency with F-Droid server expectations
+            # Create app-specific directory structure: /apks/{PKG_ID}/ for organized storage
+            app_apk_dir = os.path.join(repo_dir, "apks", app_id)
+            os.makedirs(app_apk_dir, exist_ok=True)
+
+            # Generate proper F-Droid APK filename: {app_id}_{version_code}.apk
+            # This ensures F-Droid clients can properly recognize and download the APKs
             latest_fdroid_apk_filename = f"{app_id}_{latest_version_code}.apk"
 
-            # Download APK with proper F-Droid naming for the latest version
-            latest_target_apk_path = os.path.join(repo_dir, latest_fdroid_apk_filename)
+            # Download APK to the app-specific directory for organized storage
+            app_specific_apk_path = os.path.join(app_apk_dir, latest_fdroid_apk_filename)
             if apk_needs_processing:
-                if not os.path.exists(latest_target_apk_path):
-                    download_file(download_url, latest_target_apk_path)
-                    print(f"  -> Downloaded latest APK for F-Droid processing: {latest_target_apk_path}")
+                if not os.path.exists(app_specific_apk_path):
+                    download_file(download_url, app_specific_apk_path)
+                    print(f"  -> Downloaded APK to app-specific directory: {app_specific_apk_path}")
                 else:
-                    print(f"  -> Latest APK already exists for processing: {latest_target_apk_path}")
+                    print(f"  -> APK already exists in app-specific directory: {app_specific_apk_path}")
             else:
                 print(f"  -> Skipping download for latest version, already indexed for {app_id}")
+
+            # For F-Droid server compatibility, also place APK in the main repo directory
+            # F-Droid server tools expect APKs to be in the repo/ directory directly
+            main_repo_apk_path = os.path.join(repo_dir, latest_fdroid_apk_filename)
+            if apk_needs_processing or not os.path.exists(main_repo_apk_path):
+                # Create a copy in the main repo directory for F-Droid server tools
+                import shutil
+                shutil.copy2(app_specific_apk_path, main_repo_apk_path)
+                print(f"  -> Created copy for F-Droid server: {main_repo_apk_path}")
+            else:
+                print(f"  -> F-Droid server APK already exists: {main_repo_apk_path}")
 
             # Add the current latest version to builds
             all_builds.append({
@@ -424,18 +439,30 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                             except:
                                 additional_version_code = abs(hash(release_info['version'])) % 10000  # Fallback to hash-based version code
 
+                        # Create app-specific directory structure for this additional version
+                        app_apk_dir = os.path.join(repo_dir, "apks", app_id)
+                        os.makedirs(app_apk_dir, exist_ok=True)
+
                         # Generate proper F-Droid APK filename for this version
                         additional_fdroid_apk_filename = f"{app_id}_{additional_version_code}.apk"
-                        additional_target_apk_path = os.path.join(repo_dir, additional_fdroid_apk_filename)
 
-                        # Download APK with proper F-Droid naming for this additional version
-                        # Only download if this version isn't already processed
-                        # We'll use a simplified check here - if the target file doesn't exist, download it
-                        if not os.path.exists(additional_target_apk_path):
-                            download_file(additional_download_url, additional_target_apk_path)
-                            print(f"  -> Downloaded additional APK for F-Droid processing: {additional_target_apk_path}")
+                        # Download APK to the app-specific directory for organized storage
+                        additional_app_specific_apk_path = os.path.join(app_apk_dir, additional_fdroid_apk_filename)
+                        if not os.path.exists(additional_app_specific_apk_path):
+                            download_file(additional_download_url, additional_app_specific_apk_path)
+                            print(f"  -> Downloaded additional APK to app-specific directory: {additional_app_specific_apk_path}")
                         else:
-                            print(f"  -> Additional APK already exists for processing: {additional_target_apk_path}")
+                            print(f"  -> Additional APK already exists in app-specific directory: {additional_app_specific_apk_path}")
+
+                        # For F-Droid server compatibility, also place APK in the main repo directory
+                        additional_main_repo_apk_path = os.path.join(repo_dir, additional_fdroid_apk_filename)
+                        if not os.path.exists(additional_main_repo_apk_path):
+                            # Create a copy in the main repo directory for F-Droid server tools
+                            import shutil
+                            shutil.copy2(additional_app_specific_apk_path, additional_main_repo_apk_path)
+                            print(f"  -> Created copy for F-Droid server: {additional_main_repo_apk_path}")
+                        else:
+                            print(f"  -> F-Droid server APK already exists: {additional_main_repo_apk_path}")
 
                         all_builds.append({
                             'versionName': release_info['version'],
@@ -496,52 +523,98 @@ def cleanup_old_apks(repo_dir, current_app_ids, metadata_dir):
     """
     Clean up APK files that are no longer needed:
     1. APKs for apps that have been removed from apps.yaml
-    2. Old APKs that are no longer the latest version
+    2. Old APKs that are no longer the latest versions (within retention limits)
     """
     import os
     import glob
 
-    # Get all APK files in repo directory
-    apk_files = glob.glob(os.path.join(repo_dir, "*.apk"))
+    # Get all app directories in the apks directory
+    apk_app_dirs = []
+    apks_dir = os.path.join(repo_dir, "apks")
+    if os.path.exists(apks_dir):
+        apk_app_dirs = [d for d in os.listdir(apks_dir) if os.path.isdir(os.path.join(apks_dir, d))]
 
-    for apk_path in apk_files:
+    for app_dir_name in apk_app_dirs:
+        app_dir_path = os.path.join(apks_dir, app_dir_name)
+
+        # Check if this app is still in the apps.yaml
+        if app_dir_name not in current_app_ids:
+            # This app has been removed from apps.yaml, remove all its APKs
+            import shutil
+            shutil.rmtree(app_dir_path)
+            print(f"  -> Removed APK directory for app no longer in apps.yaml: {app_dir_name}")
+
+            # Also remove the corresponding metadata file
+            metadata_file = os.path.join(metadata_dir, f"{app_dir_name}.yml")
+            if os.path.exists(metadata_file):
+                os.remove(metadata_file)
+                print(f"  -> Removed metadata file for app no longer in apps.yaml: {app_dir_name}")
+        else:
+            # App is still in apps.yaml, but check for version retention
+            # Keep only the most recent APKs per retention rules
+            apk_files = glob.glob(os.path.join(app_dir_path, "*.apk"))
+
+            # Sort APK files by modification time (newest first)
+            apk_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+
+            # Keep only the most recent APKs based on retention rules
+            max_apks_to_keep = 4  # Maximum APKs per app
+
+            # Remove excess APKs from both app-specific and main repo directories
+            for i, apk_path in enumerate(apk_files):
+                if i >= max_apks_to_keep:
+                    try:
+                        # Remove from app-specific directory
+                        os.remove(apk_path)
+                        print(f"  -> Removed excess APK from app directory: {os.path.basename(apk_path)}")
+
+                        # Also remove from main repo directory if it exists there
+                        main_apk_path = os.path.join(repo_dir, os.path.basename(apk_path))
+                        if os.path.exists(main_apk_path):
+                            os.remove(main_apk_path)
+                            print(f"  -> Removed excess APK from main repo: {os.path.basename(apk_path)}")
+                    except OSError as e:
+                        print(f"  -> Could not remove excess APK {os.path.basename(apk_path)}: {e}")
+
+    # Clean up APKs in the main repo directory that are not referenced in metadata
+    # This ensures we only keep APKs that are actively referenced in the repository
+    all_main_repo_apks = glob.glob(os.path.join(repo_dir, "*.apk"))
+    for apk_path in all_main_repo_apks:
         apk_filename = os.path.basename(apk_path)
 
-        # Check if this APK is for an app that's still in apps.yaml
-        apk_belongs_to_active_app = False
-        app_id_for_apk = None
+        # Skip repository index files and other repository files
+        if any(skip_pattern in apk_filename for skip_pattern in ['index-', '.jar', '.json']):
+            continue
 
-        # Look for the app_id by checking which metadata file contains this APK
+        # Check if this APK is referenced in any metadata file
+        apk_referenced = False
         for app_id in current_app_ids:
             metadata_path = os.path.join(metadata_dir, f"{app_id}.yml")
             if os.path.exists(metadata_path):
                 try:
                     with open(metadata_path, 'r') as f:
+                        import yaml
                         metadata = yaml.safe_load(f)
 
                     builds = metadata.get('Builds', [])
-                    if builds and len(builds) > 0:
-                        apk_output = builds[0].get('output', '')
+                    for build in builds:
+                        apk_output = build.get('output', '')
                         if apk_output == apk_filename:
-                            # This APK matches the current metadata for this app
-                            apk_belongs_to_active_app = True
-                            app_id_for_apk = app_id
+                            apk_referenced = True
                             break
                 except Exception:
                     # If there's any error parsing the metadata file, continue
                     continue
 
-        # If this APK doesn't belong to any active app, it should be deleted
-        if not apk_belongs_to_active_app:
+        # If this APK is not referenced in any active metadata file, remove it
+        if not apk_referenced:
             try:
                 os.remove(apk_path)
-                print(f"  -> Removed APK for inactive app: {apk_filename}")
+                print(f"  -> Removed unreferenced APK from main repo: {apk_filename}")
             except OSError as e:
-                print(f"  -> Could not remove {apk_filename}: {e}")
+                print(f"  -> Could not remove unreferenced APK {apk_filename}: {e}")
         else:
-            # Use conditional to avoid potential error if app_id_for_apk is still None
-            app_identifier = app_id_for_apk if app_id_for_apk else "unknown"
-            print(f"  -> Keeping APK: {apk_filename} (belongs to active app {app_identifier})")
+            print(f"  -> Keeping APK: {apk_filename} (referenced in active metadata)")
 
 # --- Git Operations ---
 def git_commit_and_push(commit_message, files_to_add):
