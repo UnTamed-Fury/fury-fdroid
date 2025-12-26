@@ -474,14 +474,9 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'Builds': all_builds,
             }
 
-            # Add Binaries field pointing to the latest APK in the repo directory
-            # This is required for F-Droid clients to know where to download the APK from
-            if all_builds:
-                latest_build = all_builds[0]  # First build is the latest
-                latest_apk_filename = latest_build.get('output', '')
-                if latest_apk_filename:
-                    # The Binaries field should point to the APK file relative to the repo directory
-                    metadata['Binaries'] = latest_apk_filename
+            # For standard F-Droid repositories, don't use Binaries field
+            # The APK files are hosted locally in the repo directory
+            # F-Droid server will automatically create the proper index referencing local APKs
 
             # Use yaml.dump to safely write the file
             with open(metadata_path, 'w') as f_meta:
