@@ -347,8 +347,13 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                     except yaml.YAMLError:
                         print(f"  -> Error parsing existing metadata for {app_id}, will re-download")
 
-            # Only download APK if it's not already indexed with the same version
-            target_apk_path = os.path.join(repo_dir, apk_filename)
+            # Generate proper F-Droid APK filename: package_versionCode.apk
+            # This ensures F-Droid clients can properly recognize and download the APKs
+            version_code = latest_version_code
+            fdroid_apk_filename = f"{app_id}_{version_code}.apk"
+            target_apk_path = os.path.join(repo_dir, fdroid_apk_filename)
+
+            # Download APK with proper F-Droid naming if it's not already indexed with the same version
             if apk_needs_processing:
                 if not os.path.exists(target_apk_path):
                     download_file(download_url, target_apk_path)
@@ -357,6 +362,9 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                     print(f"  -> APK already exists for processing: {target_apk_path}")
             else:
                 print(f"  -> Skipping download, APK already indexed for {app_id}")
+
+            # Update the output filename in the metadata to use the F-Droid naming convention
+            apk_filename = fdroid_apk_filename
 
             # 6. Generate Metadata File with downgrade capability
             print(f"  -> Creating metadata file at {metadata_path}")
@@ -398,7 +406,7 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                     # Select best APK for this additional version
                     additional_apk_result = select_best_apk(release_info['apk_assets'])
                     if additional_apk_result:
-                        additional_apk_filename, additional_download_url = additional_apk_result
+                        original_apk_filename, additional_download_url = additional_apk_result
 
                         # Calculate version code for this additional version
                         additional_version_code = 1
@@ -412,11 +420,24 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                             except:
                                 additional_version_code = abs(hash(release_info['version'])) % 10000  # Fallback to hash-based version code
 
+                        # Generate proper F-Droid APK filename for this version
+                        additional_fdroid_apk_filename = f"{app_id}_{additional_version_code}.apk"
+                        additional_target_apk_path = os.path.join(repo_dir, additional_fdroid_apk_filename)
+
+                        # Download APK with proper F-Droid naming for this additional version
+                        # Only download if this version isn't already processed
+                        # We'll use a simplified check here - if the target file doesn't exist, download it
+                        if not os.path.exists(additional_target_apk_path):
+                            download_file(additional_download_url, additional_target_apk_path)
+                            print(f"  -> Downloaded additional APK for F-Droid processing: {additional_target_apk_path}")
+                        else:
+                            print(f"  -> Additional APK already exists for processing: {additional_target_apk_path}")
+
                         all_builds.append({
                             'versionName': release_info['version'],
                             'versionCode': additional_version_code,
                             'commit': release_info['version'],
-                            'output': additional_apk_filename,
+                            'output': additional_fdroid_apk_filename,  # Use the F-Droid naming convention
                         })
                         additional_versions_added += 1
 
