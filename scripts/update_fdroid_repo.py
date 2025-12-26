@@ -722,8 +722,20 @@ if __name__ == '__main__':
         if 'GH_TOKEN' in os.environ:
             env['GH_TOKEN'] = os.environ['GH_TOKEN']
 
-        # Run fdroid update from inside the fdroid directory
-        # Use the secure config file that has the actual passwords
+        # First, read the metadata to ensure F-Droid server recognizes all apps
+        print("Reading metadata with fdroid readmeta...")
+        readmeta_result = subprocess.run(['fdroid', 'readmeta', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
+
+        if readmeta_result.returncode != 0:
+            print(f"Error reading metadata: Command failed with return code {readmeta_result.returncode}")
+            print(f"STDOUT: {readmeta_result.stdout}")
+            print(f"STDERR: {readmeta_result.stderr}")
+            # Continue anyway as update might still work
+        else:
+            print("Metadata read successfully by F-Droid server.")
+
+        # Now run fdroid update to generate the repository index
+        print("Updating F-Droid repository index...")
         result = subprocess.run(['fdroid', 'update', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True, timeout=120)  # 2-minute timeout
 
         if result.returncode != 0:
