@@ -55,24 +55,8 @@ jobs:
 
       - name: Create secure config file
         run: |
-          # Create a temporary config file with secrets from environment
-          cat > fdroid/config_secure.yml << EOF
-          repo_url: "https://fury.untamedfury.space/repo"
-          repo_name: "Fury's F-Droid Repo"
-          repo_icon: "icon.png"
-          repo_description: "A repository of apps I use and recommend."
-          archive_older: 3
-          archive_keep_signed: 1
-          serverwebroot: "."
-          make_current_version_link: false
-          keystore: keystore.p12
-          keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
-          repo_keyalias: fdroid_key
-          keystorepass: $KEYSTORE_PASS
-          keypass: $KEY_PASS
-          EOF
-
-          # Use this secure config file in the script instead of the one with placeholders
+          # The script will temporarily replace the placeholders with actual secrets
+          # Use the original config file with placeholders which the script will update
           # Set the environment variables that fdroid server expects
           export FDROID_KEY_STORE_PASS="$KEYSTORE_PASS"
           export FDROID_KEY_PASS="$KEY_PASS"
