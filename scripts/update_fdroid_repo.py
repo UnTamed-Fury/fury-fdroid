@@ -347,8 +347,12 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                     except yaml.YAMLError:
                         print(f"  -> Error parsing existing metadata for {app_id}, will re-download")
 
-            # Only download APK if it's not already indexed with the same version
-            target_apk_path = os.path.join(repo_dir, apk_filename)
+            # Generate proper F-Droid APK filename: package_versionCode.apk
+            version_code = int(latest_version.split('.')[-1]) if latest_version.count('.') > 0 and latest_version.split('.')[-1].isdigit() else 1
+            fdroid_apk_filename = f"{app_id}_{version_code}.apk"
+            target_apk_path = os.path.join(repo_dir, fdroid_apk_filename)
+
+            # Download APK with proper F-Droid naming if it's not already indexed with the same version
             if apk_needs_processing:
                 if not os.path.exists(target_apk_path):
                     download_file(download_url, target_apk_path)
@@ -357,6 +361,9 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                     print(f"  -> APK already exists for processing: {target_apk_path}")
             else:
                 print(f"  -> Skipping download, APK already indexed for {app_id}")
+
+            # Update the output filename in the metadata to use the F-Droid naming convention
+            apk_filename = fdroid_apk_filename
 
             # 6. Generate Metadata File
             print(f"  -> Creating metadata file at {metadata_path}")
@@ -376,9 +383,6 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'IssueTracker': f"{app_url}/issues" if app_url else '',
                 'Changelog': f"{app_url}/releases",
                 'License': 'Unknown',
-
-                # For remote APK references - this tells F-Droid where to get the APK
-                'Binaries': download_url,  # Direct URL to the APK from GitHub Releases
 
                 # Auto-update settings
                 'AutoUpdateMode': 'Version %v',
