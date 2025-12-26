@@ -374,23 +374,27 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             # Fetch additional versions for downgrade capability (up to 3 total versions)
             all_builds = []
 
-            # Add the current latest version
-            latest_version_code = 1
-            if '.' in latest_version:
-                try:
-                    parts = latest_version.replace('-alpha', '.').replace('-beta', '.').replace('-rc', '.').replace('+', '.').split('.')
-                    for part in reversed(parts):
-                        if part.isdigit():
-                            latest_version_code = int(part)
-                            break
-                except:
-                    latest_version_code = abs(hash(latest_version)) % 10000  # Fallback to hash-based version code
+            # Generate proper F-Droid APK filename for the latest version: {app_id}_{version_code}.apk
+            # This ensures consistency with F-Droid server expectations
+            latest_fdroid_apk_filename = f"{app_id}_{latest_version_code}.apk"
 
+            # Download APK with proper F-Droid naming for the latest version
+            latest_target_apk_path = os.path.join(repo_dir, latest_fdroid_apk_filename)
+            if apk_needs_processing:
+                if not os.path.exists(latest_target_apk_path):
+                    download_file(download_url, latest_target_apk_path)
+                    print(f"  -> Downloaded latest APK for F-Droid processing: {latest_target_apk_path}")
+                else:
+                    print(f"  -> Latest APK already exists for processing: {latest_target_apk_path}")
+            else:
+                print(f"  -> Skipping download for latest version, already indexed for {app_id}")
+
+            # Add the current latest version to builds
             all_builds.append({
                 'versionName': latest_version,
                 'versionCode': latest_version_code,
                 'commit': latest_version,
-                'output': apk_filename,
+                'output': latest_fdroid_apk_filename,  # Use the F-Droid compatible filename
             })
 
             # Try to fetch additional recent versions for downgrade capability
