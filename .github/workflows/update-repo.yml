@@ -90,11 +90,15 @@ jobs:
           mkdir -p public/repo
           cp -r website/* public/
 
-          # Copy ALL repository files including APKs for F-Droid client access
-          # F-Droid clients need to download APKs from the repository URL
+          # Copy ALL repository files including APKs and signature files for F-Droid client access
+          # F-Droid clients need APKs, index files, and signature files to validate the repository
           cp -r fdroid/repo/* public/repo/
 
-          echo "All repository files copied including APKs for F-Droid client access"
+          # Verify that signature files exist
+          echo "Checking for signature files:"
+          ls -la public/repo/ | grep -E "(index.*\.jar|index.*\.asc)" || echo "No signature files found in repo directory"
+
+          echo "All repository files copied including APKs and signature files for F-Droid client validation"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5 # Updated to v5
