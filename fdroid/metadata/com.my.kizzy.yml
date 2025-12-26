@@ -6,6 +6,14 @@ Builds:
   output: app-release.apk
   versionCode: 2
   versionName: '6.2'
+- commit: '6.1'
+  output: app-release.apk
+  versionCode: 1
+  versionName: '6.1'
+- commit: '6.0'
+  output: app-release.apk
+  versionCode: 0
+  versionName: '6.0'
 Categories:
 - Misc
 Changelog: https://github.com/dead8309/Kizzy/releases

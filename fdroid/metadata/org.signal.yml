@@ -6,6 +6,14 @@ Builds:
   output: Signal-Android-website-prod-universal-release-7.68.5.apk
   versionCode: 5
   versionName: v7.68.5
+- commit: v7.68.4
+  output: Signal-Android-website-prod-universal-release-7.68.4.apk
+  versionCode: 4
+  versionName: v7.68.4
+- commit: v7.67.1
+  output: Signal-Android-website-prod-universal-release-7.67.1.apk
+  versionCode: 1
+  versionName: v7.67.1
 Categories:
 - Communication
 Changelog: https://github.com/signalapp/Signal-Android/releases

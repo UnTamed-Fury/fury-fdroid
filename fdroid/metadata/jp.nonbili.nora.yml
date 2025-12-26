@@ -6,6 +6,14 @@ Builds:
   output: app-arm64-v8a-release.apk
   versionCode: 13
   versionName: v0.4.13
+- commit: v0.4.12
+  output: app-arm64-v8a-release.apk
+  versionCode: 12
+  versionName: v0.4.12
+- commit: v0.4.11
+  output: app-arm64-v8a-release.apk
+  versionCode: 11
+  versionName: v0.4.11
 Categories:
 - Entertainment
 Changelog: https://github.com/nonbili/Nora/releases

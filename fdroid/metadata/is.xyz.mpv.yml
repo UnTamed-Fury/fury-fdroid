@@ -6,6 +6,14 @@ Builds:
   output: app-default-arm64-v8a-release.apk
   versionCode: 1
   versionName: '2025-08-25'
+- commit: '2025-07-27'
+  output: app-default-arm64-v8a-release.apk
+  versionCode: 1
+  versionName: '2025-07-27'
+- commit: '2025-04-21'
+  output: app-default-arm64-v8a-release.apk
+  versionCode: 1
+  versionName: '2025-04-21'
 Categories:
 - Entertainment
 Changelog: https://github.com/mpv-android/mpv-android/releases
