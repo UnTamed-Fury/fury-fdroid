@@ -1,6 +1,5 @@
 AuthorName: FlutterGenerator
 AutoUpdateMode: Version %v
-Binaries: https://github.com/FlutterGenerator/termux-monet/releases/download/4.0.1/termux-app_4.0.1%2Bapt-android-7-github-debug_arm64-v8a.apk
 Builds:
 - commit: 4.0.1
   output: termux-app_4.0.1+apt-android-7-github-debug_arm64-v8a.apk

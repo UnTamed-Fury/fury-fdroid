@@ -1,11 +1,18 @@
 AuthorName: ZalithLauncher
 AutoUpdateMode: Version %v
-Binaries: https://github.com/ZalithLauncher/ZalithLauncher/releases/download/141200/ZalithLauncher-1.4.1.2-arm64-v8a.apk
 Builds:
 - commit: '141200'
   output: ZalithLauncher-1.4.1.2-arm64-v8a.apk
   versionCode: 1
   versionName: '141200'
+- commit: '141100'
+  output: ZalithLauncher-1.4.1.1-arm64-v8a.apk
+  versionCode: 1
+  versionName: '141100'
+- commit: '141000'
+  output: ZalithLauncher-1.4.1.0-arm64-v8a.apk
+  versionCode: 1
+  versionName: '141000'
 Categories:
 - Gaming
 Changelog: https://github.com/ZalithLauncher/ZalithLauncher/releases

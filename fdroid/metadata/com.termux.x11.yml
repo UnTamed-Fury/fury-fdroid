@@ -1,6 +1,5 @@
 AuthorName: termux
 AutoUpdateMode: Version %v
-Binaries: https://github.com/termux/termux-x11/releases/download/nightly/app-arm64-v8a-debug.apk
 Builds:
 - commit: nightly
   output: app-arm64-v8a-debug.apk

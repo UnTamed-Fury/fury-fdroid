@@ -1,11 +1,18 @@
 AuthorName: ImranR98
 AutoUpdateMode: Version %v
-Binaries: https://github.com/ImranR98/Obtainium/releases/download/v1.2.9/app-arm64-v8a-fdroid-release.apk
 Builds:
 - commit: v1.2.9
   output: app-arm64-v8a-fdroid-release.apk
   versionCode: 9
   versionName: v1.2.9
+- commit: v1.2.8
+  output: app-arm64-v8a-fdroid-release.apk
+  versionCode: 8
+  versionName: v1.2.8
+- commit: v1.2.7
+  output: app-arm64-v8a-fdroid-release.apk
+  versionCode: 7
+  versionName: v1.2.7
 Categories:
 - System
 Changelog: https://github.com/ImranR98/Obtainium/releases

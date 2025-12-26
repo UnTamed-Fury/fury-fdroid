@@ -1,11 +1,18 @@
 AuthorName: e18lab
 AutoUpdateMode: Version %v
-Binaries: https://github.com/e18lab/NHAppAndroid/releases/download/1.2.0/NHApp-Android-Setup-1.2.0.apk
 Builds:
 - commit: 1.2.0
   output: NHApp-Android-Setup-1.2.0.apk
   versionCode: 0
   versionName: 1.2.0
+- commit: 1.1.3
+  output: NHApp-Android-Setup-1.1.3.apk
+  versionCode: 3
+  versionName: 1.1.3
+- commit: 1.1.2
+  output: NHApp-Android-Setup-1.1.2.apk
+  versionCode: 2
+  versionName: 1.1.2
 Categories:
 - Entertainment
 Changelog: https://github.com/e18lab/NHAppAndroid/releases

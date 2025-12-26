@@ -1,11 +1,18 @@
 AuthorName: RyanYuuki
 AutoUpdateMode: Version %v
-Binaries: https://github.com/RyanYuuki/AnymeX/releases/download/v3.0.3/AnymeX-Android-arm64-v8a.apk
 Builds:
 - commit: v3.0.3
   output: AnymeX-Android-arm64-v8a.apk
   versionCode: 3
   versionName: v3.0.3
+- commit: v3.0.2-hotfix
+  output: AnymeX-Android-arm64-v8a.apk
+  versionCode: 0
+  versionName: v3.0.2-hotfix
+- commit: v3.0.2
+  output: AnymeX-Android-arm64-v8a.apk
+  versionCode: 2
+  versionName: v3.0.2
 Categories:
 - Entertainment
 Changelog: https://github.com/RyanYuuki/AnymeX/releases

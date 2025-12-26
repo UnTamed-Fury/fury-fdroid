@@ -1,11 +1,18 @@
 AuthorName: Zenda-Cross
 AutoUpdateMode: Version %v
-Binaries: https://github.com/vega-org/vega-app/releases/download/v3.2.6/Vega-arm64-v8a-v3.2.6.apk
 Builds:
 - commit: v3.2.6
   output: Vega-arm64-v8a-v3.2.6.apk
   versionCode: 6
   versionName: v3.2.6
+- commit: v3.2.5
+  output: Vega-arm64-v8a-v3.2.5.apk
+  versionCode: 5
+  versionName: v3.2.5
+- commit: v3.2.4
+  output: Vega-arm64-v8a-v3.2.4.apk
+  versionCode: 4
+  versionName: v3.2.4
 Categories:
 - Entertainment
 Changelog: https://github.com/Zenda-Cross/vega-app/releases

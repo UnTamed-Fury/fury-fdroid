@@ -1,11 +1,18 @@
 AuthorName: element-hq
 AutoUpdateMode: Version %v
-Binaries: https://github.com/element-hq/element-x-android/releases/download/v25.12.0/app-fdroid-arm64-v8a-release-signed.apk
 Builds:
 - commit: v25.12.0
   output: app-fdroid-arm64-v8a-release-signed.apk
   versionCode: 0
   versionName: v25.12.0
+- commit: v25.11.3
+  output: app-fdroid-arm64-v8a-release-signed.apk
+  versionCode: 3
+  versionName: v25.11.3
+- commit: v25.11.2
+  output: app-fdroid-arm64-v8a-release-signed.apk
+  versionCode: 2
+  versionName: v25.11.2
 Categories:
 - Communication
 Changelog: https://github.com/element-hq/element-x-android/releases
