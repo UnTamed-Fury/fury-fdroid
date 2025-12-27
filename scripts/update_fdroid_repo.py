@@ -8,6 +8,7 @@ import subprocess
 import sys
 import traceback
 import argparse
+from androguard.core.bytecodes.apk import APK
 
 # --- Config ---
 APKS_DIR = "apks"
@@ -44,15 +45,11 @@ def get_releases(repo_url, token, prefer_prerelease):
 
     valid_releases = []
     for rel in data:
-        # Filter assets
         apk_assets = [a for a in rel['assets'] if a['name'].endswith('.apk')]
         if not apk_assets:
             continue
             
         is_pre = rel.get('prerelease', False)
-        
-        # If we prefer prerelease, take everything. 
-        # If we don't, skip prereleases.
         if not prefer_prerelease and is_pre:
             continue
             
@@ -67,23 +64,17 @@ def get_releases(repo_url, token, prefer_prerelease):
     return valid_releases
 
 def select_best_apk(assets):
-    # Sort by arch preference
     priority = ['arm64-v8a', 'universal', 'armeabi-v7a', 'x86_64', 'x86']
-    
     for arch in priority:
         for asset in assets:
             if arch in asset['name'].lower():
                 return asset
-    
-    return assets[0] # Fallback to first
+    return assets[0]
 
 def clean_versions(app_dir):
-    """Enforce retention rule: Keep MAX_VERSIONS latest APKs."""
     apks = sorted(glob.glob(os.path.join(app_dir, "*.apk")), key=os.path.getmtime, reverse=True)
-    
     keep = apks[:MAX_VERSIONS]
     remove = apks[MAX_VERSIONS:]
-    
     for f in remove:
         try:
             os.remove(f)
@@ -91,8 +82,6 @@ def clean_versions(app_dir):
         except Exception as e:
             print(f"    ⚠ Failed to delete {f}: {e}")
             
-    return [os.path.basename(k) for k in keep]
-
 def task_download():
     print("--- 📥 Starting Download Phase ---")
     token = os.environ.get('GH_TOKEN')
@@ -109,11 +98,9 @@ def task_download():
         repo_url = app.get('url') or app.get('source', {}).get('url')
         print(f"\n📦 Processing {name} ({app_id})...")
         
-        # Setup dirs
         app_dir = os.path.join(APKS_DIR, app_id)
         os.makedirs(app_dir, exist_ok=True)
         
-        # Fetch Releases
         prefer_pre = app.get('fdroid', {}).get('prefer_prerelease', False)
         releases = get_releases(repo_url, token, prefer_pre)
         
@@ -123,22 +110,58 @@ def task_download():
         for rel in target_releases:
             asset = select_best_apk(rel['assets'])
             version = rel['tag']
-            sanitized_version = version.replace('/', '_')
-            filename = f"{app_id}_{sanitized_version}.apk"
-            filepath = os.path.join(app_dir, filename)
             
-            if not os.path.exists(filepath):
-                download_file(asset['browser_download_url'], filepath)
-            else:
-                print(f"    ✓ Exists: {filename}")
+            # Temporary filename for download
+            temp_filename = f"{app_id}_{version.replace('/', '_')}_temp.apk"
+            temp_filepath = os.path.join(app_dir, temp_filename)
+            
+            # 1. Download (if matching final file doesn't exist yet)
+            # We don't know the final filename (with versionCode) yet, so we might redownload.
+            # Optimization: Check if ANY file in dir matches expected checksum? Too slow.
+            # Just download to temp and inspect.
+            
+            if not os.path.exists(temp_filepath):
+                # Check if we already have a processed APK for this version?
+                # Hard to know without metadata.
+                # Let's download to temp.
+                download_file(asset['browser_download_url'], temp_filepath)
+            
+            # 2. Inspect with Androguard
+            try:
+                apk = APK(temp_filepath)
+                version_code = int(apk.get_androidversion_code())
+                package_name = apk.get_package()
                 
-            builds_metadata.append({
-                'versionName': version,
-                'versionCode': 1, 
-                'commit': version,
-                'output': filename,
-                'disable': False
-            })
+                # Verify package name matches (Optional but good safety)
+                if package_name != app_id:
+                    print(f"    ⚠ Warning: APK package {package_name} != config ID {app_id}")
+                
+                # 3. Rename to standard F-Droid format
+                final_filename = f"{app_id}_{version_code}.apk"
+                final_filepath = os.path.join(app_dir, final_filename)
+                
+                if not os.path.exists(final_filepath):
+                    os.rename(temp_filepath, final_filepath)
+                    print(f"    ✓ Processed: {final_filename}")
+                else:
+                    print(f"    ✓ Already exists: {final_filename}")
+                    if os.path.exists(temp_filepath):
+                        os.remove(temp_filepath) # Cleanup temp
+                
+                # 4. Add to Metadata
+                builds_metadata.append({
+                    'versionName': version,
+                    'versionCode': version_code,
+                    'commit': version,
+                    'output': final_filename,
+                    'disable': False
+                })
+                
+            except Exception as e:
+                print(f"    ✗ Failed to parse APK {temp_filename}: {e}")
+                if os.path.exists(temp_filepath):
+                    os.remove(temp_filepath)
+                continue
 
         clean_versions(app_dir)
         
@@ -163,7 +186,6 @@ def task_download():
 def task_index():
     print("\n--- 🏗️ Starting Index Phase ---")
     
-    # 1. Populate Repo Directory (Symlink/Copy)
     print("Populating F-Droid Repo Directory...")
     if os.path.exists(REPO_DIR):
         shutil.rmtree(REPO_DIR)
@@ -179,7 +201,6 @@ def task_index():
                 count += 1
     print(f"Copied {count} APKs to {REPO_DIR}")
 
-    # 2. F-Droid Update
     print("Running F-Droid Update...")
     try:
         subprocess.run(['fdroid', 'update', '--create-metadata', '--pretty', '--verbose'], cwd='fdroid', check=True)
@@ -194,7 +215,6 @@ def main():
     args = parser.parse_args()
 
     if not args.download and not args.index:
-        # Default run both
         args.download = True
         args.index = True
 
