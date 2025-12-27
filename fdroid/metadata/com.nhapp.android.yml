@@ -2,15 +2,15 @@ AuthorName: e18lab
 AutoUpdateMode: Version %v
 Builds:
 - commit: 1.2.0
-  output: NHApp-Android-Setup-1.2.0.apk
+  output: com.nhapp.android_0.apk
   versionCode: 0
   versionName: 1.2.0
 - commit: 1.1.3
-  output: NHApp-Android-Setup-1.1.3.apk
+  output: com.nhapp.android_3.apk
   versionCode: 3
   versionName: 1.1.3
 - commit: 1.1.2
-  output: NHApp-Android-Setup-1.1.2.apk
+  output: com.nhapp.android_2.apk
   versionCode: 2
   versionName: 1.1.2
 Categories:

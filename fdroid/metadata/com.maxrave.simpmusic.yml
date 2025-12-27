@@ -2,15 +2,15 @@ AuthorName: maxrave-dev
 AutoUpdateMode: Version %v
 Builds:
 - commit: v1.0.1-hf
-  output: SimpMusic-foss-arm64-v8a-release.apk
+  output: com.maxrave.simpmusic_0.apk
   versionCode: 0
   versionName: v1.0.1-hf
 - commit: v1.0.1
-  output: SimpMusic-full-arm64-v8a-release.apk
+  output: com.maxrave.simpmusic_1.apk
   versionCode: 1
   versionName: v1.0.1
 - commit: v1.0.0
-  output: SimpMusic-foss-arm64-v8a-release.apk
+  output: com.maxrave.simpmusic_0.apk
   versionCode: 0
   versionName: v1.0.0
 Categories:

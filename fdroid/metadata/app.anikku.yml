@@ -2,15 +2,15 @@ AuthorName: komikku-app
 AutoUpdateMode: Version %v
 Builds:
 - commit: v0.1.4
-  output: Anikku-arm64-v8a-v0.1.4.apk
+  output: app.anikku_4.apk
   versionCode: 4
   versionName: v0.1.4
 - commit: v0.1.3
-  output: Anikku-arm64-v8a-v0.1.3.apk
+  output: app.anikku_3.apk
   versionCode: 3
   versionName: v0.1.3
 - commit: v0.1.2
-  output: Anikku-arm64-v8a-v0.1.2.apk
+  output: app.anikku_2.apk
   versionCode: 2
   versionName: v0.1.2
 Categories:

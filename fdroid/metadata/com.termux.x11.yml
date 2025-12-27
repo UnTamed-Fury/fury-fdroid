@@ -2,7 +2,7 @@ AuthorName: termux
 AutoUpdateMode: Version %v
 Builds:
 - commit: nightly
-  output: app-arm64-v8a-debug.apk
+  output: com.termux.x11_1.apk
   versionCode: 1
   versionName: nightly
 Categories:

@@ -2,15 +2,15 @@ AuthorName: NeoTerrm
 AutoUpdateMode: Version %v
 Builds:
 - commit: v2.0.5
-  output: NeoTerm-2.0.5.apk
+  output: io.neoterm_5.apk
   versionCode: 5
   versionName: v2.0.5
 - commit: v2.0.4
-  output: app.apk
+  output: io.neoterm_4.apk
   versionCode: 4
   versionName: v2.0.4
 - commit: v2.0.3
-  output: app-v2.0.3.apk
+  output: io.neoterm_3.apk
   versionCode: 3
   versionName: v2.0.3
 Categories:

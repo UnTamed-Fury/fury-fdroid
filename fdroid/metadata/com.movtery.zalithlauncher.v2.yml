@@ -2,15 +2,15 @@ AuthorName: ZalithLauncher
 AutoUpdateMode: Version %v
 Builds:
 - commit: 2.0.0_pre-release_2
-  output: ZalithLauncher-2.0.0_pre-release_2-arm64-v8a.apk
+  output: com.movtery.zalithlauncher.v2_0.apk
   versionCode: 0
   versionName: 2.0.0_pre-release_2
 - commit: 2.0.0_pre-release_1
-  output: ZalithLauncher-2.0.0_pre-release_1-arm64-v8a.apk
+  output: com.movtery.zalithlauncher.v2_0.apk
   versionCode: 0
   versionName: 2.0.0_pre-release_1
 - commit: 2.0.0_beta-20251222a
-  output: ZalithLauncher-2.0.0_beta-20251222a-arm64-v8a.apk
+  output: com.movtery.zalithlauncher.v2_0.apk
   versionCode: 0
   versionName: 2.0.0_beta-20251222a
 Categories:

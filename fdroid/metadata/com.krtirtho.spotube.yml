@@ -2,15 +2,15 @@ AuthorName: KRTirtho
 AutoUpdateMode: Version %v
 Builds:
 - commit: v5.1.0
-  output: Spotube-android-all-arch.apk
+  output: com.krtirtho.spotube_0.apk
   versionCode: 0
   versionName: v5.1.0
 - commit: v5.0.0
-  output: Spotube-android-all-arch.apk
+  output: com.krtirtho.spotube_0.apk
   versionCode: 0
   versionName: v5.0.0
 - commit: v4.0.2
-  output: Spotube-android-all-arch.apk
+  output: com.krtirtho.spotube_2.apk
   versionCode: 2
   versionName: v4.0.2
 Categories:
