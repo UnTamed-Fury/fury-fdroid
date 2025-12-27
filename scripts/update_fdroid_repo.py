@@ -367,14 +367,8 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             target_apk_path = os.path.join(repo_dir, fdroid_apk_filename)
 
             # Download APK with proper F-Droid naming if it's not already indexed with the same version
-            if apk_needs_processing:
-                if not os.path.exists(target_apk_path):
-                    download_file(download_url, target_apk_path)
-                    print(f"  -> Downloaded APK for F-Droid processing: {target_apk_path}")
-                else:
-                    print(f"  -> APK already exists for processing: {target_apk_path}")
-            else:
-                print(f"  -> Skipping download, APK already indexed for {app_id}")
+            # (Redundant download removed - we download to app-specific dir first then copy)
+            pass
 
             # Update the output filename in the metadata to use the F-Droid naming convention
             apk_filename = fdroid_apk_filename
@@ -397,23 +391,26 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
             # Download APK to the app-specific directory for organized storage
             app_specific_apk_path = os.path.join(app_apk_dir, latest_fdroid_apk_filename)
-            if apk_needs_processing:
+            # Ensure APK exists locally even if metadata is up to date (stateless build)
+            if apk_needs_processing or not os.path.exists(app_specific_apk_path):
                 if not os.path.exists(app_specific_apk_path):
                     download_file(download_url, app_specific_apk_path)
                     print(f"  -> Downloaded APK to app-specific directory: {app_specific_apk_path}")
                 else:
                     print(f"  -> APK already exists in app-specific directory: {app_specific_apk_path}")
             else:
-                print(f"  -> Skipping download for latest version, already indexed for {app_id}")
+                print(f"  -> Skipping download for latest version, already indexed and exists for {app_id}")
 
             # For F-Droid server compatibility, also place APK in the main repo directory
             # F-Droid server tools expect APKs to be in the repo/ directory directly
             main_repo_apk_path = os.path.join(repo_dir, latest_fdroid_apk_filename)
-            if apk_needs_processing or not os.path.exists(main_repo_apk_path):
+            if (apk_needs_processing or not os.path.exists(main_repo_apk_path)) and os.path.exists(app_specific_apk_path):
                 # Create a copy in the main repo directory for F-Droid server tools
                 import shutil
                 shutil.copy2(app_specific_apk_path, main_repo_apk_path)
                 print(f"  -> Created copy for F-Droid server: {main_repo_apk_path}")
+            elif not os.path.exists(app_specific_apk_path):
+                print(f"  -> Error: Source APK missing, cannot copy to repo: {app_specific_apk_path}")
             else:
                 print(f"  -> F-Droid server APK already exists: {main_repo_apk_path}")
 
@@ -469,11 +466,13 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
                         # For F-Droid server compatibility, also place APK in the main repo directory
                         additional_main_repo_apk_path = os.path.join(repo_dir, additional_fdroid_apk_filename)
-                        if not os.path.exists(additional_main_repo_apk_path):
+                        if not os.path.exists(additional_main_repo_apk_path) and os.path.exists(additional_app_specific_apk_path):
                             # Create a copy in the main repo directory for F-Droid server tools
                             import shutil
                             shutil.copy2(additional_app_specific_apk_path, additional_main_repo_apk_path)
                             print(f"  -> Created copy for F-Droid server: {additional_main_repo_apk_path}")
+                        elif not os.path.exists(additional_app_specific_apk_path):
+                             print(f"  -> Warning: Source additional APK missing, cannot copy: {additional_app_specific_apk_path}")
                         else:
                             print(f"  -> F-Droid server APK already exists: {additional_main_repo_apk_path}")
 
