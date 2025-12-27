@@ -1,18 +1,18 @@
 AuthorName: stardomains3
 AutoUpdateMode: Version %v
 Builds:
+- commit: v2.1.26
+  output: io.github.stardomains3.oxproxion_26.apk
+  versionCode: 26
+  versionName: v2.1.26
 - commit: v2.1.25
-  output: app-release.apk
+  output: io.github.stardomains3.oxproxion_25.apk
   versionCode: 25
   versionName: v2.1.25
 - commit: v2.1.24
-  output: app-release.apk
+  output: io.github.stardomains3.oxproxion_24.apk
   versionCode: 24
   versionName: v2.1.24
-- commit: v2.1.23
-  output: app-release.apk
-  versionCode: 23
-  versionName: v2.1.23
 Categories:
 - Communication
 Changelog: https://github.com/stardomains3/oxproxion/releases
