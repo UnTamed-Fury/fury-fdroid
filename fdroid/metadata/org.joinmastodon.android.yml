@@ -5,14 +5,6 @@ Builds:
   output: org.joinmastodon.android_9.apk
   versionCode: 9
   versionName: v2.11.9
-- commit: v2.11.8
-  output: org.joinmastodon.android_8.apk
-  versionCode: 8
-  versionName: v2.11.8
-- commit: v2.11.7
-  output: org.joinmastodon.android_7.apk
-  versionCode: 7
-  versionName: v2.11.7
 Categories:
 - Communication
 Changelog: https://github.com/mastodon/mastodon-android/releases

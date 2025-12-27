@@ -5,14 +5,6 @@ Builds:
   output: com.github.newhinton.roundsync_6.apk
   versionCode: 6
   versionName: v2.5.6
-- commit: v2.5.5
-  output: com.github.newhinton.roundsync_5.apk
-  versionCode: 5
-  versionName: v2.5.5
-- commit: v2.5.4
-  output: com.github.newhinton.roundsync_4.apk
-  versionCode: 4
-  versionName: v2.5.4
 Categories:
 - System
 Changelog: https://github.com/newhinton/Round-Sync/releases

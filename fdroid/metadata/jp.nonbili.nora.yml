@@ -5,14 +5,6 @@ Builds:
   output: jp.nonbili.nora_13.apk
   versionCode: 13
   versionName: v0.4.13
-- commit: v0.4.12
-  output: jp.nonbili.nora_12.apk
-  versionCode: 12
-  versionName: v0.4.12
-- commit: v0.4.11
-  output: jp.nonbili.nora_11.apk
-  versionCode: 11
-  versionName: v0.4.11
 Categories:
 - Entertainment
 Changelog: https://github.com/nonbili/Nora/releases

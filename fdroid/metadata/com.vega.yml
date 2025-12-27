@@ -5,14 +5,6 @@ Builds:
   output: com.vega_6.apk
   versionCode: 6
   versionName: v3.2.6
-- commit: v3.2.5
-  output: com.vega_5.apk
-  versionCode: 5
-  versionName: v3.2.5
-- commit: v3.2.4
-  output: com.vega_4.apk
-  versionCode: 4
-  versionName: v3.2.4
 Categories:
 - Entertainment
 Changelog: https://github.com/Zenda-Cross/vega-app/releases

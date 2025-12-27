@@ -5,14 +5,6 @@ Builds:
   output: com.movtery.zalithlauncher_1.apk
   versionCode: 1
   versionName: '141200'
-- commit: '141100'
-  output: com.movtery.zalithlauncher_1.apk
-  versionCode: 1
-  versionName: '141100'
-- commit: '141000'
-  output: com.movtery.zalithlauncher_1.apk
-  versionCode: 1
-  versionName: '141000'
 Categories:
 - Gaming
 Changelog: https://github.com/ZalithLauncher/ZalithLauncher/releases

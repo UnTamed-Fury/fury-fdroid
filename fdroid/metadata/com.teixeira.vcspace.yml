@@ -5,10 +5,6 @@ Builds:
   output: com.teixeira.vcspace_1.apk
   versionCode: 1
   versionName: v2.0.1
-- commit: v2.0.0
-  output: com.teixeira.vcspace_0.apk
-  versionCode: 0
-  versionName: v2.0.0
 Categories:
 - Development
 Changelog: https://github.com/Visual-Code-Space/Visual-Code-Space/releases

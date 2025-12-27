@@ -5,14 +5,6 @@ Builds:
   output: eu.kanade.tachiyomi.yokai_10.apk
   versionCode: 10
   versionName: v1.10.0-b4
-- commit: v1.10.0-b3
-  output: eu.kanade.tachiyomi.yokai_10.apk
-  versionCode: 10
-  versionName: v1.10.0-b3
-- commit: v1.10.0-b2
-  output: eu.kanade.tachiyomi.yokai_10.apk
-  versionCode: 10
-  versionName: v1.10.0-b2
 Categories:
 - Entertainment
 Changelog: https://github.com/null2264/yokai/releases

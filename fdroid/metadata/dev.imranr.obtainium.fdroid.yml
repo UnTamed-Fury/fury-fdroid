@@ -5,14 +5,6 @@ Builds:
   output: dev.imranr.obtainium.fdroid_9.apk
   versionCode: 9
   versionName: v1.2.9
-- commit: v1.2.8
-  output: dev.imranr.obtainium.fdroid_8.apk
-  versionCode: 8
-  versionName: v1.2.8
-- commit: v1.2.7
-  output: dev.imranr.obtainium.fdroid_7.apk
-  versionCode: 7
-  versionName: v1.2.7
 Categories:
 - System
 Changelog: https://github.com/ImranR98/Obtainium/releases

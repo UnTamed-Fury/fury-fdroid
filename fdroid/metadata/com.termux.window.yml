@@ -5,10 +5,6 @@ Builds:
   output: com.termux.window_0.apk
   versionCode: 0
   versionName: v0.17.0
-- commit: v0.15.0
-  output: com.termux.window_0.apk
-  versionCode: 0
-  versionName: v0.15.0
 Categories:
 - Development
 Changelog: https://github.com/termux/termux-float/releases

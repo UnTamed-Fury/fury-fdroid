@@ -5,14 +5,6 @@ Builds:
   output: kodjodevf.mangayomi_90.apk
   versionCode: 90
   versionName: v0.6.90
-- commit: v0.6.85
-  output: kodjodevf.mangayomi_85.apk
-  versionCode: 85
-  versionName: v0.6.85
-- commit: v0.6.80
-  output: kodjodevf.mangayomi_80.apk
-  versionCode: 80
-  versionName: v0.6.80
 Categories:
 - Entertainment
 Changelog: https://github.com/kodjodevf/mangayomi/releases

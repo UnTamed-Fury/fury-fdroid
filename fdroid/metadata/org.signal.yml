@@ -5,14 +5,6 @@ Builds:
   output: org.signal_5.apk
   versionCode: 5
   versionName: v7.68.5
-- commit: v7.68.4
-  output: org.signal_4.apk
-  versionCode: 4
-  versionName: v7.68.4
-- commit: v7.67.1
-  output: org.signal_1.apk
-  versionCode: 1
-  versionName: v7.67.1
 Categories:
 - Communication
 Changelog: https://github.com/signalapp/Signal-Android/releases

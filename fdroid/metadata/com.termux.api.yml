@@ -5,14 +5,6 @@ Builds:
   output: com.termux.api_0.apk
   versionCode: 0
   versionName: v0.53.0
-- commit: v0.52.0
-  output: com.termux.api_0.apk
-  versionCode: 0
-  versionName: v0.52.0
-- commit: v0.51.0
-  output: com.termux.api_0.apk
-  versionCode: 0
-  versionName: v0.51.0
 Categories:
 - Development
 Changelog: https://github.com/termux/termux-api/releases
