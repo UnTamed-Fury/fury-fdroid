@@ -9,17 +9,15 @@ on:
 
 jobs:
   download:
-    name: Phase 3 - Download & Commit
+    name: Phase 3 - Download
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     permissions:
-      contents: write
+      contents: read # No longer writing to repo
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout pip cache
         uses: actions/checkout@v4
@@ -43,29 +41,31 @@ jobs:
             pip install requests pyyaml androguard
           fi
 
+      - name: Restore APK Cache
+        uses: actions/cache@v4
+        with:
+          path: apks/
+          key: apks-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            apks-${{ runner.os }}-
+
       - name: Run Download Script
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/update_fdroid_repo.py --download
 
-      - name: Commit & Push APKs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          
-          # Force add APKs (in case .gitignore issues persist, though fixed)
-          git add apks/
-          git add fdroid/metadata/
-          
-          # Only commit if changes exist
-          if ! git diff --cached --quiet; then
-            git commit -m "Automated: Update APKs and Metadata [skip ci]"
-            git push
-          else
-            echo "No changes to APKs."
-          fi
+      # Save cache happens automatically at end of job if key matches?
+      # Actually cache action saves if key doesn't exist. Since run_id is unique, it will always save.
+      # This effectively updates the cache for the next run (which uses restore-keys).
+
+      - name: Upload APKs & Metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-data
+          path: |
+            apks/
+            fdroid/metadata/
+          retention-days: 1
 
   index:
     name: Phase 4 - Index
@@ -77,8 +77,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: main # Checkout latest main to get the APKs committed in previous job
 
       - name: Checkout pip cache
         uses: actions/checkout@v4
@@ -100,6 +98,11 @@ jobs:
           else
             pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
           fi
+
+      - name: Download APKs & Metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: raw-data
 
       - name: Inject Secure Config
         env:
