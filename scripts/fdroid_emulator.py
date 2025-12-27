@@ -69,30 +69,61 @@ def check_live_repo():
     session = requests.Session()
     session.headers.update({'User-Agent': 'Fury-Emulator/3.0'})
 
-    # 1. Index Access & Validation
-    index_url = f"{REPO_URL}/index-v1.json"
-    index_data = None
+    # 1. Index Access & Validation (v1 & v2)
+    indexes = ['index-v1.json', 'index-v2.json']
+    signatures = ['index.jar', 'index-v1.jar']
     
-    try:
-        print(f"  ⬇ Fetching {index_url}...")
-        r = session.get(index_url, timeout=30)
-        if r.status_code == 200:
-            print(f"  ✓ Index accessible ({len(r.content)} bytes)")
-            try:
-                index_data = r.json()
-                repo_name = index_data.get('repo', {}).get('name', 'Unknown')
-                apps_count = len(index_data.get('apps', []))
-                print(f"  ✓ Valid JSON: Repository '{repo_name}'")
-                print(f"  ✓ Found {apps_count} apps in index")
-            except json.JSONDecodeError:
-                print("  ✗ Index contains invalid JSON")
-        else:
-            print(f"  ✗ Index inaccessible (Status: {r.status_code})")
-    except Exception as e:
-        print(f"  ✗ Connection failed: {e}")
+    valid_apps_found = False
+    
+    for idx in indexes:
+        url = f"{REPO_URL}/{idx}"
+        try:
+            print(f"  ⬇ Fetching {idx}...")
+            r = session.get(url, timeout=30)
+            if r.status_code == 200:
+                print(f"  ✓ {idx} accessible ({len(r.content)} bytes)")
+                try:
+                    data = r.json()
+                    
+                    # v1 vs v2 structure
+                    if 'apps' in data: # v1
+                        count = len(data['apps'])
+                        print(f"  ✓ Valid v1 JSON. Found {count} apps.")
+                        if count > 0: valid_apps_found = True
+                        
+                        # Store for APK testing if it's the first valid one we found
+                        if idx == 'index-v1.json':
+                            index_data = data
+                            
+                    elif 'packages' in data: # v2 usually has packages
+                        count = len(data['packages'])
+                        print(f"  ✓ Valid v2 JSON. Found {count} packages.")
+                        if count > 0: valid_apps_found = True
+                    else:
+                        print("  ⚠ JSON valid but unknown structure (no 'apps' or 'packages')")
+                        
+                except json.JSONDecodeError:
+                    print(f"  ✗ {idx} contains invalid JSON")
+            else:
+                print(f"  ✗ {idx} inaccessible (Status: {r.status_code})")
+        except Exception as e:
+            print(f"  ✗ Connection failed for {idx}: {e}")
 
-    # 2. APK Availability Test
-    if index_data and index_data.get('apps'):
+    # 2. Signature Check
+    print("\n  🔒 Checking Signatures:")
+    for sig in signatures:
+        url = f"{REPO_URL}/{sig}"
+        try:
+            r = session.head(url, timeout=10)
+            if r.status_code == 200:
+                print(f"  ✓ {sig} found")
+            else:
+                print(f"  ✗ {sig} missing ({r.status_code})")
+        except:
+            print(f"  ⚠ Error checking {sig}")
+
+    # 3. APK Availability Test (using index-v1 data if available)
+    if 'index_data' in locals() and index_data and index_data.get('apps'):
         print("\n  🔍 Testing Random APK Availability:")
         apps = index_data['apps']
         sample_apps = random.sample(apps, min(3, len(apps)))
@@ -119,19 +150,8 @@ def check_live_repo():
                         print(f"      ⚠ Error checking APK: {e}")
             else:
                 print("      ⚠ No packages listed for app")
-
-    # 3. Signature & Legacy
-    print("\n  🔒 Checking Signatures:")
-    for f in ['index.jar', 'index-v1.jar']:
-        url = f"{REPO_URL}/{f}"
-        try:
-            r = session.head(url, timeout=10)
-            if r.status_code == 200:
-                print(f"  ✓ {f} found")
-            else:
-                print(f"  ✗ {f} missing ({r.status_code})")
-        except:
-            print(f"  ⚠ Error checking {f}")
+    else:
+        print("\n  ⚠ Skipping APK checks (No valid index data found)")
 
     print("")
 
