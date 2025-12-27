@@ -349,7 +349,20 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
             # Generate proper F-Droid APK filename: package_versionCode.apk
             # This ensures F-Droid clients can properly recognize and download the APKs
-            version_code = latest_version_code
+            # Calculate version code from the latest_version string
+            version_code = 1
+            if '.' in latest_version:
+                # Try to extract version code from version string
+                try:
+                    # Get the last numeric part of the version
+                    parts = latest_version.replace('-alpha', '.').replace('-beta', '.').replace('-rc', '.').replace('+', '.').split('.')
+                    for part in reversed(parts):
+                        if part.isdigit():
+                            version_code = int(part)
+                            break
+                except:
+                    version_code = abs(hash(latest_version)) % 10000  # Fallback to hash-based version code
+
             fdroid_apk_filename = f"{app_id}_{version_code}.apk"
             target_apk_path = os.path.join(repo_dir, fdroid_apk_filename)
 
@@ -380,7 +393,7 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
 
             # Generate proper F-Droid APK filename: {app_id}_{version_code}.apk
             # This ensures F-Droid clients can properly recognize and download the APKs
-            latest_fdroid_apk_filename = f"{app_id}_{latest_version_code}.apk"
+            latest_fdroid_apk_filename = f"{app_id}_{version_code}.apk"
 
             # Download APK to the app-specific directory for organized storage
             app_specific_apk_path = os.path.join(app_apk_dir, latest_fdroid_apk_filename)
@@ -407,7 +420,7 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
             # Add the current latest version to builds
             all_builds.append({
                 'versionName': latest_version,
-                'versionCode': latest_version_code,
+                'versionCode': version_code,  # Use the calculated version code
                 'commit': latest_version,
                 'output': latest_fdroid_apk_filename,  # Use the F-Droid compatible filename
             })
