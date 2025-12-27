@@ -38,9 +38,9 @@ jobs:
         run: |
           pip install --upgrade pip
           if [ -d "pip-cache/wheels" ]; then
-            pip install --find-links pip-cache/wheels --no-index requests pyyaml || pip install requests pyyaml
+            pip install --find-links pip-cache/wheels --no-index requests pyyaml androguard || pip install requests pyyaml androguard
           else
-            pip install requests pyyaml
+            pip install requests pyyaml androguard
           fi
 
       - name: Run Download Script
