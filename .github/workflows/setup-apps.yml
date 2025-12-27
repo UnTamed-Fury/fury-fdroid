@@ -1,0 +1,66 @@
+name: Phase 2 - Setup Apps
+
+on:
+  push:
+    paths:
+      - 'apps.yaml'
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout pip cache
+        uses: actions/checkout@v4
+        with:
+          repository: UnTamedFury/pip-fdroid-fury
+          path: pip-cache
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: pip-cache/requirements.txt
+
+      - name: Install Dependencies
+        run: |
+          # Use cached wheels if available
+          if [ -d "pip-cache/wheels" ]; then
+            pip install --find-links pip-cache/wheels --no-index requests pyyaml Pillow || pip install requests pyyaml Pillow
+          else
+            pip install requests pyyaml Pillow
+          fi
+
+      - name: Run Setup Script
+        run: python3 scripts/setup_apps.py
+
+      - name: Commit Changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add new icons
+          git add fdroid/metadata/icons/
+          
+          # Check for changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Automated: Setup new apps (icons/dirs)"
+            git push
+            echo "Changes pushed. Triggering build..."
+            gh workflow run build.yml
+          else
+            echo "No setup changes needed."
+            # Trigger build anyway because apps.yaml changed (maybe URL update?)
+            echo "Triggering build for configuration change..."
+            gh workflow run build.yml
+          fi

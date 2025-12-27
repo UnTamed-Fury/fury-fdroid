@@ -1,0 +1,77 @@
+name: Phase 3/4/5 - Build & Deploy
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Phase 1 - Watcher", "Phase 2 - Setup Apps"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout pip cache
+        uses: actions/checkout@v4
+        with:
+          repository: UnTamedFury/pip-fdroid-fury
+          path: pip-cache
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: pip-cache/requirements.txt
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          if [ -d "pip-cache/wheels" ]; then
+            pip install --find-links pip-cache/wheels --no-index requests pyyaml fdroidserver gitpython qrcode yamllint Pillow || pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
+          else
+            pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
+          fi
+
+      - name: Inject Secure Config
+        env:
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: |
+          # Read config
+          CONFIG_CONTENT=$(cat fdroid/config.yml)
+          # Replace secrets
+          CONFIG_CONTENT="${CONFIG_CONTENT//\$\{\{ secrets.KEYSTORE_PASS \}\}/$KEYSTORE_PASS}"
+          CONFIG_CONTENT="${CONFIG_CONTENT//\$\{\{ secrets.KEY_PASS \}\}/$KEY_PASS}"
+          # Write back
+          echo "$CONFIG_CONTENT" > fdroid/config.yml
+
+      - name: Run Build Script
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FDROID_KEY_STORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          FDROID_KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: python3 scripts/update_fdroid_repo.py
+
+      - name: Prepare Deployment
+        run: |
+          mkdir -p public/repo
+          cp -r website/* public/
+          cp -r fdroid/repo/* public/repo/
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

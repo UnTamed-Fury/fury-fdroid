@@ -1,0 +1,54 @@
+name: Phase 1 - Watcher
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout pip cache
+        uses: actions/checkout@v4
+        with:
+          repository: UnTamedFury/pip-fdroid-fury
+          path: pip-cache
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: pip-cache/requirements.txt
+
+      - name: Install Dependencies
+        run: |
+          pip install requests pyyaml
+
+      - name: Check for Updates
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/check_updates.py
+
+      - name: Commit Status & Trigger Build
+        if: steps.check.outputs.updates_found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add release_status.json
+          git commit -m "Automated: Release status update"
+          git push
+          
+          echo "Updates found. Triggering build workflow..."
+          gh workflow run build.yml

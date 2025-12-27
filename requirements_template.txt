@@ -1,8 +1,0 @@
-# Requirements for the F-Droid repository update script
-requests>=2.25.0
-pyyaml>=6.0
-Pillow>=8.0.0
-fdroidserver>=2.0
-gitpython>=3.0
-qrcode[pil]>=6.0
-yamllint>=1.0
