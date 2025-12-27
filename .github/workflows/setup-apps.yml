@@ -1,9 +1,11 @@
-name: Phase 2 - Setup Apps
+name: Phase 2 - Setup & Icons
 
 on:
   push:
     paths:
       - 'apps.yaml'
+  schedule:
+    - cron: '0 6 * * *' # Daily icon update
   workflow_dispatch:
 
 jobs:
@@ -32,7 +34,6 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          # Use cached wheels if available
           if [ -d "pip-cache/wheels" ]; then
             pip install --find-links pip-cache/wheels --no-index requests pyyaml Pillow || pip install requests pyyaml Pillow
           else
@@ -49,18 +50,16 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Add new icons
           git add fdroid/metadata/icons/
+          git add apks/
           
-          # Check for changes
           if ! git diff --cached --quiet; then
-            git commit -m "Automated: Setup new apps (icons/dirs)"
+            git commit -m "Automated: Icon/Setup updates"
             git push
-            echo "Changes pushed. Triggering build..."
+            # Only trigger build if manually triggered or pushed, not necessarily on schedule?
+            # Actually, icon update doesn't strictly need a rebuild unless we want the site to reflect it immediately.
+            # Let's trigger it.
             gh workflow run build.yml
           else
-            echo "No setup changes needed."
-            # Trigger build anyway because apps.yaml changed (maybe URL update?)
-            echo "Triggering build for configuration change..."
-            gh workflow run build.yml
+            echo "No changes."
           fi

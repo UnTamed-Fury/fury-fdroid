@@ -7,6 +7,7 @@ import requests
 import subprocess
 import sys
 import traceback
+import argparse
 
 # --- Config ---
 APKS_DIR = "apks"
@@ -92,8 +93,8 @@ def clean_versions(app_dir):
             
     return [os.path.basename(k) for k in keep]
 
-def main():
-    print("--- 🏗️ Starting Build Process ---")
+def task_download():
+    print("--- 📥 Starting Download Phase ---")
     token = os.environ.get('GH_TOKEN')
     if not token:
         print("Error: GH_TOKEN missing")
@@ -102,7 +103,6 @@ def main():
     with open('apps.yaml') as f:
         config = yaml.safe_load(f)
 
-    # 1. Process Apps
     for app in config.get('apps', []):
         app_id = app['id']
         name = app['name']
@@ -117,24 +117,16 @@ def main():
         prefer_pre = app.get('fdroid', {}).get('prefer_prerelease', False)
         releases = get_releases(repo_url, token, prefer_pre)
         
-        # We only want top N releases to save space/time
         target_releases = releases[:MAX_VERSIONS]
-        
         builds_metadata = []
         
         for rel in target_releases:
             asset = select_best_apk(rel['assets'])
             version = rel['tag']
-            
-            # Construct filename: package_versionCode.apk logic
-            # Simpler logic: package_versionName.apk to avoid parsing code?
-            # F-Droid likes package_code.apk.
-            # We will use a consistent naming: {app_id}_{sanitized_version}.apk
-            sanitized_version = version.replace('/', '_') # Basic sanitization
+            sanitized_version = version.replace('/', '_')
             filename = f"{app_id}_{sanitized_version}.apk"
             filepath = os.path.join(app_dir, filename)
             
-            # Download if missing
             if not os.path.exists(filepath):
                 download_file(asset['browser_download_url'], filepath)
             else:
@@ -142,20 +134,12 @@ def main():
                 
             builds_metadata.append({
                 'versionName': version,
-                'versionCode': 1, # Dummy code, fdroidscanner might update this? 
-                                  # Actually fdroid server reads the APK to get real versionCode.
-                                  # So we can put anything here or let it auto-detect?
-                                  # YAML requires 'versionCode', 'versionName'.
-                                  # We should probably let 'fdroid update' handle the scanning 
-                                  # but we are writing the metadata file manually.
-                                  # Wait, if we use 'fdroid update', it scans APKs.
-                                  # We just need to provide basic metadata.
+                'versionCode': 1, 
                 'commit': version,
                 'output': filename,
                 'disable': False
             })
 
-        # Cleanup old files
         clean_versions(app_dir)
         
         # Write Metadata
@@ -176,18 +160,14 @@ def main():
         with open(meta_path, 'w') as f:
             yaml.dump(metadata, f, default_flow_style=False)
 
-    # 2. Populate Repo Directory (Symlink/Copy)
-    print("\n--- 🔗 Populating F-Droid Repo Directory ---")
+def task_index():
+    print("\n--- 🏗️ Starting Index Phase ---")
+    
+    # 1. Populate Repo Directory (Symlink/Copy)
+    print("Populating F-Droid Repo Directory...")
     if os.path.exists(REPO_DIR):
         shutil.rmtree(REPO_DIR)
     os.makedirs(REPO_DIR)
-    
-    # Copy/Link APKs
-    # We use copy because symlinks might be tricky with artifacts/pages sometimes, 
-    # but copying doubles usage? No, we just need them there for 'fdroid update'.
-    # Afterwards we can delete them from repo/ if we deploy only index?
-    # No, we need to deploy APKs too.
-    # So we copy them to repo/ and then deploy repo/.
     
     count = 0
     for root, dirs, files in os.walk(APKS_DIR):
@@ -199,16 +179,30 @@ def main():
                 count += 1
     print(f"Copied {count} APKs to {REPO_DIR}")
 
-    # 3. F-Droid Update
-    print("\n--- 🔄 Running F-Droid Update ---")
-    # Config injection handles externally in workflow or here?
-    # Let's assume env vars are set.
-    
+    # 2. F-Droid Update
+    print("Running F-Droid Update...")
     try:
         subprocess.run(['fdroid', 'update', '--create-metadata', '--pretty', '--verbose'], cwd='fdroid', check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error running fdroid update: {e}")
         sys.exit(1)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--download', action='store_true', help='Run download phase')
+    parser.add_argument('--index', action='store_true', help='Run index phase')
+    args = parser.parse_args()
+
+    if not args.download and not args.index:
+        # Default run both
+        args.download = True
+        args.index = True
+
+    if args.download:
+        task_download()
+    
+    if args.index:
+        task_index()
 
 if __name__ == "__main__":
     main()

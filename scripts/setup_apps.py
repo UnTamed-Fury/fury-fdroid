@@ -2,24 +2,38 @@ import os
 import yaml
 import requests
 import sys
+import hashlib
 from io import BytesIO
 from PIL import Image
 
-def download_and_convert_icon(url, target_path):
-    print(f"Downloading icon {url}...")
-    try:
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()
-        img = Image.open(BytesIO(response.content))
-        if img.mode in ('P', 'CMYK'):
-            img = img.convert('RGBA')
-        img.save(target_path, "PNG")
-        print(f"  ✓ Saved to {target_path}")
-    except Exception as e:
-        print(f"  ✗ Failed: {e}")
+def get_icon_hash(path):
+    if not os.path.exists(path): return None
+    with open(path, 'rb') as f:
+        return hashlib.md5(f.read()).hexdigest()
+
+def find_best_icon_url(base_url):
+    # Try the configured URL first
+    urls = [base_url]
+    
+    # Try alternatives based on Android project structure
+    if 'mipmap-' in base_url or 'drawable-' in base_url:
+        densities = ['xxxhdpi', 'xxhdpi', 'xhdpi', 'hdpi']
+        base_dir = os.path.dirname(base_url) # .../res/mipmap-xxxhdpi
+        filename = os.path.basename(base_url) # ic_launcher.png
+        res_dir = os.path.dirname(base_dir)   # .../res
+        
+        # Try mipmap
+        for d in densities:
+            urls.append(f"{res_dir}/mipmap-{d}/{filename}")
+        # Try drawable
+        for d in densities:
+            urls.append(f"{res_dir}/drawable-{d}/{filename}")
+        urls.append(f"{res_dir}/drawable/{filename}")
+
+    return urls
 
 def setup_apps():
-    print("--- 🛠️ Setup Apps ---")
+    print("--- 🛠️ Setup Apps & Icons ---")
     
     if not os.path.exists('apps.yaml'):
         print("apps.yaml missing")
@@ -37,29 +51,50 @@ def setup_apps():
         # 1. Create APK directory
         apk_dir = os.path.join('apks', app_id)
         if not os.path.exists(apk_dir):
-            os.makedirs(apk_dir)
+            os.makedirs(apk_dir, exist_ok=True)
             print(f"  + Created directory: {apk_dir}")
 
-        # 2. Check/Download Icon
+        # 2. Check/Update Icon
         icon_path = os.path.join('fdroid/metadata/icons', f"{app_id}.png")
-        if not os.path.exists(icon_path):
-            icon_config = app.get('assets', {}).get('icon', {})
-            # Try config URL or GitHub avatar
-            icon_url = None
-            if icon_config.get('type') == 'github-repo':
-                icon_url = icon_config.get('url')
+        
+        icon_config = app.get('assets', {}).get('icon', {})
+        base_url = icon_config.get('url') if icon_config.get('type') == 'github-repo' else None
+        
+        if not base_url:
+             # Try guess
+            repo_url = app.get('url')
+            if repo_url and 'github.com' in repo_url:
+                # This is a weak guess, usually better to specify in apps.yaml
+                pass
+        
+        if base_url:
+            urls_to_try = find_best_icon_url(base_url)
+            success = False
             
-            if not icon_url:
-                # Try to guess from repo owner avatar
-                repo_url = app.get('url')
-                if repo_url and 'github.com' in repo_url:
-                    owner = repo_url.replace('https://github.com/', '').split('/')[0]
-                    icon_url = f"https://github.com/{owner}.png"
-
-            if icon_url:
-                download_and_convert_icon(icon_url, icon_path)
-            else:
-                print(f"  ⚠ No icon source found for {app_id}")
+            for url in urls_to_try:
+                try:
+                    resp = requests.get(url, timeout=10)
+                    if resp.status_code == 200:
+                        new_content = resp.content
+                        new_hash = hashlib.md5(new_content).hexdigest()
+                        old_hash = get_icon_hash(icon_path)
+                        
+                        if new_hash != old_hash:
+                            img = Image.open(BytesIO(new_content))
+                            if img.mode in ('P', 'CMYK'):
+                                img = img.convert('RGBA')
+                            img.save(icon_path, "PNG")
+                            print(f"  ✓ Updated icon for {app_id}")
+                        else:
+                            # print(f"  . Icon unchanged for {app_id}")
+                            pass
+                        success = True
+                        break
+                except:
+                    continue
+            
+            if not success:
+                print(f"  ⚠ Failed to fetch icon for {app_id}")
 
 if __name__ == "__main__":
     setup_apps()
