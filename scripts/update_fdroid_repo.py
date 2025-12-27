@@ -183,8 +183,7 @@ def task_download():
             'IssueTracker': f"{repo_url}/issues",
             'WebSite': repo_url,
             'License': 'Unknown',
-            'AutoUpdateMode': 'None',
-            'Builds': builds_metadata
+            'AutoUpdateMode': 'None'
         }
         
         with open(meta_path, 'w') as f:
