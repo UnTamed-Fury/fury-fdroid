@@ -12,7 +12,7 @@ repo_description: "A repository of apps I use and recommend."
 repo_icon: "icon.png"
 
 # How many older versions of APKs to keep in the archive.
-archive_older: 3
+archive_older: 0
 
 # Whether to create a symbolic link for the current version of an app.
 make_current_version_link: false

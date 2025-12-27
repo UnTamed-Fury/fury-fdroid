@@ -422,74 +422,11 @@ def generate_metadata_for_apps(app_list_file, metadata_dir, repo_dir, github_tok
                 'output': latest_fdroid_apk_filename,  # Use the F-Droid compatible filename
             })
 
-            # Try to fetch additional recent versions for downgrade capability
-            try:
-                all_releases = get_all_github_releases_info(app_url, github_token, prefer_prerelease)
+            # Downgrade capability disabled to save disk space on CI runner
+            # Only the latest version is kept.
+            # (Code for fetching additional versions removed)
 
-                # Add up to 2 more recent versions (in addition to the latest) for downgrade capability
-                additional_versions_added = 0
-                for release_info in all_releases[1:3]:  # Skip the first (latest) and take up to 2 more
-                    if additional_versions_added >= 2:  # Only add up to 2 additional versions
-                        break
-
-                    # Select best APK for this additional version
-                    additional_apk_result = select_best_apk(release_info['apk_assets'])
-                    if additional_apk_result:
-                        original_apk_filename, additional_download_url = additional_apk_result
-
-                        # Calculate version code for this additional version
-                        additional_version_code = 1
-                        if '.' in release_info['version']:
-                            try:
-                                parts = release_info['version'].replace('-alpha', '.').replace('-beta', '.').replace('-rc', '.').replace('+', '.').split('.')
-                                for part in reversed(parts):
-                                    if part.isdigit():
-                                        additional_version_code = int(part)
-                                        break
-                            except:
-                                additional_version_code = abs(hash(release_info['version'])) % 10000  # Fallback to hash-based version code
-
-                        # Create app-specific directory structure for this additional version
-                        app_apk_dir = os.path.join(repo_dir, "apks", app_id)
-                        os.makedirs(app_apk_dir, exist_ok=True)
-
-                        # Generate proper F-Droid APK filename for this version
-                        additional_fdroid_apk_filename = f"{app_id}_{additional_version_code}.apk"
-
-                        # Download APK to the app-specific directory for organized storage
-                        additional_app_specific_apk_path = os.path.join(app_apk_dir, additional_fdroid_apk_filename)
-                        if not os.path.exists(additional_app_specific_apk_path):
-                            download_file(additional_download_url, additional_app_specific_apk_path)
-                            print(f"  -> Downloaded additional APK to app-specific directory: {additional_app_specific_apk_path}")
-                        else:
-                            print(f"  -> Additional APK already exists in app-specific directory: {additional_app_specific_apk_path}")
-
-                        # For F-Droid server compatibility, also place APK in the main repo directory
-                        additional_main_repo_apk_path = os.path.join(repo_dir, additional_fdroid_apk_filename)
-                        if not os.path.exists(additional_main_repo_apk_path) and os.path.exists(additional_app_specific_apk_path):
-                            # Create a copy in the main repo directory for F-Droid server tools
-                            import shutil
-                            shutil.copy2(additional_app_specific_apk_path, additional_main_repo_apk_path)
-                            print(f"  -> Created copy for F-Droid server: {additional_main_repo_apk_path}")
-                        elif not os.path.exists(additional_app_specific_apk_path):
-                             print(f"  -> Warning: Source additional APK missing, cannot copy: {additional_app_specific_apk_path}")
-                        else:
-                            print(f"  -> F-Droid server APK already exists: {additional_main_repo_apk_path}")
-
-                        all_builds.append({
-                            'versionName': release_info['version'],
-                            'versionCode': additional_version_code,
-                            'commit': release_info['version'],
-                            'output': additional_fdroid_apk_filename,  # Use the F-Droid naming convention
-                        })
-                        additional_versions_added += 1
-
-                        print(f"  -> Added version {release_info['version']} for downgrade capability")
-            except Exception as e:
-                print(f"  -> Warning: Could not fetch additional versions for downgrade capability: {e}")
-                # Continue with just the latest version if additional versions can't be fetched
-
-            print(f"  -> Including {len(all_builds)} versions in metadata for downgrade capability")
+            print(f"  -> Including {len(all_builds)} versions in metadata")
 
             # Construct proper F-Droid metadata format with multiple versions for downgrade capability
             # This format is compatible with F-Droid server and clients
