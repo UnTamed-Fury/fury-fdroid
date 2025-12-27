@@ -190,6 +190,11 @@ temp/
 secret.local
 local.properties
 
+# Local test files
+test_fdroid_client_emulator_local.py
+test_*.py
+*_test.py
+
 # System junk
 *.DS_Store
 .DS_Store
