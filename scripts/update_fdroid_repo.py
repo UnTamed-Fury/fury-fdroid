@@ -8,7 +8,14 @@ import subprocess
 import sys
 import traceback
 import argparse
-from androguard.core.bytecodes.apk import APK
+try:
+    from androguard.core.bytecodes.apk import APK
+except ImportError:
+    try:
+        from androguard.core.apk import APK
+    except ImportError:
+        # Fallback or maybe it's just 'androguard.apk' in some versions
+        from androguard.apk import APK
 
 # --- Config ---
 APKS_DIR = "apks"
