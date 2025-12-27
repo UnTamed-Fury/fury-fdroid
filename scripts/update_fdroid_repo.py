@@ -734,6 +734,16 @@ if __name__ == '__main__':
         if 'GH_TOKEN' in os.environ:
             env['GH_TOKEN'] = os.environ['GH_TOKEN']
 
+        # Initialize the F-Droid repository if needed
+        print("Initializing F-Droid repository...")
+        init_result = subprocess.run(['fdroid', 'init'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
+
+        if init_result.returncode != 0:
+            print(f"Warning: fdroid init returned code {init_result.returncode}, continuing anyway")
+            print(f"STDERR: {init_result.stderr}")
+        else:
+            print("✓ F-Droid repository initialized.")
+
         # First, read the metadata to ensure F-Droid server recognizes all apps
         print("Reading metadata with fdroid readmeta...")
         readmeta_result = subprocess.run(['fdroid', 'readmeta', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
@@ -744,7 +754,7 @@ if __name__ == '__main__':
             print(f"STDERR: {readmeta_result.stderr}")
             # Continue anyway as update might still work
         else:
-            print("Metadata read successfully by F-Droid server.")
+            print("✓ Metadata read successfully by F-Droid server.")
 
         # Now run fdroid update to generate the repository index
         print("Updating F-Droid repository index...")
