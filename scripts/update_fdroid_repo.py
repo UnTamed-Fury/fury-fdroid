@@ -722,6 +722,18 @@ if __name__ == '__main__':
         if 'GH_TOKEN' in os.environ:
             env['GH_TOKEN'] = os.environ['GH_TOKEN']
 
+        # Initialize F-Droid server if needed
+        print("Initializing F-Droid server...")
+        init_result = subprocess.run(['fdroid', 'init', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
+
+        if init_result.returncode != 0 and "already exists" not in init_result.stderr:
+            print(f"Warning: fdroid init failed with return code {init_result.returncode}")
+            print(f"STDOUT: {init_result.stdout}")
+            print(f"STDERR: {init_result.stderr}")
+            # Continue anyway as update might still work
+        else:
+            print("F-Droid server initialized successfully.")
+
         # First, read the metadata to ensure F-Droid server recognizes all apps
         print("Reading metadata with fdroid readmeta...")
         readmeta_result = subprocess.run(['fdroid', 'readmeta', '--verbose'], cwd=FDROID_DIR, env=env, capture_output=True, text=True)
