@@ -2,15 +2,15 @@ AuthorName: Iamlooker
 AutoUpdateMode: Version %v
 Builds:
 - commit: v0.6.6
-  output: app-release.apk
+  output: com.looker.droidify_6.apk
   versionCode: 6
   versionName: v0.6.6
 - commit: v0.6.5
-  output: app-release.apk
+  output: com.looker.droidify_5.apk
   versionCode: 5
   versionName: v0.6.5
 - commit: v0.6.4
-  output: app-release.apk
+  output: com.looker.droidify_4.apk
   versionCode: 4
   versionName: v0.6.4
 Categories:

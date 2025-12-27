@@ -2,15 +2,15 @@ AuthorName: recloudstream
 AutoUpdateMode: Version %v
 Builds:
 - commit: v4.6.0
-  output: 4.6.0.apk
+  output: com.lagradost.cloudstream3_0.apk
   versionCode: 0
   versionName: v4.6.0
 - commit: v4.5.4
-  output: 4.5.4.apk
+  output: com.lagradost.cloudstream3_4.apk
   versionCode: 4
   versionName: v4.5.4
 - commit: v4.5.2
-  output: 4.5.2.apk
+  output: com.lagradost.cloudstream3_2.apk
   versionCode: 2
   versionName: v4.5.2
 Categories:

@@ -2,15 +2,15 @@ AuthorName: Signal Foundation
 AutoUpdateMode: Version %v
 Builds:
 - commit: v7.68.5
-  output: Signal-Android-website-prod-universal-release-7.68.5.apk
+  output: org.signal_5.apk
   versionCode: 5
   versionName: v7.68.5
 - commit: v7.68.4
-  output: Signal-Android-website-prod-universal-release-7.68.4.apk
+  output: org.signal_4.apk
   versionCode: 4
   versionName: v7.68.4
 - commit: v7.67.1
-  output: Signal-Android-website-prod-universal-release-7.67.1.apk
+  output: org.signal_1.apk
   versionCode: 1
   versionName: v7.67.1
 Categories:

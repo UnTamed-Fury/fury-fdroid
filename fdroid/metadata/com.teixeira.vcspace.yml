@@ -2,11 +2,11 @@ AuthorName: Visual-Code-Space
 AutoUpdateMode: Version %v
 Builds:
 - commit: v2.0.1
-  output: app-release.apk
+  output: com.teixeira.vcspace_1.apk
   versionCode: 1
   versionName: v2.0.1
 - commit: v2.0.0
-  output: app-release.apk
+  output: com.teixeira.vcspace_0.apk
   versionCode: 0
   versionName: v2.0.0
 Categories:

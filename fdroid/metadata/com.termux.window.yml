@@ -2,11 +2,11 @@ AuthorName: termux
 AutoUpdateMode: Version %v
 Builds:
 - commit: v0.17.0
-  output: termux-float-app_v0.17.0+github.debug.apk
+  output: com.termux.window_0.apk
   versionCode: 0
   versionName: v0.17.0
 - commit: v0.15.0
-  output: termux-float_v0.15.0+github-debug.apk
+  output: com.termux.window_0.apk
   versionCode: 0
   versionName: v0.15.0
 Categories:
