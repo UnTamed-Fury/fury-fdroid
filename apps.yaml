@@ -855,4 +855,4 @@ apps:
     fdroid:
       categories: [Misc]
       prefer_prerelease: false
-      archive: false
+      archive: false# Trigger setup
