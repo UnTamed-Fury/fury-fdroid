@@ -3,21 +3,23 @@ name: Phase 3/4/5 - Build & Deploy
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Phase 1 - Watcher", "Phase 2 - Setup Apps"]
+    workflows: ["Phase 1 - Watcher", "Phase 2 - Setup & Icons"]
     types:
       - completed
 
 jobs:
   download:
-    name: Phase 3 - Download
+    name: Phase 3 - Download & Commit
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     permissions:
-      contents: read
+      contents: write
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout pip cache
         uses: actions/checkout@v4
@@ -46,14 +48,24 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/update_fdroid_repo.py --download
 
-      - name: Upload APKs & Metadata
-        uses: actions/upload-artifact@v4
-        with:
-          name: raw-data
-          path: |
-            apks/
-            fdroid/metadata/
-          retention-days: 1
+      - name: Commit & Push APKs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Force add APKs (in case .gitignore issues persist, though fixed)
+          git add apks/
+          git add fdroid/metadata/
+          
+          # Only commit if changes exist
+          if ! git diff --cached --quiet; then
+            git commit -m "Automated: Update APKs and Metadata [skip ci]"
+            git push
+          else
+            echo "No changes to APKs."
+          fi
 
   index:
     name: Phase 4 - Index
@@ -65,6 +77,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: main # Checkout latest main to get the APKs committed in previous job
 
       - name: Checkout pip cache
         uses: actions/checkout@v4
@@ -81,17 +95,11 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install --upgrade pip
           if [ -d "pip-cache/wheels" ]; then
             pip install --find-links pip-cache/wheels --no-index requests pyyaml fdroidserver gitpython qrcode yamllint Pillow || pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
           else
             pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
           fi
-
-      - name: Download APKs & Metadata
-        uses: actions/download-artifact@v4
-        with:
-          name: raw-data
 
       - name: Inject Secure Config
         env:

@@ -117,6 +117,7 @@ local_settings.py
 
 # Generated files that are not meant to be committed
 *.apk # Individual APK files (they should be in fdroid/repo which is gitignored)
+!apks/**/*.apk # Allow APKs in the persistent storage directory
 *.aab # Android App Bundle files
 
 # Website related (if any temp files)
