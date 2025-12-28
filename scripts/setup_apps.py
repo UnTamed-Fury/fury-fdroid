@@ -6,6 +6,21 @@ import hashlib
 from io import BytesIO
 from PIL import Image
 
+"""
+F-Droid Setup & Icon Manager
+============================
+
+This script prepares the local environment for the build process.
+Its primary responsibilities are:
+1. Creating necessary directory structures (apks/, fdroid/metadata/icons/).
+2. Fetching and optimizing app icons from their upstream GitHub repositories.
+3. Caching icons to avoid redundant downloads (using MD5 hashing).
+4. Converting non-standard image formats to PNG for F-Droid compatibility.
+
+Usage:
+    python3 setup_apps.py
+"""
+
 def get_icon_hash(path):
     if not os.path.exists(path): return None
     with open(path, 'rb') as f:

@@ -8,6 +8,31 @@ import subprocess
 import sys
 import traceback
 import argparse
+
+"""
+F-Droid Repository Update Script
+================================
+
+This script handles the core logic for the F-Droid repository build process.
+It operates in two distinct phases:
+
+1. Download Phase (--download):
+   - Reads 'apps.yaml' to identify tracked apps.
+   - Fetches the latest APKs (up to MAX_VERSIONS) from GitHub Releases.
+   - Verifies APK integrity and metadata using 'androguard'.
+   - Generates metadata files for the Index phase.
+
+2. Index Phase (--index):
+   - Prepares the 'fdroid/repo' directory.
+   - Copies downloaded APKs into the repo directory.
+   - Runs 'fdroid update' (via fdroidserver) to generate the signed repository index.
+
+Usage:
+    python3 update_fdroid_repo.py --download
+    python3 update_fdroid_repo.py --index
+    python3 update_fdroid_repo.py --download --index (Run both)
+"""
+
 try:
     from androguard.core.bytecodes.apk import APK
 except ImportError:

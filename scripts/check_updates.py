@@ -4,6 +4,22 @@ import yaml
 import requests
 import sys
 
+"""
+F-Droid Update Watcher
+======================
+
+This script checks for new releases of apps defined in 'apps.yaml'.
+It is designed to run frequently (e.g., via cron or scheduled CI job).
+
+Features:
+- Compares the latest GitHub Release tag against a local state file ('release_status.json').
+- Outputs 'updates_found=true' to GitHub Actions outputs if changes are detected.
+- Supports both stable and pre-release checks based on configuration.
+
+Usage:
+    python3 check_updates.py
+"""
+
 def get_github_headers(github_token):
     headers = {
         'Accept': 'application/vnd.github.v3+json',

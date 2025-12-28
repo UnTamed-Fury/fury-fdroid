@@ -2,6 +2,7 @@
 
 ![F Droid](https://img.shields.io/badge/F_Droid-1976D2?style=for-the-badge&logo=f-droid&logoColor=white)
 ![GitHub License](https://img.shields.io/github/license/UnTamed-Fury/fury-fdroid)
+[![Build Status](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/build.yml/badge.svg)](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/build.yml)
 
 ---
 
@@ -34,10 +35,25 @@ Scan the QR code below with your F-Droid client:
 
 ## ✨ Features
 
-*   **Automated Updates:** Checks for new releases every 6 hours.
-*   **Stateless Architecture:** APKs are not stored in the git history, keeping the repo lightweight.
-*   **Smart Metadata:** Automatically fetches app descriptions and icons from the upstream GitHub repositories.
+*   **Automated Updates:** Checks for new releases every 6 hours via GitHub Actions.
+*   **Stateless Architecture:** APKs are not stored in the git history, keeping the repository size small and builds fast.
+*   **Smart Metadata:** Automatically fetches app descriptions and icons from upstream GitHub repositories.
 *   **Optimized Icons:** Automatically converts and optimizes app icons for F-Droid compatibility.
+*   **Version Control:** Maintains the latest 2 versions of each app to save bandwidth and storage.
+
+---
+
+## 🏗️ Architecture
+
+This project uses a unique "stateless" approach to F-Droid repositories:
+
+1.  **Source of Truth:** `apps.yaml` defines the list of apps and their metadata.
+2.  **Phase 1: Watcher:** A scheduled workflow checks GitHub for new releases of tracked apps.
+3.  **Phase 2: Setup:** Prepares the directory structure and fetches/updates icons.
+4.  **Phase 3: Build:**
+    *   **Download:** Fetches the latest `.apk` files from GitHub Releases.
+    *   **Index:** Uses `fdroidserver` to generate the repository index (`index-v1.jar`).
+    *   **Deploy:** Publishes the static website and repository to GitHub Pages.
 
 ---
 
@@ -59,8 +75,10 @@ This repository hosts a variety of apps, including:
 
 ## 🤝 Contributing
 
-Want to add an app or improve the scripts? We welcome contributions!
-Please read our [Contributing Guide](CONTRIBUTING.md) for details on how to add new apps to `apps.yaml`.
+We welcome contributions! whether it's adding a new app or improving the build scripts.
+
+*   **Add a New App:** Read the [Contributing Guide](CONTRIBUTING.md) for instructions on editing `apps.yaml`.
+*   **Report Issues:** Open an issue if an app is outdated or broken.
 
 ---
 
@@ -72,8 +90,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## ⚠️ Security Notice
 
-This repository uses a secure keystore for signing the F-Droid repository. The repository fingerprint has been updated to reflect the new security key with enhanced 4096-bit RSA encryption.
-
-## 🚀 Repository Status
-
-[![Build Status](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/update-repo.yml/badge.svg)](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/update-repo.yml)
+This repository uses a secure keystore for signing the F-Droid repository. The repository fingerprint uses 4096-bit RSA encryption for enhanced security.
