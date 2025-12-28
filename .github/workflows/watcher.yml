@@ -49,6 +49,3 @@ jobs:
           git add release_status.json
           git commit -m "Automated: Release status update"
           git push
-          
-          echo "Updates found. Triggering build workflow..."
-          gh workflow run build.yml

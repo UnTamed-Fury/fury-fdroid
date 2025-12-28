@@ -56,10 +56,7 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "Automated: Icon/Setup updates"
             git push
-            # Only trigger build if manually triggered or pushed, not necessarily on schedule?
-            # Actually, icon update doesn't strictly need a rebuild unless we want the site to reflect it immediately.
-            # Let's trigger it.
-            gh workflow run build.yml
+            # Build triggered automatically via workflow_run
           else
             echo "No changes."
           fi
