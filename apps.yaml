@@ -1,858 +1,1130 @@
-
 schemaVersion: 2
-
 meta:
-  name: "Fury's F-Droid Repo"
-  description: "Curated Android apps with clean, normalized metadata"
-  source: "https://github.com/UnTamed-Fury/FDroid--repo"
-
+  name: Fury's F-Droid Repo
+  description: Curated Android apps with clean, normalized metadata
+  source: https://github.com/UnTamed-Fury/FDroid--repo
 apps:
-  # ─────────────────────
-  # Gaming
-  # ─────────────────────
-  - id: net.kdt.pojavlaunch.debug
-    name: "PojavLauncher (Minecraft: Java Edition for Android)"
-    author: PojavLauncherTeam
-    url: https://github.com/PojavLauncherTeam/PojavLauncher
-
-    classification:
-      domain: Gaming
-      type: Launcher
-      content: Minecraft
-      status: Discontinued
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/PojavLauncherTeam/PojavLauncher/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Gaming, Minecraft, Discontinued]
-      prefer_prerelease: false
-      archive: true
-
-  - id: com.movtery.zalithlauncher
-    name: Zalith Launcher
-    author: ZalithLauncher
-    url: https://github.com/ZalithLauncher/ZalithLauncher
-
-    classification:
-      domain: Gaming
-      type: Launcher
-      content: Minecraft
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/ZalithLauncher/ZalithLauncher/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Gaming, Minecraft]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.movtery.zalithlauncher.v2
-    name: Zalith Launcher 2
-    author: ZalithLauncher
-    url: https://github.com/ZalithLauncher/ZalithLauncher2
-
-    classification:
-      domain: Gaming
-      type: Launcher
-      content: Minecraft
-      status: Alpha
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/ZalithLauncher/ZalithLauncher2/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Gaming, Minecraft, Alpha]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Development & Terminals
-  # ─────────────────────
-  - id: com.termux
-    name: "Termux:Monet"
-    author: FlutterGenerator
-    url: https://github.com/FlutterGenerator/termux-monet
-
-    classification:
-      domain: Development
-      type: Terminal
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/FlutterGenerator/termux-monet/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Terminal]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.termux.api
-    name: "Termux:API"
-    author: termux
-    url: https://github.com/termux/termux-api
-
-    classification:
-      domain: Development
-      type: Terminal
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/termux/termux-api/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Terminal]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.termux.window
-    name: "Termux:Float"
-    author: termux
-    url: https://github.com/termux/termux-float
-
-    classification:
-      domain: Development
-      type: Terminal
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/termux/termux-float/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Terminal]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.termux.style
-    name: "Termux:Style"
-    author: termux
-    url: https://github.com/termux/termux-style
-
-    classification:
-      domain: Development
-      type: Terminal
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/termux/termux-style/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Terminal]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.termux.x11
-    name: "Termux:X11"
-    author: termux
-    url: https://github.com/termux/termux-x11
-
-    classification:
-      domain: Development
-      type: Terminal
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/termux/termux-x11/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Terminal, X11]
-      prefer_prerelease: false
-      archive: false
-
-  - id: io.neoterm
-    name: NeoTerm
-    author: NeoTerrm
-    url: https://github.com/NeoTerrm/NeoTerm
-
-    classification:
-      domain: Development
-      type: Terminal
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/NeoTerrm/NeoTerm/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Terminal]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.teixeira.vcspace
-    name: Visual Code Space
-    author: Visual-Code-Space
-    url: https://github.com/Visual-Code-Space/Visual-Code-Space
-
-    classification:
-      domain: Development
-      type: Editor
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/Visual-Code-Space/Visual-Code-Space/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Editor]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.rk.xededitor
-    name: Xed Editor
-    author: Xed-Editor
-    url: https://github.com/Xed-Editor/Xed-Editor
-
-    classification:
-      domain: Development
-      type: Editor
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/Xed-Editor/Xed-Editor/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Development, Editor]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # App Management
-  # ─────────────────────
-  - id: dev.imranr.obtainium.fdroid
-    name: Obtainium
-    author: ImranR98
-    url: https://github.com/ImranR98/Obtainium
-
-    classification:
-      domain: System
-      type: AppStore
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/ImranR98/Obtainium/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [System, AppStore]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.machiav3lli.fdroid
-    name: Neo Store
-    author: NeoApplications
-    url: https://github.com/NeoApplications/Neo-Store
-
-    classification:
-      domain: System
-      type: AppStore
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/NeoApplications/Neo-Store/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [System, AppStore]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.looker.droidify
-    name: DROID-IFY
-    author: Iamlooker
-    url: https://github.com/Droid-ify/client
-
-    classification:
-      domain: System
-      type: AppStore
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/Droid-ify/client/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [System, AppStore]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Entertainment & Media - Manga/Comics
-  # ─────────────────────
-  - id: eu.kanade.tachiyomi.yokai
-    name: Yōkai
-    author: null2264
-    url: https://github.com/null2264/yokai
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Manga
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/null2264/yokai/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Manga]
-      prefer_prerelease: true  # Only this app should prefer pre-releases
-      archive: false
-
-  - id: app.mihon
-    name: Mihon
-    author: mihonapp
-    url: https://github.com/mihonapp/mihon
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Manga
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/mihonapp/mihon/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Manga]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Entertainment & Media - Anime/Movies
-  # ─────────────────────
-  - id: kodjodevf.mangayomi
-    name: Mangayomi
-    author: kodjodevf
-    url: https://github.com/kodjodevf/mangayomi
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Manga, Anime
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/kodjodevf/mangayomi/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Manga, Anime]
-      prefer_prerelease: false
-      archive: false
-
-  - id: app.anikku
-    name: Anikku
-    author: komikku-app
-    url: https://github.com/komikku-app/anikku
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Anime
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/komikku-app/anikku/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Anime]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.ryan.anymex
-    name: AnymeX
-    author: RyanYuuki
-    url: https://github.com/RyanYuuki/AnymeX
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Anime
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/RyanYuuki/AnymeX/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Anime]
-      prefer_prerelease: false
-      archive: false
-
-  - id: dev.hayase.app
-    name: Hayase
-    author: atsuya-05
-    url: https://github.com/atsuya-05/Hayase
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Anime
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/atsuya-05/Hayase/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Anime]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.vega
-    name: Vega
-    author: Zenda-Cross
-    url: https://github.com/Zenda-Cross/vega-app
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Movies
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/Zenda-Cross/vega-app/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Movies]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.lagradost.cloudstream3
-    name: CloudStream
-    author: recloudstream
-    url: https://github.com/recloudstream/cloudstream
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Movies, Anime
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/recloudstream/cloudstream/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Movies, Anime]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Entertainment & Media - Music
-  # ─────────────────────
-  - id: com.krtirtho.spotube
-    name: SpoTube
-    author: KRTirtho
-    url: https://github.com/KRTirtho/spotube
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Music
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/KRTirtho/spotube/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Music]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.maxrave.simpmusic
-    name: SimpMusic
-    author: maxrave-dev
-    url: https://github.com/maxrave-dev/SimpMusic
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Music
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/maxrave-dev/SimpMusic/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Music]
-      prefer_prerelease: false
-      archive: false
-
-  - id: dev.brahmkshatriya.echo.nightly
-    name: Echo (Nightly)
-    author: brahmkshatriya
-    url: https://github.com/brahmkshatriya/echo
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Music
-      status: Nightly
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/brahmkshatriya/echo/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Music]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Entertainment & Media - Reading/NSFW
-  # ─────────────────────
-  - id: com.kameko.noveldokusha
-    name: Novel Dokusha
-    author: kameko
-    url: https://github.com/kameko/Novel-Dokusha
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Novels
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/kameko/Novel-Dokusha/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Novels]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.anx.reader
-    name: ANX Reader
-    author: AnxReader
-    url: https://github.com/AnxReader/AnxReader
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: Books
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/AnxReader/AnxReader/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Books]
-      prefer_prerelease: false
-      archive: false
-
-  - id: id.nhasix.app
-    name: Kuron
-    author: shirokun20
-    url: https://github.com/shirokun20/nhasixapp
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: NSFW
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/shirokun20/nhasixapp/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, NSFW]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.nhapp.android
-    name: nhappandroid
-    author: e18lab
-    url: https://github.com/e18lab/NHAppAndroid
-
-    classification:
-      domain: Entertainment
-      type: Reader
-      content: NSFW
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/e18lab/NHAppAndroid/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, NSFW]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Entertainment & Media - Video Players
-  # ─────────────────────
-  - id: is.xyz.mpv
-    name: "mpv-android"
-    author: mpv-android
-    url: https://github.com/mpv-android/mpv-android
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Video
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/mpv-android/mpv-android/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Video, Player]
-      prefer_prerelease: false
-      archive: false
-
-  - id: is.xyz.mpv.extended
-    name: "mpv-android (Extended)"
-    author: abdallahmehiz
-    url: https://github.com/abdallahmehiz/mpv-android-extended
-
-    classification:
-      domain: Entertainment
-      type: Player
-      content: Video
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/abdallahmehiz/mpv-android-extended/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Video, Player]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # Communication & Social
-  # ─────────────────────
-  - id: org.signal
-    name: Signal
-    author: Signal Foundation
-    url: https://github.com/signalapp/Signal-Android
-
-    classification:
-      domain: Communication
-      type: Messaging
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/signalapp/Signal-Android/main/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Communication, Messaging]
-      prefer_prerelease: false
-      archive: false
-
-  - id: org.joinmastodon.android
-    name: Mastodon
-    author: Mastodon
-    url: https://github.com/mastodon/mastodon-android
-
-    classification:
-      domain: Communication
-      type: Social
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/mastodon/mastodon-android/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Communication, Social]
-      prefer_prerelease: false
-      archive: false
-
-  - id: im.vector.app.android.x
-    name: Element X
-    author: element-hq
-    url: https://github.com/element-hq/element-x-android
-
-    classification:
-      domain: Communication
-      type: Messaging
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/element-hq/element-x-android/main/vector/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Communication, Messaging]
-      prefer_prerelease: false
-      archive: false
-
-  - id: io.github.stardomains3.oxproxion
-    name: Oxproxion
-    author: stardomains3
-    url: https://github.com/stardomains3/oxproxion
-
-    classification:
-      domain: Communication
-      type: AI, Chat
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/stardomains3/oxproxion/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Communication, AI, Chat]
-      prefer_prerelease: false
-      archive: false
-
-  - id: jp.nonbili.nora
-    name: Nora
-    author: nonbili
-    url: https://github.com/nonbili/Nora
-
-    classification:
-      domain: Entertainment
-      type: Social
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/nonbili/Nora/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Entertainment, Social]
-      prefer_prerelease: false
-      archive: false
-
-  # ─────────────────────
-  # System & Utilities
-  # ─────────────────────
-  - id: com.github.newhinton.roundsync
-    name: Round Sync
-    author: newhinton
-    url: https://github.com/newhinton/Round-Sync
-
-    classification:
-      domain: System
-      type: Backup
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/newhinton/Round-Sync/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [System, Backup]
-      prefer_prerelease: false
-      archive: false
-
-  - id: juloo.keyboard2
-    name: Unexpected Keyboard
-    author: Julow
-    url: https://github.com/Julow/Unexpected-Keyboard
-
-    classification:
-      domain: System
-      type: Input
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/Julow/Unexpected-Keyboard/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [System, Input]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.stratumauth.app
-    name: Stratum
-    author: StratumAuth
-    url: https://github.com/stratumauth/app
-
-    classification:
-      domain: Security
-      type: 2FA
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/stratumauth/app/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Security, 2FA]
-      prefer_prerelease: false
-      archive: false
-
-  - id: com.my.kizzy
-    name: Kizzy
-    author: dead8309
-    url: https://github.com/dead8309/Kizzy
-
-    classification:
-      domain: Misc
-      type: Utility
-      status: Stable
-
-    assets:
-      icon:
-        type: github-repo
-        url: https://raw.githubusercontent.com/dead8309/Kizzy/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-
-    fdroid:
-      categories: [Misc]
-      prefer_prerelease: false
-      archive: false# Trigger setup
+- id: net.kdt.pojavlaunch.debug
+  name: 'PojavLauncher (Minecraft: Java Edition for Android)'
+  author: PojavLauncherTeam
+  url: https://github.com/PojavLauncherTeam/PojavLauncher
+  classification:
+    domain: Gaming
+    type: Launcher
+    content: Minecraft
+    status: Discontinued
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/PojavLauncherTeam/PojavLauncher/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Gaming
+    - Minecraft
+    - Discontinued
+    prefer_prerelease: false
+    archive: true
+- id: com.movtery.zalithlauncher
+  name: Zalith Launcher
+  author: ZalithLauncher
+  url: https://github.com/ZalithLauncher/ZalithLauncher
+  classification:
+    domain: Gaming
+    type: Launcher
+    content: Minecraft
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/ZalithLauncher/ZalithLauncher/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Gaming
+    - Minecraft
+    prefer_prerelease: false
+    archive: false
+- id: com.movtery.zalithlauncher.v2
+  name: Zalith Launcher 2
+  author: ZalithLauncher
+  url: https://github.com/ZalithLauncher/ZalithLauncher2
+  classification:
+    domain: Gaming
+    type: Launcher
+    content: Minecraft
+    status: Alpha
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/ZalithLauncher/ZalithLauncher2/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Gaming
+    - Minecraft
+    - Alpha
+    prefer_prerelease: false
+    archive: false
+- id: com.termux
+  name: Termux:Monet
+  author: FlutterGenerator
+  url: https://github.com/FlutterGenerator/termux-monet
+  classification:
+    domain: Development
+    type: Terminal
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/FlutterGenerator/termux-monet/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Terminal
+    prefer_prerelease: false
+    archive: false
+- id: com.termux.api
+  name: Termux:API
+  author: termux
+  url: https://github.com/termux/termux-api
+  classification:
+    domain: Development
+    type: Terminal
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/termux/termux-api/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Terminal
+    prefer_prerelease: false
+    archive: false
+- id: com.termux.window
+  name: Termux:Float
+  author: termux
+  url: https://github.com/termux/termux-float
+  classification:
+    domain: Development
+    type: Terminal
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/termux/termux-float/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Terminal
+    prefer_prerelease: false
+    archive: false
+- id: com.termux.style
+  name: Termux:Style
+  author: termux
+  url: https://github.com/termux/termux-styling
+  classification:
+    domain: Development
+    type: Terminal
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/termux/termux-style/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Terminal
+    prefer_prerelease: false
+    archive: false
+- id: com.termux.x11
+  name: Termux:X11
+  author: termux
+  url: https://github.com/termux/termux-x11
+  classification:
+    domain: Development
+    type: Terminal
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/termux/termux-x11/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Terminal
+    - X11
+    prefer_prerelease: false
+    archive: false
+- id: io.neoterm
+  name: NeoTerm
+  author: NeoTerrm
+  url: https://github.com/NeoTerrm/NeoTerm
+  classification:
+    domain: Development
+    type: Terminal
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/NeoTerrm/NeoTerm/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Terminal
+    prefer_prerelease: false
+    archive: false
+- id: com.teixeira.vcspace
+  name: Visual Code Space
+  author: Visual-Code-Space
+  url: https://github.com/Visual-Code-Space/Visual-Code-Space
+  classification:
+    domain: Development
+    type: Editor
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Visual-Code-Space/Visual-Code-Space/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Editor
+    prefer_prerelease: false
+    archive: false
+- id: com.rk.xededitor
+  name: Xed Editor
+  author: Xed-Editor
+  url: https://github.com/Xed-Editor/Xed-Editor
+  classification:
+    domain: Development
+    type: Editor
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Xed-Editor/Xed-Editor/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Development
+    - Editor
+    prefer_prerelease: false
+    archive: false
+- id: dev.imranr.obtainium.fdroid
+  name: Obtainium
+  author: ImranR98
+  url: https://github.com/ImranR98/Obtainium
+  classification:
+    domain: System
+    type: AppStore
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/ImranR98/Obtainium/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - System
+    - AppStore
+    prefer_prerelease: false
+    archive: false
+- id: com.machiav3lli.fdroid
+  name: Neo Store
+  author: NeoApplications
+  url: https://github.com/NeoApplications/Neo-Store
+  classification:
+    domain: System
+    type: AppStore
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/NeoApplications/Neo-Store/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - System
+    - AppStore
+    prefer_prerelease: false
+    archive: false
+- id: com.looker.droidify
+  name: DROID-IFY
+  author: Iamlooker
+  url: https://github.com/Droid-ify/client
+  classification:
+    domain: System
+    type: AppStore
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Droid-ify/client/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - System
+    - AppStore
+    prefer_prerelease: false
+    archive: false
+- id: eu.kanade.tachiyomi.yokai
+  name: Yōkai
+  author: null2264
+  url: https://github.com/null2264/yokai
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/null2264/yokai/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Manga
+    prefer_prerelease: true
+    archive: false
+- id: app.mihon
+  name: Mihon
+  author: mihonapp
+  url: https://github.com/mihonapp/mihon
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/mihonapp/mihon/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Manga
+    prefer_prerelease: false
+    archive: false
+- id: app.anikku
+  name: Anikku
+  author: komikku-app
+  url: https://github.com/komikku-app/anikku
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Anime
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/komikku-app/anikku/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: com.ryan.anymex
+  name: AnymeX
+  author: RyanYuuki
+  url: https://github.com/RyanYuuki/AnymeX
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Anime
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/RyanYuuki/AnymeX/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: dev.hayase.app
+  name: Hayase
+  author: atsuya-05
+  url: https://github.com/hayase-app/native
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Anime
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/atsuya-05/Hayase/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: com.vega
+  name: Vega
+  author: Zenda-Cross
+  url: https://github.com/Zenda-Cross/vega-app
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Movies
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Zenda-Cross/vega-app/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Movies
+    prefer_prerelease: false
+    archive: false
+- id: com.lagradost.cloudstream3
+  name: CloudStream
+  author: recloudstream
+  url: https://github.com/recloudstream/cloudstream
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Movies, Anime
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/recloudstream/cloudstream/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Movies
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: com.krtirtho.spotube
+  name: SpoTube
+  author: KRTirtho
+  url: https://github.com/KRTirtho/spotube
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Music
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/KRTirtho/spotube/master/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Music
+    prefer_prerelease: false
+    archive: false
+- id: com.maxrave.simpmusic
+  name: SimpMusic
+  author: maxrave-dev
+  url: https://github.com/maxrave-dev/SimpMusic
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Music
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/maxrave-dev/SimpMusic/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Music
+    prefer_prerelease: false
+    archive: false
+- id: dev.brahmkshatriya.echo.nightly
+  name: Echo (Nightly)
+  author: brahmkshatriya
+  url: https://github.com/brahmkshatriya/echo
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Music
+    status: Nightly
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/brahmkshatriya/echo/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Music
+    prefer_prerelease: false
+    archive: false
+- id: id.nhasix.app
+  name: Kuron
+  author: shirokun20
+  url: https://github.com/shirokun20/nhasixapp
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: NSFW
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/shirokun20/nhasixapp/master/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - NSFW
+    prefer_prerelease: false
+    archive: false
+- id: com.nhapp.android
+  name: nhappandroid
+  author: e18lab
+  url: https://github.com/e18lab/NHAppAndroid
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: NSFW
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/e18lab/NHAppAndroid/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - NSFW
+    prefer_prerelease: false
+    archive: false
+- id: is.xyz.mpv
+  name: mpv-android
+  author: mpv-android
+  url: https://github.com/mpv-android/mpv-android
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Video
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/mpv-android/mpv-android/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Video
+    - Player
+    prefer_prerelease: false
+    archive: false
+- id: org.signal
+  name: Signal
+  author: Signal Foundation
+  url: https://github.com/signalapp/Signal-Android
+  classification:
+    domain: Communication
+    type: Messaging
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/signalapp/Signal-Android/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Communication
+    - Messaging
+    prefer_prerelease: false
+    archive: false
+- id: org.joinmastodon.android
+  name: Mastodon
+  author: Mastodon
+  url: https://github.com/mastodon/mastodon-android
+  classification:
+    domain: Communication
+    type: Social
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/mastodon/mastodon-android/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Communication
+    - Social
+    prefer_prerelease: false
+    archive: false
+- id: im.vector.app.android.x
+  name: Element X
+  author: element-hq
+  url: https://github.com/element-hq/element-x-android
+  classification:
+    domain: Communication
+    type: Messaging
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/element-hq/element-x-android/main/vector/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Communication
+    - Messaging
+    prefer_prerelease: false
+    archive: false
+- id: io.github.stardomains3.oxproxion
+  name: Oxproxion
+  author: stardomains3
+  url: https://github.com/stardomains3/oxproxion
+  classification:
+    domain: Communication
+    type: AI, Chat
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/stardomains3/oxproxion/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Communication
+    - AI
+    - Chat
+    prefer_prerelease: false
+    archive: false
+- id: jp.nonbili.nora
+  name: Nora
+  author: nonbili
+  url: https://github.com/nonbili/Nora
+  classification:
+    domain: Entertainment
+    type: Social
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/nonbili/Nora/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Social
+    prefer_prerelease: false
+    archive: false
+- id: com.github.newhinton.roundsync
+  name: Round Sync
+  author: newhinton
+  url: https://github.com/newhinton/Round-Sync
+  classification:
+    domain: System
+    type: Backup
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/newhinton/Round-Sync/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - System
+    - Backup
+    prefer_prerelease: false
+    archive: false
+- id: juloo.keyboard2
+  name: Unexpected Keyboard
+  author: Julow
+  url: https://github.com/Julow/Unexpected-Keyboard
+  classification:
+    domain: System
+    type: Input
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Julow/Unexpected-Keyboard/master/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - System
+    - Input
+    prefer_prerelease: false
+    archive: false
+- id: com.stratumauth.app
+  name: Stratum
+  author: StratumAuth
+  url: https://github.com/stratumauth/app
+  classification:
+    domain: Security
+    type: 2FA
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/stratumauth/app/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Security
+    - 2FA
+    prefer_prerelease: false
+    archive: false
+- id: com.my.kizzy
+  name: Kizzy
+  author: dead8309
+  url: https://github.com/dead8309/Kizzy
+  classification:
+    domain: Misc
+    type: Utility
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/dead8309/Kizzy/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Misc
+    prefer_prerelease: false
+    archive: false
+- id: com.foxdebug.acodefree
+  name: Acode
+  author: Acode Foundation
+  url: https://github.com/Acode-Foundation/Acode
+  classification:
+    domain: Development
+    type: Editor
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/Acode-Foundation/Acode
+  fdroid:
+    categories:
+    - Development
+    - Editor
+    prefer_prerelease: false
+    archive: false
+- id: in.hridayan.ashell
+  name: aShell You
+  author: Hridayan
+  url: https://github.com/DP-Hridayan/aShellYou
+  classification:
+    domain: System
+    type: Utility
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/DP-Hridayan/aShellYou
+  fdroid:
+    categories:
+    - System
+    - Utility
+    prefer_prerelease: false
+    archive: false
+- id: me.biplobsd.rsm
+  name: Running Services Monitor
+  author: biplobsd
+  url: https://github.com/biplobsd/running_services_monitor
+  classification:
+    domain: System
+    type: Utility
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/biplobsd/running_services_monitor
+  fdroid:
+    categories:
+    - System
+    - Utility
+    prefer_prerelease: false
+    archive: false
+- id: io.github.samolego.canta
+  name: Canta
+  author: Samolego
+  url: https://github.com/samolego/Canta
+  classification:
+    domain: System
+    type: Utility
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/samolego/Canta
+  fdroid:
+    categories:
+    - System
+    - Utility
+    prefer_prerelease: false
+    archive: false
+- id: ru.playsoftware.j2meloader
+  name: J2ME Loader
+  author: nikita36078
+  url: https://github.com/nikita36078/J2ME-Loader
+  classification:
+    domain: Gaming
+    type: Emulator
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/nikita36078/J2ME-Loader
+  fdroid:
+    categories:
+    - Gaming
+    - Emulator
+    prefer_prerelease: false
+    archive: false
+- id: com.gaurav.avnc
+  name: AVNC
+  author: Gaurav Ujjwal
+  url: https://github.com/gujjwal00/avnc
+  classification:
+    domain: System
+    type: Remote
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/gujjwal00/avnc
+  fdroid:
+    categories:
+    - System
+    - Remote
+    prefer_prerelease: false
+    archive: false
+- id: dev.octoshrimpy.quik
+  name: Quik
+  author: octoshrimpy
+  url: https://github.com/octoshrimpy/quik
+  classification:
+    domain: Communication
+    type: Messaging
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/octoshrimpy/quik
+  fdroid:
+    categories:
+    - Communication
+    - Messaging
+    prefer_prerelease: false
+    archive: false
+- id: de.mm20.launcher2.release
+  name: Kvaesitso
+  author: MM2-0
+  url: https://github.com/MM2-0/Kvaesitso
+  classification:
+    domain: System
+    type: Launcher
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/MM2-0/Kvaesitso
+  fdroid:
+    categories:
+    - System
+    - Launcher
+    prefer_prerelease: false
+    archive: false
+- id: exa.lnx.a
+  name: AnLinux
+  author: EXALAB
+  url: https://github.com/EXALAB/AnLinux-App
+  classification:
+    domain: System
+    type: Utility
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/EXALAB/AnLinux-App
+  fdroid:
+    categories:
+    - System
+    - Utility
+    prefer_prerelease: false
+    archive: false
+- id: com.felix.diohub
+  name: DioHub
+  author: Naman Shergill
+  url: https://github.com/NamanShergill/diohub
+  classification:
+    domain: Development
+    type: GitHubClient
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/NamanShergill/diohub
+  fdroid:
+    categories:
+    - Development
+    - GitHubClient
+    prefer_prerelease: false
+    archive: false
+- id: com.bilingify.readest
+  name: Readest
+  author: Readest
+  url: https://github.com/readest/readest
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Books
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/readest/readest
+  fdroid:
+    categories:
+    - Entertainment
+    - Books
+    prefer_prerelease: false
+    archive: false
+- id: app.marlboroadvance.mpvex
+  name: mpvExtended
+  author: MarlboroAdvance
+  url: https://github.com/marlboro-advance/mpvEx
+  classification:
+    domain: Entertainment
+    type: Player
+    content: Video
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/marlboro-advance/mpvEx
+  fdroid:
+    categories:
+    - Entertainment
+    - Video
+    - Player
+    prefer_prerelease: false
+    archive: false
+- id: app.revenge.manager
+  name: Revenge Manager
+  author: Revenge Mod
+  url: https://github.com/revenge-mod/revenge-manager
+  classification:
+    domain: System
+    type: Utility
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/revenge-mod/revenge-manager
+  fdroid:
+    categories:
+    - System
+    - Utility
+    prefer_prerelease: false
+    archive: false
+- id: info.guardianproject.panic
+  name: PanicKit
+  author: Guardian Project
+  url: https://github.com/guardianproject/PanicKit
+  classification:
+    domain: Security
+    type: Library
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://github.com/guardianproject/PanicKit
+  fdroid:
+    categories:
+    - Security
+    - Library
+    prefer_prerelease: false
+    archive: false
+- id: org.aniyomi.app
+  name: Aniyomi
+  author: AniyomiOrg
+  url: https://github.com/aniyomiorg/aniyomi
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga, Anime
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/aniyomiorg/aniyomi/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: eu.kanade.tachiyomiJ2K
+  name: TachiyomiJ2K (Fork)
+  author: Jays2Kings
+  url: https://github.com/Jays2Kings/tachiyomiJ2K
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Jays2Kings/tachiyomiJ2K/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    prefer_prerelease: false
+    archive: false
+- id: animiru.app
+  name: Animiru (Aniyomi Variant)
+  author: Aniyomi Community
+  url: https://github.com/quickdesh/Animiru
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Anime
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/quickdesh/Animiru/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: com.kodjodevf.mangayomi
+  name: Mangayomi (com)
+  author: kodjodevf
+  url: https://github.com/kodjodevf/mangayomi
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga, Anime
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/kodjodevf/mangayomi/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    - Anime
+    prefer_prerelease: false
+    archive: false
+- id: org.komikku.app
+  name: Komikku
+  author: KomikkuOrg
+  url: https://github.com/komikku-app/komikku
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/komikku-app/komikku/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    prefer_prerelease: false
+    archive: false
+- id: org.nubesurrealista.kumo
+  name: Kumo (Mihon Fork)
+  author: nubesurrealista
+  url: https://github.com/nubesurrealista/Kumo
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/nubesurrealista/Kumo/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    prefer_prerelease: false
+    archive: false
+- id: org.koitharu.kotatsu
+  name: Kotatsu
+  author: KotatsuApp
+  url: https://github.com/KotatsuApp/Kotatsu
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Discontinued
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/KotatsuApp/Kotatsu/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    archive: true
+    prefer_prerelease: false
+- id: app.kotatsu.redo
+  name: Kotatsu-Redo
+  author: Kotatsu-Redo
+  url: https://github.com/Kotatsu-Redo/Kotatsu-Redo
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Maintained Fork
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Kotatsu-Redo/Kotatsu-Redo/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Manga
+    prefer_prerelease: false
+    archive: false
+- id: my.noveldokusha
+  name: NovelDokusha (Fork)
+  author: nanihadesuka
+  url: https://github.com/nanihadesuka/NovelDokusha
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Novels, Light Novels
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/nanihadesuka/NovelDokusha/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Novels
+    prefer_prerelease: false
+    archive: false
+- id: com.anxcye.anx_reader
+  name: ANX Reader (Anxcye)
+  author: Anxcye
+  url: https://github.com/Anxcye/anx-reader
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: EPUB, Books, E-Books
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/Anxcye/anx-reader/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Books
+    prefer_prerelease: false
+    archive: false
+- id: io.github.readest.readest
+  name: Readest (New ID)
+  author: Readest
+  url: https://github.com/readest/readest
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Books, E-Books, EPUB
+    status: Active
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/readest/readest/main/apps/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Books
+    prefer_prerelease: false
+    archive: false# Trigger setup
