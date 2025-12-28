@@ -113,7 +113,24 @@ def clean_versions(app_dir):
             print(f"    🗑 Deleted old version: {os.path.basename(f)}")
         except Exception as e:
             print(f"    ⚠ Failed to delete {f}: {e}")
-            
+
+def prune_untracked_apps(config):
+    """Removes directories in apks/ that are no longer in apps.yaml"""
+    print("\n--- 🧹 Pruning Untracked Apps ---")
+    if not os.path.exists(APKS_DIR):
+        return
+        
+    tracked_ids = {app['id'] for app in config.get('apps', [])}
+    existing_dirs = [d for d in os.listdir(APKS_DIR) if os.path.isdir(os.path.join(APKS_DIR, d))]
+    
+    for d in existing_dirs:
+        if d not in tracked_ids:
+            print(f"  Removing untracked app directory: {d}")
+            try:
+                shutil.rmtree(os.path.join(APKS_DIR, d))
+            except Exception as e:
+                print(f"  ⚠ Failed to remove {d}: {e}")
+
 def task_download():
     print("--- 📥 Starting Download Phase ---")
     token = os.environ.get('GH_TOKEN')
@@ -213,6 +230,8 @@ def task_download():
         
         with open(meta_path, 'w') as f:
             yaml.dump(metadata, f, default_flow_style=False)
+
+    prune_untracked_apps(config)
 
 def task_index():
     print("\n--- 🏗️ Starting Index Phase ---")

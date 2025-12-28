@@ -853,25 +853,6 @@ apps:
     - GitHubClient
     prefer_prerelease: false
     archive: false
-- id: com.bilingify.readest
-  name: Readest
-  author: Readest
-  url: https://github.com/readest/readest
-  classification:
-    domain: Entertainment
-    type: Reader
-    content: Books
-    status: Stable
-  assets:
-    icon:
-      type: github-repo
-      url: https://github.com/readest/readest
-  fdroid:
-    categories:
-    - Entertainment
-    - Books
-    prefer_prerelease: false
-    archive: false
 - id: app.marlboroadvance.mpvex
   name: mpvExtended
   author: MarlboroAdvance
