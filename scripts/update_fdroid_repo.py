@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 import os, yaml, requests, subprocess, sys, argparse, shutil
-from androguard.core.bytecodes.apk import APK
+
+# --- ANDROGUARD IMPORT FIX ---
+try:
+    from androguard.core.bytecodes.apk import APK
+except ImportError:
+    try:
+        from androguard.core.apk import APK
+    except ImportError:
+        try:
+            from androguard.apk import APK
+        except ImportError:
+            raise SystemExit("❌ Androguard is installed, but APK class not found. Install correct version.")
 
 APKS="apks"; REPO="fdroid/repo"; MAX_S=2; MAX_P=2
 
