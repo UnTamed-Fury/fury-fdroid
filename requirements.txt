@@ -5,4 +5,4 @@ gitpython
 qrcode
 yamllint
 Pillow
-androguard==3.4.0
+androguard
