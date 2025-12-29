@@ -12,9 +12,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir -p repo
-      - run: fdroid update --create-metadata --config fdroid/config.yml
-      - run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Inject secure config
+        env:
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: |
+          CONFIG_CONTENT=$(cat fdroid/config.yml)
+          CONFIG_CONTENT="${CONFIG_CONTENT//\$\{\{ secrets.KEYSTORE_PASS \}\}/$KEYSTORE_PASS}"
+          CONFIG_CONTENT="${CONFIG_CONTENT//\$\{\{ secrets.KEY_PASS \}\}/$KEY_PASS}"
+          echo "$CONFIG_CONTENT" > fdroid/config.yml
+
+      - name: Create repo directory
+        run: mkdir -p repo
+
+      - name: Run fdroid update
+        env:
+          FDROID_KEY_STORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          FDROID_KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: |
+          fdroid update --create-metadata --config fdroid/config.yml
+
+      - name: Copy icons
+        run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
 
       - uses: actions/upload-artifact@v4
         with:

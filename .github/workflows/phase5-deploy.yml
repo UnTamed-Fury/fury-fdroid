@@ -12,11 +12,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: fdroid-repo
           path: repo
 
+      - name: Prepare website
+        run: |
+          mkdir -p public/repo
+          cp -r website/* public/
+          cp -r repo/* public/repo/
+
       - uses: actions/deploy-pages@v4
         with:
-          folder: repo
+          folder: public
