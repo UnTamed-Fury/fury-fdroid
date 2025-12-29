@@ -1,100 +1,142 @@
 #!/usr/bin/env python3
-import os, yaml, requests, subprocess, sys, argparse, shutil
+import os, sys, json, yaml, logging, subprocess, shutil
+from pathlib import Path
+from androguard.core.bytecodes.apk import APK
 
-# --- ANDROGUARD IMPORT FIX ---
-try:
-    from androguard.core.bytecodes.apk import APK
-except ImportError:
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
+logging.getLogger("androguard").setLevel(logging.ERROR)
+
+ROOT = Path(__file__).resolve().parents[1]
+APKS_DIR = ROOT / "apks"
+APPS_FILE = ROOT / "apps.yaml"
+
+# -----------------------------------------
+# Load app list
+# -----------------------------------------
+if not APPS_FILE.exists():
+    logging.error("apps.yaml missing. Cannot continue.")
+    sys.exit(1)
+
+with open(APPS_FILE, "r") as f:
+    apps = yaml.safe_load(f)
+
+if not isinstance(apps, dict) or 'apps' not in apps:
+    logging.error("apps.yaml format invalid. Expected a dict with 'apps' key.")
+    sys.exit(1)
+
+# -----------------------------------------
+# Helpers
+# -----------------------------------------
+def is_prerelease(tag: str) -> bool:
+    tag = tag.lower()
+    return any(x in tag for x in ["alpha", "beta", "rc", "pre", "preview", "nightly"])
+
+def sign_apk(apk_path: Path):
+    keystore = ROOT / "fdroid" / "keystore.p12"
+    if not keystore.exists():
+        logging.error("Signing failed: keystore.p12 not found.")
+        sys.exit(1)
+
+    cmd = [
+        "fdroid", "sign",
+        "--keystore", str(keystore),
+        "--verbose", str(apk_path)
+    ]
+    subprocess.run(cmd, check=True)
+    logging.info(f"Signed: {apk_path}")
+
+def get_version(apk: Path):
     try:
-        from androguard.core.apk import APK
-    except ImportError:
-        try:
-            from androguard.apk import APK
-        except ImportError:
-            raise SystemExit("❌ Androguard is installed, but APK class not found. Install correct version.")
+        a = APK(str(apk))
+        return int(a.get_androidversion_code())
+    except:
+        return -1  # invalid apk gets purged later
 
-APKS="apks"; REPO="fdroid/repo"; MAX_S=2; MAX_P=2
+def prune(package: str):
+    pkg_dir = APKS_DIR / package
+    if not pkg_dir.exists():
+        return
 
-def headers(t):
-    return {"Accept":"application/vnd.github.v3+json","Authorization":f"token {t}","User-Agent":"Fury-FDroid-Builder"}
+    apks = list(pkg_dir.glob("*.apk"))
+    if not apks:
+        return
 
-def releases(url,token,pre):
-    owner,repo=url.replace("https://github.com/","").split("/")[:2]
-    r=requests.get(f"https://api.github.com/repos/{owner}/{repo}/releases",headers=headers(token),timeout=15); r.raise_for_status()
-    rels=r.json()
-    S=[x for x in rels if not x["prerelease"]][:MAX_S]
-    P=[x for x in rels if x["prerelease"]][:MAX_P] if pre else []
-    return S,P
+    data = []
+    for apk in apks:
+        v = get_version(apk)
+        label = "prerelease" if is_prerelease(apk.name) else "stable"
+        data.append((apk, v, label))
 
-def pick(a):
-    p=["arm64","universal","v7a","x86_64","x86"]
-    for arch in p:
-        for i in a:
-            if arch in i["name"].lower(): return i
-    return a[0]
+    stable = sorted([x for x in data if x[2] == "stable"], key=lambda x: x[1], reverse=True)
+    pre = sorted([x for x in data if x[2] == "prerelease"], key=lambda x: x[1], reverse=True)
 
-def sign(fp):
-    subprocess.run([
-        "fdroid","sign","--force",
-        "--keystore=fdroid/keystore.p12",
-        f"--storepass={os.environ['FDROID_KEYSTORE_PASS']}",
-        f"--keypass={os.environ['FDROID_KEY_PASS']}",
-        fp
-    ],check=True)
+    purge = stable[2:] + pre[2:]  # keep 2 of each
+    for apk, v, label in purge:
+        logging.info(f"Removing old {label}: {apk.name}")
+        apk.unlink()
 
-def prune(d):
-    ls=sorted(os.listdir(d))
-    S=[x for x in ls if "_pre" not in x]
-    P=[x for x in ls if "_pre" in x]
-    for group,keep in [(S,MAX_S),(P,MAX_P)]:
-        for r in group[:-keep]:
-            os.remove(os.path.join(d,r))
-            print("🗑",r)
+# -----------------------------------------
+# Main — Download loop
+# -----------------------------------------
+for entry in apps['apps']:
+    if "url" not in entry or "id" not in entry:
+        logging.error(f"Invalid entry: {entry}")
+        continue
 
-def commit():
-    subprocess.run(["git","config","user.email","github-actions@github.com"])
-    subprocess.run(["git","config","user.name","GitHub Actions"])
-    subprocess.run(["git","add",APKS],check=False)
-    subprocess.run(["git","commit","-m","Auto: APK Update"],check=False)
-    subprocess.run(["git","push"],check=False)
+    # Extract repo from URL
+    repo_url = entry.get('url')
+    if 'github.com/' in repo_url:
+        parts = repo_url.split('github.com/')[1].split('/')
+        if len(parts) >= 2:
+            repo = f"{parts[0]}/{parts[1]}"
+        else:
+            logging.warning(f"Invalid repo URL: {repo_url}")
+            continue
+    else:
+        logging.warning(f"Not a GitHub URL: {repo_url}")
+        continue
 
-def download():
-    t=os.environ.get("GH_TOKEN");
-    if not t: sys.exit("GH_TOKEN missing")
+    package = entry["id"]
+    prerelease = entry.get("fdroid", {}).get("prefer_prerelease", False)
 
-    with open("apps.yaml") as f: apps=yaml.safe_load(f)["apps"]
-    for app in apps:
-        aid,repo,pr=app["id"],app["url"],bool(app.get("fdroid",{}).get("prefer_prerelease",False))
-        print("\n📦",aid)
-        S,P=releases(repo,t,pr)
-        os.makedirs(f"{APKS}/{aid}",exist_ok=True)
+    pkg_dir = APKS_DIR / package
+    pkg_dir.mkdir(parents=True, exist_ok=True)
 
-        for group,is_pre in [(S,False),(P,True)]:
-            for rel in group:
-                asset=pick([x for x in rel["assets"] if x["name"].endswith(".apk")])
-                tmp=f"{APKS}/{aid}/tmp.apk"
-                with requests.get(asset["browser_download_url"],stream=True) as r:
-                    r.raise_for_status()
-                    with open(tmp,"wb") as f: [f.write(c) for c in r.iter_content(8192)]
-                v=APK(tmp).get_androidversion_code()
-                suffix="_pre" if is_pre else ""
-                final=f"{APKS}/{aid}/{aid}_{v}{suffix}.apk"
-                os.rename(tmp,final); sign(final)
+    # fetch from releases
+    api = f"https://api.github.com/repos/{repo}/releases"
+    token = os.environ.get("GH_TOKEN", "")
+    curl = ["curl", "-s"]
+    if token: curl += ["-H", f"Authorization: token {token}"]
+    curl.append(api)
 
-        prune(f"{APKS}/{aid}")
-    commit()
+    result = subprocess.check_output(curl).decode("utf-8")
+    releases = json.loads(result)
 
-def index():
-    if os.path.exists(REPO): shutil.rmtree(REPO)
-    os.makedirs(REPO)
-    for r,_,fs in os.walk(APKS):
-        for f in fs:
-            if f.endswith(".apk"):
-                shutil.copy2(os.path.join(r,f),REPO)
-    subprocess.run(["fdroid","update","--create-metadata","--pretty","--verbose"],cwd="fdroid",check=True)
+    assets = []
+    for r in releases:
+        if r.get("prerelease") and not prerelease:
+            continue
+        if not r.get("prerelease") and prerelease:
+            continue
+        for a in r.get("assets", []):
+            if a["name"].endswith(".apk"):
+                assets.append(a)
 
-if __name__=="__main__":
-    p=argparse.ArgumentParser(); p.add_argument("--download",action="store_true"); p.add_argument("--index",action="store_true")
-    a=p.parse_args()
-    if a.download: download()
-    if a.index: index()
+    if not assets:
+        logging.warning(f"No matching APKs found for {package}")
+        continue
+
+    # sort newest first by GitHub release ordering
+    for asset in assets[:4]:  # safety bound
+        url = asset["browser_download_url"]
+        name = asset["name"]
+        target = pkg_dir / name
+        if target.exists():
+            continue
+        logging.info(f"Downloading: {name}")
+        subprocess.run(["curl", "-L", "-o", str(target), url], check=True)
+        sign_apk(target)
+
+    prune(package)
+
+logging.info("Download + sign + prune complete.")

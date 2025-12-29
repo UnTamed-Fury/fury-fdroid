@@ -1,0 +1,22 @@
+name: Phase 5 - Deploy
+on:
+  workflow_run:
+    workflows: ["Phase 4 - Index"]
+    types: [completed]
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: fdroid-repo
+          path: repo
+
+      - uses: actions/deploy-pages@v4
+        with:
+          folder: repo

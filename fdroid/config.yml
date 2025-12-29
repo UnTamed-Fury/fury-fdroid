@@ -21,13 +21,22 @@ make_current_version_link: false
 keystore: keystore.p12
 
 # The alias of the key within the keystore.
-repo_keyalias: fdroid_key
+repo_keyalias: fury
 
 # The distinguished name used for generating keys.
 keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
 
 # The password for the keystore.
-keystorepass: ${{ secrets.KEYSTORE_PASS }}
+keystorepass: $KEYPASS
 
 # The password for the private key within the keystore.
-keypass: ${{ secrets.KEY_PASS }}
+keypass: $KEYPASS
+
+# Repository directory
+repo_dir: repo
+
+# APK directory
+apk_dir: apks
+
+# Metadata directory
+metadata_dir: fdroid/metadata

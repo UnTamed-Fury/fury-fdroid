@@ -1,0 +1,22 @@
+name: Phase 4 - Index
+on:
+  workflow_run:
+    workflows: ["Phase 3 - Download & Sign"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p repo
+      - run: fdroid update --create-metadata --config fdroid/config.yml
+      - run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fdroid-repo
+          path: repo

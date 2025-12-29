@@ -1,0 +1,40 @@
+name: Phase 3 - Download & Sign
+on:
+  workflow_run:
+    workflows: ["Phase 2 - Setup"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  download-sign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pip-cache
+          path: cache
+
+      - run: |
+          SITE=$(python -m site --user-site)
+          mkdir -p "$SITE"
+          tar -xzf cache/pip-cache.tar.gz -C "$SITE"
+          echo "PYTHONPATH=$SITE" >> $GITHUB_ENV
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python3 scripts/update_fdroid_repo.py --download
+
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add apks/
+          git commit -m "Phase 3: new APKs" || true
+          git push

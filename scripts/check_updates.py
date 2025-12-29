@@ -1,43 +1,39 @@
-import os, json, yaml, requests, sys
+#!/usr/bin/env python3
+import requests, yaml, logging
+from pathlib import Path
 
-def get_headers(tok):
-    h={"Accept":"application/vnd.github.v3+json","User-Agent":"Fury-FDroid-Watcher"}
-    if tok: h["Authorization"]=f"token {tok}"
-    return h
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
-def check_updates():
-    tok=os.environ.get("GH_TOKEN")
-    if not tok: sys.exit("GH_TOKEN missing")
+ROOT = Path(__file__).resolve().parents[1]
+APPS = ROOT / "apps.yaml"
 
-    with open("apps.yaml") as f: apps=yaml.safe_load(f)["apps"]
-    status_file="release_status.json"
-    status=json.load(open(status_file)) if os.path.exists(status_file) else {}
-    updates=False
+with open(APPS, "r") as f:
+    apps = yaml.safe_load(f)
 
-    for app in apps:
-        appid=app["id"]; repo=app["url"]
-        allow_pre=bool(app.get("fdroid",{}).get("prefer_prerelease",False))
-        owner,repo=repo.replace("https://github.com/","").split("/")[:2]
+for app in apps.get('apps', []):
+    repo_url = app.get('url')
+    app_id = app.get('id')
+    if not repo_url or not app_id:
+        logging.warning(f"Invalid entry: {app}")
+        continue
 
-        # unified endpoint → list releases, pick correct newest
-        url=f"https://api.github.com/repos/{owner}/{repo}/releases"
-        r=requests.get(url,headers=get_headers(tok),timeout=12)
-        r.raise_for_status()
-        rels=r.json()
-        if not rels: continue
+    # Extract repo from URL
+    if 'github.com/' in repo_url:
+        parts = repo_url.split('github.com/')[1].split('/')
+        if len(parts) >= 2:
+            repo = f"{parts[0]}/{parts[1]}"
+        else:
+            logging.warning(f"Invalid repo URL: {repo_url}")
+            continue
+    else:
+        logging.warning(f"Not a GitHub URL: {repo_url}")
+        continue
 
-        latest=[r for r in rels if r.get("prerelease")==allow_pre]
-        if not latest: latest=rels
-        latest_tag=latest[0]["tag_name"]
+    url = f"https://api.github.com/repos/{repo}/releases/latest"
+    r = requests.get(url)
+    if r.status_code != 200:
+        logging.warning(f"{app_id}: no latest release or invalid repo")
+        continue
 
-        if status.get(appid)!=latest_tag:
-            print(f"★ {appid}: {status.get(appid)} → {latest_tag}")
-            status[appid]=latest_tag; updates=True
-
-    json.dump(status,open(status_file,"w"),indent=2)
-    print(f"updates_found={'true' if updates else 'false'}")
-    if "GITHUB_OUTPUT" in os.environ:
-        with open(os.environ["GITHUB_OUTPUT"],"a") as f:
-            f.write(f"updates_found={'true' if updates else 'false'}\n")
-
-if __name__=="__main__": check_updates()
+    tag = r.json().get("tag_name")
+    logging.info(f"{app_id}: latest = {tag}")

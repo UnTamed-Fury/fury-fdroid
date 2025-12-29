@@ -1,0 +1,15 @@
+name: Phase 2 - Setup
+on:
+  workflow_run:
+    workflows: ["Phase 1 - Watcher"]
+    types: [completed]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p apks
+          mkdir -p fdroid/metadata/icons
+      - run: python3 scripts/setup_apps.py
