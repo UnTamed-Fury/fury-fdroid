@@ -1,7 +1,7 @@
 {
   "net.kdt.pojavlaunch.debug": "gladiolus",
   "com.movtery.zalithlauncher": "141200",
-  "com.movtery.zalithlauncher.v2": "2.0.0_pre-release_2",
+  "com.movtery.zalithlauncher.v2": "2.0.0_pre-release_3",
   "com.termux": "4.0.1",
   "com.termux.api": "v0.53.0",
   "com.termux.window": "v0.17.0",
@@ -27,7 +27,7 @@
   "org.signal": "v7.68.5",
   "org.joinmastodon.android": "v2.11.9",
   "im.vector.app.android.x": "v25.12.0",
-  "io.github.stardomains3.oxproxion": "v2.1.26",
+  "io.github.stardomains3.oxproxion": "v2.1.27",
   "jp.nonbili.nora": "v0.4.13",
   "com.github.newhinton.roundsync": "v2.5.6",
   "juloo.keyboard2": "1.32.1",
