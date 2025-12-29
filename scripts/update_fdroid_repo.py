@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 import os, sys, json, yaml, logging, subprocess, shutil
 from pathlib import Path
-from androguard.core.bytecodes.apk import APK
+
+# Try different import methods for androguard
+try:
+    from androguard.core.bytecodes.apk import APK
+except ImportError:
+    try:
+        from androguard.core.apk import APK
+    except ImportError:
+        from androguard.apk import APK
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logging.getLogger("androguard").setLevel(logging.ERROR)
