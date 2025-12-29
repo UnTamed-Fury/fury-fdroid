@@ -1,4 +1,4 @@
-name: Phase-1-Watcher
+name: Phase 1 - Watcher
 
 on:
   workflow_dispatch:
