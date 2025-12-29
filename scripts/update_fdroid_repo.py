@@ -45,10 +45,10 @@ def sign_apk(apk_path: Path):
         logging.error("Signing failed: keystore.p12 not found.")
         sys.exit(1)
 
+    # Use fdroid signkey to sign the APK
     cmd = [
-        "fdroid", "sign",
-        "--keystore", str(keystore),
-        "--verbose", str(apk_path)
+        "fdroid", "signkey",
+        str(apk_path)
     ]
     subprocess.run(cmd, check=True)
     logging.info(f"Signed: {apk_path}")
