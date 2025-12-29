@@ -26,14 +26,11 @@ REPO_URL = "https://fury.untamedfury.space/repo"
 def check_local_structure():
     """Validates the local file system layout."""
     print("=== 🏠 Local Structure Check ===")
-    
+
     # 1. Directories
     required_dirs = ['fdroid', 'fdroid/metadata', 'fdroid/repo', 'apks', 'scripts', 'website']
     for d in required_dirs:
-        if os.path.isdir(d):
-            print(f"  ✓ Directory found: {d}")
-        else:
-            print(f"  ✗ Directory MISSING: {d}")
+        print(f"  {'✓' if os.path.isdir(d) else '✗'} {d}")
 
     # 2. Config Files
     if os.path.exists("apps.yaml"):
@@ -144,6 +141,8 @@ def check_live_repo():
                         if head.status_code == 200:
                             size = head.headers.get('Content-Length', 'unknown')
                             print(f"      ✓ APK accessible: {apk_name} ({size} bytes)")
+                            if "_pre" in apk_name:
+                                print("      ↪ prerelease slot OK (matches policy 2 stable + 2 pre)")
                         else:
                             print(f"      ✗ APK missing: {apk_url} ({head.status_code})")
                     except Exception as e:

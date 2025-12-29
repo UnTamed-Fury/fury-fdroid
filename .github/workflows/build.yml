@@ -3,7 +3,7 @@ name: Phase 3/4/5 - Build & Deploy
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Phase 1 - Watcher", "Phase 2 - Setup & Icons"]
+    workflows: ["Phase-1-Watcher", "Phase 2 - Setup & Icons"]
     types:
       - completed
 
@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     permissions:
-      contents: read # No longer writing to repo
-    
+      contents: write # Now writing to repo for commit
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,31 +41,12 @@ jobs:
             pip install requests pyyaml androguard
           fi
 
-      - name: Restore APK Cache
-        uses: actions/cache@v4
-        with:
-          path: apks/
-          key: apks-${{ runner.os }}-${{ github.run_id }}
-          restore-keys: |
-            apks-${{ runner.os }}-
-
       - name: Run Download Script
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/update_fdroid_repo.py --download
 
-      # Save cache happens automatically at end of job if key matches?
-      # Actually cache action saves if key doesn't exist. Since run_id is unique, it will always save.
-      # This effectively updates the cache for the next run (which uses restore-keys).
-
-      - name: Upload APKs & Metadata
-        uses: actions/upload-artifact@v4
-        with:
-          name: raw-data
-          path: |
-            apks/
-            fdroid/metadata/
-          retention-days: 1
+      # No more artifact upload since we commit directly
 
   index:
     name: Phase 4 - Index
@@ -73,7 +54,7 @@ jobs:
     needs: download
     permissions:
       contents: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -98,11 +79,6 @@ jobs:
           else
             pip install requests pyyaml fdroidserver gitpython qrcode yamllint Pillow
           fi
-
-      - name: Download APKs & Metadata
-        uses: actions/download-artifact@v4
-        with:
-          name: raw-data
 
       - name: Inject Secure Config
         env:
