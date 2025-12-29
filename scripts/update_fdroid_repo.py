@@ -45,10 +45,22 @@ def sign_apk(apk_path: Path):
         logging.error("Signing failed: keystore.p12 not found.")
         sys.exit(1)
 
-    # Use fdroid publish to sign and place the APK in the repo
+    # Use system jarsigner for signing since fdroid publish requires full repo setup
+    # First, let's try to use jarsigner directly with the keystore
+    keypass = os.environ.get("KEYPASS", "")
+    keystorepass = os.environ.get("KEYSTOREPASS", "")
+
+    if not keypass or not keystorepass:
+        logging.error("Signing failed: KEYPASS or KEYSTOREPASS not set in environment.")
+        sys.exit(1)
+
+    # Use jarsigner to sign the APK
     cmd = [
-        "fdroid", "publish",
-        str(apk_path)
+        "jarsigner", "-verbose", "-sigalg", "SHA1withRSA", "-digestalg", "SHA1",
+        "-keystore", str(keystore),
+        "-storepass", keystorepass,
+        "-keypass", keypass,
+        str(apk_path), "fdroid_key"  # alias should match config
     ]
     subprocess.run(cmd, check=True)
     logging.info(f"Signed: {apk_path}")
