@@ -26,10 +26,7 @@ jobs:
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           KEY_PASS: ${{ secrets.KEY_PASS }}
         run: |
-          CONFIG_CONTENT=$(cat fdroid/config.yml)
-          CONFIG_CONTENT="${CONFIG_CONTENT//\$\{\{ secrets.KEYSTORE_PASS \}\}/$KEYSTORE_PASS}"
-          CONFIG_CONTENT="${CONFIG_CONTENT//\$\{\{ secrets.KEY_PASS \}\}/$KEY_PASS}"
-          echo "$CONFIG_CONTENT" > fdroid/config.yml
+          sed -i "s|\$KEYPASS|$KEY_PASS|g" fdroid/config.py
 
       - name: Create repo directory
         run: mkdir -p repo
@@ -39,7 +36,8 @@ jobs:
           FDROID_KEY_STORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           FDROID_KEY_PASS: ${{ secrets.KEY_PASS }}
         run: |
-          fdroid update --create-metadata --config fdroid/config.yml
+          cd fdroid
+          fdroid update --create-metadata
 
       - name: Copy icons
         run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true

@@ -1,0 +1,43 @@
+# F-Droid configuration file
+
+# The base URL where this F-Droid repository will be served.
+repo_url = "https://fury.untamedfury.space/repo"
+
+# The human-readable name of your F-Droid repository.
+repo_name = "Fury's F-Droid Repo"
+
+# A brief description of your F-Droid repository.
+repo_description = "A repository of apps I use and recommend."
+
+# The icon file for your repository, displayed in F-Droid clients.
+repo_icon = "icon.png"
+
+# How many older versions of APKs to keep in the archive.
+archive_older = 0
+
+# Whether to create a symbolic link for the current version of an app.
+make_current_version_link = False
+
+# Path to the keystore file used for signing the repository.
+keystore = "keystore.p12"
+
+# The alias of the key within the keystore.
+repo_keyalias = "fury"
+
+# The distinguished name used for generating keys.
+keydname = "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
+
+# The password for the keystore.
+keystorepass = "$KEYPASS"
+
+# The password for the private key within the keystore.
+keypass = "$KEYPASS"
+
+# Repository directory
+repo_dir = "repo"
+
+# APK directory
+apk_dir = "../apks"
+
+# Metadata directory
+metadata_dir = "metadata"

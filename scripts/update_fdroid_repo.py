@@ -133,16 +133,28 @@ for entry in apps['apps']:
     curl.append(api)
 
     result = subprocess.check_output(curl).decode("utf-8")
-    releases = json.loads(result)
+    try:
+        releases = json.loads(result)
+        # Ensure releases is a list
+        if not isinstance(releases, list):
+            logging.warning(f"Expected a list of releases, but got {type(releases)}: {releases}")
+            continue
+    except json.JSONDecodeError:
+        logging.error(f"Failed to decode JSON response for {repo}: {result}")
+        continue
 
     assets = []
     for r in releases:
+        # Ensure r is a dictionary
+        if not isinstance(r, dict):
+            logging.warning(f"Expected a dict for release, but got {type(r)}: {r}")
+            continue
         if r.get("prerelease") and not prerelease:
             continue
         if not r.get("prerelease") and prerelease:
             continue
         for a in r.get("assets", []):
-            if a["name"].endswith(".apk"):
+            if isinstance(a, dict) and a.get("name", "").endswith(".apk"):
                 assets.append(a)
 
     if not assets:
