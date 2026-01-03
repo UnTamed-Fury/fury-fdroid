@@ -44,6 +44,12 @@ fdroid/metadata/*.png # Generated icon files (in root metadata dir only, not in 
 fdroid/index-v1.json
 fdroid/index-v2.json
 fdroid/index-v1.jar
+fdroid/metadata/*.yml
+fdroid/metadata/*.txt
+
+# The apks directory is needed for the build process and contains APK files
+# This is a stateless F-Droid repo where APKs are downloaded during build
+# We need to allow APK files to be committed during the workflow
 
 # Virtual Environment
 .venv

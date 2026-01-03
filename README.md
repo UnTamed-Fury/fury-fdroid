@@ -50,10 +50,11 @@ This project uses a unique "stateless" approach to F-Droid repositories:
 1.  **Source of Truth:** `apps.yaml` defines the list of apps and their metadata.
 2.  **Phase 1: Watcher:** A scheduled workflow checks GitHub for new releases of tracked apps.
 3.  **Phase 2: Setup:** Prepares the directory structure and fetches/updates icons.
-4.  **Phase 3: Build:**
-    *   **Download:** Fetches the latest `.apk` files from GitHub Releases.
-    *   **Index:** Uses `fdroidserver` to generate the repository index (`index-v1.jar`).
-    *   **Deploy:** Publishes the static website and repository to GitHub Pages.
+4.  **Phase 3: Download:** Downloads APKs from GitHub Releases and passes them as artifacts (not committed to git).
+5.  **Phase 4: Index:** Uses `fdroidserver` to generate the repository index (`index-v1.jar`) with APKs from artifacts.
+6.  **Phase 5: Deploy:** Publishes the static website and repository to GitHub Pages.
+
+**Key Point:** APKs are NOT stored in the git repository. They are downloaded during the build process and used only for index generation, keeping the repository lightweight.
 
 ---
 

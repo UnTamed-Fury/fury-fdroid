@@ -17,6 +17,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Download APKs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: apks-download
+          path: apks/
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
@@ -26,7 +32,7 @@ jobs:
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           KEY_PASS: ${{ secrets.KEY_PASS }}
         run: |
-          sed -i "s|\$KEYPASS|$KEY_PASS|g" fdroid/config.yml
+          sed -i "s|\$KEYPASS|${KEY_PASS}|g" fdroid/config.yml
 
       - name: Create repo directory
         run: mkdir -p repo

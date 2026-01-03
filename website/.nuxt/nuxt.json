@@ -1,0 +1,9 @@
+{
+  "_hash": "CgKqmfyO45iLoBKvv703jAe5QVuAd7E0In1y8u5m6cw",
+  "project": {
+    "rootDir": "/data/data/com.termux/files/home/github/fury-fdroid/fury-fdroid/website"
+  },
+  "versions": {
+    "nuxt": "4.2.2"
+  }
+}
