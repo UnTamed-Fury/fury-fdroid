@@ -10,5 +10,17 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Custom F-Droid repository for open-source Android apps.' }
       ]
     }
+  },
+  // Target static generation for GitHub Pages
+  target: 'static',
+  // Generate routes for static site
+  generate: {
+    dir: 'dist'
+  },
+  // Enable static site generation
+  ssr: true,
+  // Optimize for GitHub Pages
+  nitro: {
+    static: true
   }
 })

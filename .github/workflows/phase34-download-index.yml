@@ -1,14 +1,14 @@
-name: Phase 4 - Index
+name: Phase 3 & 4 - Download & Index
 on:
   workflow_run:
-    workflows: ["Phase 3 - Download & Sign"]
+    workflows: ["Phase 2 - Setup"]
     types: [completed]
 
 permissions:
   contents: write
 
 jobs:
-  index:
+  download-and-index:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,15 +17,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Download APKs artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: apks-download
-          path: apks/
-
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+
+      - name: Download APKs
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python3 scripts/update_fdroid_repo.py
 
       - name: Inject secure config
         env:
@@ -48,7 +47,11 @@ jobs:
       - name: Copy icons
         run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload F-Droid repository
+        uses: actions/upload-artifact@v4
         with:
           name: fdroid-repo
           path: repo
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 5
