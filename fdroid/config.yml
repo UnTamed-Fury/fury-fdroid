@@ -20,7 +20,7 @@ make_current_version_link: false
 keystore: "keystore.p12"
 
 # The alias of the key within the keystore.
-repo_keyalias: "fury"
+repo_keyalias: "fdroid_key"
 
 # The distinguished name used for generating keys.
 keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
