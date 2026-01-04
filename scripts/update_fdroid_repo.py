@@ -40,33 +40,10 @@ def is_prerelease(tag: str) -> bool:
     return any(x in tag for x in ["alpha", "beta", "rc", "pre", "preview", "nightly"])
 
 def sign_apk(apk_path: Path):
-    keystore = ROOT / "fdroid" / "keystore.p12"
-    if not keystore.exists():
-        logging.warning("Keystore not found, skipping signing: keystore.p12")
-        return
-
-    # Use system jarsigner for signing since fdroid publish requires full repo setup
-    # First, let's try to use jarsigner directly with the keystore
-    keypass = os.environ.get("KEYPASS", "")
-    keystorepass = os.environ.get("KEYSTOREPASS", "")
-
-    if not keypass or not keystorepass:
-        logging.warning("Signing credentials not available, skipping signing for testing")
-        return
-
-    # Use jarsigner to sign the APK
-    cmd = [
-        "jarsigner", "-verbose", "-sigalg", "SHA1withRSA", "-digestalg", "SHA1",
-        "-keystore", str(keystore),
-        "-storepass", keystorepass,
-        "-keypass", keypass,
-        str(apk_path), "fdroid_key"  # alias should match config
-    ]
-    try:
-        subprocess.run(cmd, check=True)
-        logging.info(f"Signed: {apk_path}")
-    except subprocess.CalledProcessError as e:
-        logging.warning(f"Failed to sign {apk_path}, continuing: {e}")
+    # Skip individual APK signing - F-Droid will handle signing during the update process
+    # Individual signing here can cause issues with F-Droid's repository signing
+    logging.info(f"Skipping individual signing for {apk_path.name} - will be handled by F-Droid")
+    return
 
 def get_version(apk: Path):
     try:

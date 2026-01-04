@@ -1,5 +1,4 @@
 # The base URL where this F-Droid repository will be served.
-# This should be your GitHub Pages URL followed by /repo.
 repo_url: "https://fury.untamedfury.space/repo"
 
 # The human-readable name of your F-Droid repository.
@@ -18,25 +17,25 @@ archive_older: 0
 make_current_version_link: false
 
 # Path to the keystore file used for signing the repository.
-keystore: keystore.p12
+keystore: "keystore.p12"
 
 # The alias of the key within the keystore.
-repo_keyalias: fury
+repo_keyalias: "fdroid_key"
 
 # The distinguished name used for generating keys.
 keydname: "CN=F-Droid Repo, OU=Security, O=F-Droid, L=, S=, C=US"
 
 # The password for the keystore.
-keystorepass: $KEYPASS
+keystorepass: "$KEYPASS"
 
 # The password for the private key within the keystore.
-keypass: $KEYPASS
+keypass: "$KEYPASS"
 
 # Repository directory
-repo_dir: repo
+repo_dir: "repo"
 
 # APK directory
-apk_dir: apks
+apk_dir: "../apks"
 
 # Metadata directory
-metadata_dir: fdroid/metadata
+metadata_dir: "metadata"

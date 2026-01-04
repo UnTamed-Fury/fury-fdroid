@@ -1,0 +1,17 @@
+{
+  "date": "2026-01-03T20:39:51.282Z",
+  "preset": "nitro-dev",
+  "framework": {
+    "name": "nuxt",
+    "version": "4.2.2"
+  },
+  "versions": {
+    "nitro": "2.12.8"
+  },
+  "dev": {
+    "pid": 11574,
+    "workerAddress": {
+      "socketPath": "/data/data/com.termux/files/usr/tmp/nitro-worker-11574-1-1-1706.sock"
+    }
+  }
+}
