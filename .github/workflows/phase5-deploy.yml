@@ -34,12 +34,39 @@ jobs:
           workflow_conclusion: success
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
-      - name: Prepare website
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'website/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd website
+          npm install
+
+      - name: Generate static site
+        run: |
+          cd website
+          npm run generate
+
+      - name: Prepare deployment directory
         run: |
           mkdir -p public/repo
-          cp -r website/* public/
+          # Copy generated static site to public directory
+          cp -r website/dist/* public/
+          # Copy F-Droid repository files to repo subdirectory
           cp -r repo/* public/repo/
 
-      - uses: actions/deploy-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          folder: public
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
