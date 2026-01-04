@@ -281,6 +281,25 @@ apps:
     - Manga
     prefer_prerelease: true
     archive: false
+- id: eu.kanade.tachiyomi.yokai
+  name: Yōkai
+  author: null2264
+  url: https://github.com/null2264/yokai
+  classification:
+    domain: Entertainment
+    type: Reader
+    content: Manga
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/null2264/yokai/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Entertainment
+    - Manga
+    prefer_prerelease: true
+    archive: false
 - id: app.mihon
   name: Mihon
   author: mihonapp
