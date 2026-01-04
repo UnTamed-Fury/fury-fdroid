@@ -3,6 +3,7 @@ on:
   workflow_run:
     workflows: ["Phase 4 - Index"]
     types: [completed]
+  workflow_dispatch:
 
 permissions:
   pages: write
