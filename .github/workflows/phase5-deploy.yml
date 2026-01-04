@@ -21,7 +21,7 @@ jobs:
           run_id: ${{ github.event.workflow_run.id }}
           name: fdroid-repo
           path: repo
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
