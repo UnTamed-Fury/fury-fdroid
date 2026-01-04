@@ -53,11 +53,17 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
+          # Create the proper structure for GitHub Pages
+          # F-Droid repository files need to be at the root for proper client access
           mkdir -p public/repo
-          # Copy generated static site to public directory
-          cp -r website/dist/* public/
-          # Copy F-Droid repository files to repo subdirectory
-          cp -r repo/* public/repo/
+
+          # Copy F-Droid repository files to the root of public directory first
+          # This ensures index-v1.json, index-v1.jar, etc. are accessible at root
+          cp -r repo/* public/
+
+          # Copy the generated website to the root, but don't overwrite F-Droid files
+          # This makes the website accessible while preserving F-Droid repository structure
+          rsync -av --ignore-existing website/dist/* public/ 2>/dev/null || echo "No website files to copy"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
