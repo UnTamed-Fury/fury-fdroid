@@ -1,0 +1,63 @@
+name: Phase 3 & 4 - Download & Index
+on:
+  workflow_run:
+    workflows: ["Phase 2 - Setup"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  download-and-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Download APKs
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python3 scripts/update_fdroid_repo.py
+
+      - name: Prepare repo directory with APKs
+        run: |
+          mkdir -p fdroid/repo
+          # Copy APKs from the downloaded location to the repo directory for indexing
+          find apks/ -name "*.apk" -exec cp {} fdroid/repo/ \; 2>/dev/null || echo "No APKs to copy"
+
+      - name: Inject secure config
+        env:
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: |
+          sed -i "s|\$KEYPASS|${KEY_PASS}|g" fdroid/config.yml
+
+      - name: Create repo directory
+        run: mkdir -p repo
+
+      - name: Run fdroid update
+        env:
+          FDROID_KEY_STORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          FDROID_KEY_PASS: ${{ secrets.KEY_PASS }}
+        run: |
+          cd fdroid
+          fdroid update --create-metadata
+
+      - name: Copy icons
+        run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
+
+      - name: Upload F-Droid repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: fdroid-repo
+          path: repo
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 5
