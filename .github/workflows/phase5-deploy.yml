@@ -17,7 +17,7 @@ jobs:
 
       - uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: Phase 3 & 4 - Download & Index
+          workflow: phase34-download-index.yml
           run_id: ${{ github.event.workflow_run.id }}
           name: fdroid-repo
           path: repo
@@ -27,7 +27,7 @@ jobs:
       # For manual dispatch, we'll use a fallback - download the latest successful artifact
       - uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: Phase 3 & 4 - Download & Index
+          workflow: phase34-download-index.yml
           name: fdroid-repo
           path: repo
           github_token: ${{ secrets.GITHUB_TOKEN }}
