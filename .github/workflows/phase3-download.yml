@@ -1,0 +1,39 @@
+name: Phase 3 - Download & Sign
+on:
+  workflow_run:
+    workflows: ["Phase 2 - Setup"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  download-sign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          KEYPASS: ${{ secrets.KEY_PASS }}
+        run: python3 scripts/update_fdroid_repo.py
+
+      - name: Commit APKs
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add apks/
+          if ! git diff --cached --quiet; then
+            git commit -m "Phase 3: new APKs" || true
+            git push
+          else
+            echo "No changes to commit"
+          fi
