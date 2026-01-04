@@ -44,10 +44,10 @@ jobs:
         run: |
           # Create the public directory structure
           mkdir -p public/repo
-          # Copy F-Droid repository files first to ensure they're not overridden
-          cp -r repo/* public/repo/ 2>/dev/null || echo "No repo files to copy"
-          # Copy generated Nuxt site to public (but avoid overwriting repo/)
+          # Copy generated Nuxt site to public first
           cp -r website/dist/* public/ 2>/dev/null || echo "No website files to copy"
+          # Then copy F-Droid repository files to the repo subdirectory
+          cp -r repo/* public/repo/ 2>/dev/null || echo "No repo files to copy"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
