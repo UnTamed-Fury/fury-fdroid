@@ -17,7 +17,7 @@ jobs:
 
       - uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: phase34-download-index.yml
+          workflow: "Phase 3 & 4 - Download & Index"
           run_id: ${{ github.event.workflow_run.id }}
           name: fdroid-repo
           path: repo
@@ -27,41 +27,29 @@ jobs:
       # For manual dispatch, we'll use a fallback - download the latest successful artifact
       - uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: phase34-download-index.yml
+          workflow: "Phase 3 & 4 - Download & Index"
           name: fdroid-repo
           path: repo
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow_conclusion: success
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: |
-          cd website
-          npm install
-
-      - name: Generate static site
-        run: |
-          cd website
-          npm run generate
-
+      # Prepare deployment directory
       - name: Prepare deployment directory
         run: |
           # Create the proper structure for GitHub Pages
           # F-Droid repository files need to be at the root for proper client access
-          mkdir -p public/repo
+          mkdir -p public
 
           # Copy F-Droid repository files to the root of public directory first
           # This ensures index-v1.json, index-v1.jar, etc. are accessible at root
-          cp -r repo/* public/
+          cp -r repo/* public/ 2>/dev/null || echo "No repo files to copy"
 
-          # Copy the generated website to the root, but don't overwrite F-Droid files
+          # Copy the static website files to the root
           # This makes the website accessible while preserving F-Droid repository structure
-          rsync -av --ignore-existing website/dist/* public/ 2>/dev/null || echo "No website files to copy"
+          cp website/index.html public/ 2>/dev/null || echo "No index.html to copy"
+          cp website/qr.png public/ 2>/dev/null || echo "No qr.png to copy"
+          cp -r website/public/* public/ 2>/dev/null || echo "No additional public files to copy"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

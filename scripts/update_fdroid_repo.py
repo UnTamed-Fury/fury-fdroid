@@ -2,17 +2,9 @@
 import os, sys, json, yaml, logging, subprocess, shutil
 from pathlib import Path
 
-# Try different import methods for androguard
-try:
-    from androguard.core.bytecodes.apk import APK
-except ImportError:
-    try:
-        from androguard.core.apk import APK
-    except ImportError:
-        from androguard.apk import APK
+from fdroidserver.common import ReadAPK
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
-logging.getLogger("androguard").setLevel(logging.ERROR)
 
 ROOT = Path(__file__).resolve().parents[1]
 APKS_DIR = ROOT / "apks"
@@ -47,9 +39,10 @@ def sign_apk(apk_path: Path):
 
 def get_version(apk: Path):
     try:
-        a = APK(str(apk))
+        a = ReadAPK(str(apk))
         return int(a.get_androidversion_code())
-    except:
+    except Exception as e:
+        logging.warning(f"Failed to parse {apk.name}: {e}")
         return -1  # invalid apk gets purged later
 
 def prune(package: str):

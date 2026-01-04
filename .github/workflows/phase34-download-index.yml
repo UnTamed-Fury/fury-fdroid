@@ -50,8 +50,20 @@ jobs:
           cd fdroid
           fdroid update --create-metadata
 
-      - name: Copy icons
-        run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
+      - name: Copy repository files to deployment directory
+        run: |
+          # The fdroid update command creates files in fdroid/repo/ based on config.yml
+          # Copy these to the repo directory for deployment
+          cp -r fdroid/repo/* repo/ 2>/dev/null || echo "No repo files to copy"
+          # Also copy any index files that might be in the fdroid directory
+          cp fdroid/index-v1.json repo/ 2>/dev/null || echo "No index-v1.json to copy"
+          cp fdroid/index-v1.jar repo/ 2>/dev/null || echo "No index-v1.jar to copy"
+          cp fdroid/index.xml repo/ 2>/dev/null || echo "No index.xml to copy"
+
+      - name: Copy icons and metadata
+        run: |
+          cp -r fdroid/metadata/icons repo/ 2>/dev/null || echo "No icons to copy"
+          cp -r fdroid/metadata/*.yml repo/ 2>/dev/null || echo "No metadata files to copy"
 
       - name: Upload F-Droid repository
         uses: actions/upload-artifact@v4
