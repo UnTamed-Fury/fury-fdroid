@@ -17,6 +17,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Download APKs artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: Phase 3 - Download & Sign
+          run_id: ${{ github.event.workflow_run.id }}
+          name: apks-download
+          path: apks/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
@@ -26,9 +35,7 @@ jobs:
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
           KEY_PASS: ${{ secrets.KEY_PASS }}
         run: |
-          sed -i "s|\$KEYPASS|$KEY_PASS|g" fdroid/config.py
-          # Remove config.yml to ensure fdroidserver uses config.py
-          rm -f fdroid/config.yml
+          sed -i "s|\$KEYPASS|$KEY_PASS|g" fdroid/config.yml
 
       - name: Create repo directory
         run: mkdir -p repo

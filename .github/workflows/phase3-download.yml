@@ -26,14 +26,9 @@ jobs:
           KEYPASS: ${{ secrets.KEY_PASS }}
         run: python3 scripts/update_fdroid_repo.py
 
-      - name: Commit APKs
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add apks/
-          if ! git diff --cached --quiet; then
-            git commit -m "Phase 3: new APKs" || true
-            git push
-          else
-            echo "No changes to commit"
-          fi
+      - name: Upload APKs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apks-download
+          path: apks/
+          retention-days: 1
