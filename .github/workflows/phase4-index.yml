@@ -54,7 +54,24 @@ jobs:
       - name: Copy icons
         run: cp -r fdroid/metadata/icons repo/ 2>/dev/null || true
 
-      - uses: actions/upload-artifact@v4
+      - name: Prepare deployment directory
+        run: |
+          # Create deployment directory structure
+          mkdir -p deployment/repo
+          # Copy repository files to deployment directory
+          cp -r repo/* deployment/repo/
+          # Copy website files to deployment directory
+          cp -r website/* deployment/
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deployment
+
+      - name: Upload F-Droid repository
+        uses: actions/upload-artifact@v4
         with:
           name: fdroid-repo
           path: repo
