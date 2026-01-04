@@ -37,8 +37,11 @@ jobs:
         run: |
           sed -i "s|\$KEYPASS|$KEY_PASS|g" fdroid/config.yml
 
-      - name: Create repo directory
-        run: mkdir -p repo
+      - name: Prepare repo directory with APKs
+        run: |
+          mkdir -p fdroid/repo
+          # Copy APKs from the downloaded location to the repo directory for indexing
+          find apks/ -name "*.apk" -exec cp {} fdroid/repo/ \; 2>/dev/null || echo "No APKs to copy"
 
       - name: Run fdroid update
         env:
