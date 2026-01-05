@@ -15,6 +15,8 @@ if not APPS.exists():
 
 APKS.mkdir(parents=True, exist_ok=True)
 META.mkdir(parents=True, exist_ok=True)
+METADATA_DIR = ROOT / "fdroid" / "metadata"
+METADATA_DIR.mkdir(parents=True, exist_ok=True)
 
 with open(APPS, "r") as f:
     data = yaml.safe_load(f)
@@ -31,4 +33,25 @@ for app in data['apps']:
     pkg = app["id"]
     (APKS / pkg).mkdir(exist_ok=True)
 
-logging.info("Setup complete.")
+    # Sync metadata
+    name = app.get('name')
+    if name:
+        metadata_file = METADATA_DIR / f"{pkg}.yml"
+        metadata = {}
+        if metadata_file.exists():
+            with open(metadata_file, 'r') as f:
+                metadata = yaml.safe_load(f) or {}
+
+        metadata['Name'] = name
+        metadata['AuthorName'] = app.get('author', '')
+        metadata['WebSite'] = app.get('url', '')
+        metadata['SourceCode'] = app.get('url', '')
+        
+        categories = app.get('fdroid', {}).get('categories', [])
+        if categories:
+            metadata['Categories'] = categories
+
+        with open(metadata_file, 'w') as f:
+            yaml.dump(metadata, f, sort_keys=False, allow_unicode=True)
+
+logging.info("Setup complete (Apps + Metadata synced).")

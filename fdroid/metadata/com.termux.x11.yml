@@ -1,0 +1,8 @@
+Name: Termux:X11
+AuthorName: termux
+WebSite: https://github.com/termux/termux-x11
+SourceCode: https://github.com/termux/termux-x11
+Categories:
+- Development
+- Terminal
+- X11

@@ -48,6 +48,7 @@ fury-fdroid/
   - Downloads APK files to local apks/ directory
   - Organizes APKs by package ID
   - Handles both stable and pre-release versions based on app settings
+  - Uses `fdroidserver.common.get_apk_id` for robust APK parsing
 
 ### 3. scripts/setup_apps.py
 - **Purpose**: Creates directory structure based on apps.yaml

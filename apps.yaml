@@ -254,7 +254,7 @@ apps:
   - INTERNET
   - WRITE_SECURE_SETTINGS
   - POST_NOTIFICATIONS
-- id: io.neoterm.bridge
+- id: io.neoterm
   name: NeoTerm
   author: NeoTerrm
   url: https://github.com/NeoTerrm/NeoTerm
@@ -328,7 +328,7 @@ apps:
   - FOREGROUND_SERVICE
   - FOREGROUND_SERVICE_SPECIAL_USE
   - WAKE_LOCK
-- id: dev.imranr.obtainium
+- id: dev.imranr.obtainium.fdroid
   name: Obtainium
   author: ImranR98
   url: https://github.com/ImranR98/Obtainium
@@ -647,7 +647,7 @@ apps:
   - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
   - com.android.providers.tv.permission.READ_EPG_DATA
   - QUERY_ALL_PACKAGES
-- id: com.krtirtho.spotube
+- id: oss.krtirtho.spotube
   name: Spotube
   author: KRTirtho
   url: https://github.com/KRTirtho/spotube
@@ -805,7 +805,7 @@ apps:
   - INTERNET
   - FOREGROUND_SERVICE
   - FOREGROUND_SERVICE_MEDIA_PLAYBACK
-- id: org.signal
+- id: org.thoughtcrime.securesms
   name: Signal
   author: Signal Foundation
   url: https://github.com/signalapp/Signal-Android
@@ -966,7 +966,7 @@ apps:
     - Social
     prefer_prerelease: false
     archive: false
-- id: com.github.newhinton.roundsync
+- id: de.felixnuesse.extract
   name: Round Sync
   author: newhinton
   url: https://github.com/newhinton/Round-Sync
@@ -1382,7 +1382,7 @@ apps:
     - Library
     prefer_prerelease: false
     archive: false
-- id: org.aniyomi.app
+- id: xyz.jmir.tachiyomi.mi
   name: Aniyomi
   author: AniyomiOrg
   url: https://github.com/aniyomiorg/aniyomi
@@ -1453,7 +1453,7 @@ apps:
   - VIBRATE
   - POST_NOTIFICATIONS
   - READ_APP_SPECIFIC_LOCALES
-- id: animiru.app
+- id: xyz.Quickdev.Animiru.mi
   name: Animiru (Aniyomi Variant)
   author: Aniyomi Community
   url: https://github.com/quickdesh/Animiru
@@ -1511,7 +1511,7 @@ apps:
   - WRITE_EXTERNAL_STORAGE
   - MANAGE_EXTERNAL_STORAGE
   - REQUEST_INSTALL_PACKAGES
-- id: org.komikku.app
+- id: app.komikku
   name: Komikku
   author: KomikkuOrg
   url: https://github.com/komikku-app/komikku

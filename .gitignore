@@ -37,14 +37,14 @@ fdroid/repo/*
 !fdroid/repo/.gitkeep # Keep an empty .gitkeep file to track the directory
 fdroid/tmp/
 fdroid/archive/
-fdroid/metadata/*.yml # Generated metadata files
+# fdroid/metadata/*.yml # REMOVED: Allow metadata files
 fdroid/metadata/*.png # Generated icon files (in root metadata dir only, not in subdirectories)
 !fdroid/metadata/icons/ # Don't ignore the icons subdirectory
 !fdroid/metadata/icons/*.png # Don't ignore icon files in the icons subdirectory
 fdroid/index-v1.json
 fdroid/index-v2.json
 fdroid/index-v1.jar
-fdroid/metadata/*.yml
+# fdroid/metadata/*.yml # REMOVED
 fdroid/metadata/*.txt
 
 # The apks directory is needed for the build process and contains APK files
