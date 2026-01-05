@@ -213,7 +213,7 @@ apps:
   - SYSTEM_ALERT_WINDOW
   - VIBRATE
 - id: com.termux.style
-  name: Termux:Style
+  name: Termux:Styling
   author: termux
   url: https://github.com/termux/termux-styling
   classification:
@@ -391,7 +391,7 @@ apps:
   - FOREGROUND_SERVICE_DATA_SYNC
   - DOWNLOAD_WITHOUT_NOTIFICATION
 - id: com.looker.droidify
-  name: DROID-IFY
+  name: Droid-ify
   author: Iamlooker
   url: https://github.com/Droid-ify/client
   classification:
@@ -422,42 +422,6 @@ apps:
   - ENFORCE_UPDATE_OWNERSHIP
   - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
   - QUERY_ALL_PACKAGES
-- id: eu.kanade.tachiyomi.yokai
-  name: Yōkai
-  author: null2264
-  url: https://github.com/null2264/yokai
-  classification:
-    domain: Entertainment
-    type: Reader
-    content: Manga
-    status: Stable
-  assets:
-    icon:
-      type: github-repo
-      url: https://raw.githubusercontent.com/null2264/yokai/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-  fdroid:
-    categories:
-    - Entertainment
-    - Manga
-    prefer_prerelease: true
-    archive: false
-  permissions:
-  - ACCESS_NETWORK_STATE
-  - INTERNET
-  - ACCESS_WIFI_STATE
-  - WAKE_LOCK
-  - FOREGROUND_SERVICE
-  - RECEIVE_BOOT_COMPLETED
-  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-  - FOREGROUND_SERVICE_DATA_SYNC
-  - REQUEST_INSTALL_PACKAGES
-  - REQUEST_DELETE_PACKAGES
-  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
-  - QUERY_ALL_PACKAGES
-  - com.android.launcher.permission.INSTALL_SHORTCUT
-  - VIBRATE
-  - POST_NOTIFICATIONS
-  - READ_APP_SPECIFIC_LOCALES
 - id: eu.kanade.tachiyomi.yokai
   name: Yōkai
   author: null2264
@@ -684,7 +648,7 @@ apps:
   - com.android.providers.tv.permission.READ_EPG_DATA
   - QUERY_ALL_PACKAGES
 - id: com.krtirtho.spotube
-  name: SpoTube
+  name: Spotube
   author: KRTirtho
   url: https://github.com/KRTirtho/spotube
   classification:
@@ -730,7 +694,7 @@ apps:
     prefer_prerelease: false
     archive: false
 - id: dev.brahmkshatriya.echo.nightly
-  name: Echo (Nightly)
+  name: Echo
   author: brahmkshatriya
   url: https://github.com/brahmkshatriya/echo
   classification:
@@ -818,7 +782,7 @@ apps:
     prefer_prerelease: false
     archive: false
 - id: is.xyz.mpv
-  name: mpv-android
+  name: mpv
   author: mpv-android
   url: https://github.com/mpv-android/mpv-android
   classification:
