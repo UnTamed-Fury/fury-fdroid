@@ -173,4 +173,18 @@ for entry in apps['apps']:
 
     prune(package)
 
+# Final step: Prune ghost APKs (those not in apps.yaml)
+repo_dir = ROOT / "fdroid" / "repo"
+if repo_dir.exists():
+    logging.info("Pruning ghost APKs from repo/...")
+    allowed_ids = set(p['id'] for p in apps)
+    for apk_path in repo_dir.glob("*.apk"):
+        try:
+            pkg_id, _, _, _ = common.get_apk_id(str(apk_path))
+            if pkg_id not in allowed_ids:
+                logging.info(f"Deleting ghost APK: {apk_path.name} (ID: {pkg_id})")
+                apk_path.unlink()
+        except Exception as e:
+            logging.warning(f"Could not parse {apk_path.name}: {e}")
+
 logging.info("Download + sign + prune complete.")
