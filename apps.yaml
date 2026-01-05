@@ -24,6 +24,16 @@ apps:
     - Discontinued
     prefer_prerelease: false
     archive: true
+  permissions:
+  - POST_NOTIFICATIONS
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - RECORD_AUDIO
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - FOREGROUND_SERVICE_SPECIAL_USE
 - id: com.movtery.zalithlauncher
   name: Zalith Launcher
   author: ZalithLauncher
@@ -36,13 +46,27 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://raw.githubusercontent.com/ZalithLauncher/ZalithLauncher/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+      url: https://raw.githubusercontent.com/ZalithLauncher/ZalithLauncher/main/ZalithLauncher/src/main/res/mipmap-xxxhdpi/ic_launcher.png
   fdroid:
     categories:
     - Gaming
     - Minecraft
     prefer_prerelease: false
     archive: false
+  permissions:
+  - POST_NOTIFICATIONS
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - REQUEST_INSTALL_PACKAGES
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - RECORD_AUDIO
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - FOREGROUND_SERVICE_SPECIAL_USE
+  - WAKE_LOCK
+  - VIBRATE
 - id: com.movtery.zalithlauncher.v2
   name: Zalith Launcher 2
   author: ZalithLauncher
@@ -63,6 +87,18 @@ apps:
     - Alpha
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - CHANGE_NETWORK_STATE
+  - CHANGE_WIFI_STATE
+  - CHANGE_WIFI_MULTICAST_STATE
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_CONNECTED_DEVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - POST_NOTIFICATIONS
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 - id: com.termux
   name: Termux:Monet
   author: FlutterGenerator
@@ -81,6 +117,27 @@ apps:
     - Terminal
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - WAKE_LOCK
+  - VIBRATE
+  - INSTALL_PACKAGES
+  - RECORD_AUDIO
+  - FOREGROUND_SERVICE
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - SYSTEM_ALERT_WINDOW
+  - READ_LOGS
+  - DUMP
+  - WRITE_SECURE_SETTINGS
+  - REQUEST_INSTALL_PACKAGES
+  - RECEIVE_BOOT_COMPLETED
+  - PACKAGE_USAGE_STATS
+  - com.android.alarm.permission.SET_ALARM
+  - FOREGROUND_SERVICE_SPECIAL_USE
 - id: com.termux.api
   name: Termux:API
   author: termux
@@ -99,6 +156,40 @@ apps:
     - Terminal
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_BACKGROUND_LOCATION
+  - ACCESS_COARSE_LOCATION
+  - ACCESS_FINE_LOCATION
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - BODY_SENSORS
+  - CALL_PHONE
+  - CAMERA
+  - CHANGE_WIFI_STATE
+  - INTERNET
+  - MANAGE_EXTERNAL_STORAGE
+  - NFC
+  - READ_CALL_LOG
+  - READ_CONTACTS
+  - READ_PHONE_STATE
+  - READ_PRIVILEGED_PHONE_STATE
+  - READ_SMS
+  - READ_EXTERNAL_STORAGE
+  - RECEIVE_BOOT_COMPLETED
+  - RECORD_AUDIO
+  - REQUEST_DELETE_PACKAGES
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - SEND_SMS
+  - SET_WALLPAPER
+  - SYSTEM_ALERT_WINDOW
+  - TRANSMIT_IR
+  - USE_BIOMETRIC
+  - VIBRATE
+  - WRITE_SETTINGS
+  - WRITE_EXTERNAL_STORAGE
+  - DUMP
+  - PACKAGE_USAGE_STATS
 - id: com.termux.window
   name: Termux:Float
   author: termux
@@ -117,6 +208,10 @@ apps:
     - Terminal
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - SYSTEM_ALERT_WINDOW
+  - VIBRATE
 - id: com.termux.style
   name: Termux:Style
   author: termux
@@ -154,7 +249,12 @@ apps:
     - X11
     prefer_prerelease: false
     archive: false
-- id: io.neoterm
+  permissions:
+  - FOREGROUND_SERVICE
+  - INTERNET
+  - WRITE_SECURE_SETTINGS
+  - POST_NOTIFICATIONS
+- id: io.neoterm.bridge
   name: NeoTerm
   author: NeoTerrm
   url: https://github.com/NeoTerrm/NeoTerm
@@ -183,13 +283,24 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://raw.githubusercontent.com/Visual-Code-Space/Visual-Code-Space/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+      url: https://raw.githubusercontent.com/Visual-Code-Space/Visual-Code-Space/main/core/resources/src/main/res/mipmap-xxxhdpi/ic_launcher.png
   fdroid:
     categories:
     - Development
     - Editor
     prefer_prerelease: false
     archive: false
+  permissions:
+  - MANAGE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - REQUEST_INSTALL_PACKAGES
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_SPECIAL_USE
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - com.termux.permission.RUN_COMMAND
 - id: com.rk.xededitor
   name: Xed Editor
   author: Xed-Editor
@@ -201,14 +312,23 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://raw.githubusercontent.com/Xed-Editor/Xed-Editor/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+      url: https://raw.githubusercontent.com/Xed-Editor/Xed-Editor/main/core/main/src/main/res/mipmap-xxxhdpi/ic_launcher.png
   fdroid:
     categories:
     - Development
     - Editor
     prefer_prerelease: false
     archive: false
-- id: dev.imranr.obtainium.fdroid
+  permissions:
+  - INTERNET
+  - POST_NOTIFICATIONS
+  - MANAGE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_SPECIAL_USE
+  - WAKE_LOCK
+- id: dev.imranr.obtainium
   name: Obtainium
   author: ImranR98
   url: https://github.com/ImranR98/Obtainium
@@ -226,6 +346,18 @@ apps:
     - AppStore
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - REQUEST_INSTALL_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - RECEIVE_BOOT_COMPLETED
+  - WAKE_LOCK
+  - REQUEST_DELETE_PACKAGES
+  - ENFORCE_UPDATE_OWNERSHIP
+  - WRITE_EXTERNAL_STORAGE
+  - QUERY_ALL_PACKAGES
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_SPECIAL_USE
 - id: com.machiav3lli.fdroid
   name: Neo Store
   author: NeoApplications
@@ -244,6 +376,20 @@ apps:
     - AppStore
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - FOREGROUND_SERVICE
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - INSTALL_PACKAGES
+  - QUERY_ALL_PACKAGES
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - ENFORCE_UPDATE_OWNERSHIP
+  - POST_NOTIFICATIONS
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - DOWNLOAD_WITHOUT_NOTIFICATION
 - id: com.looker.droidify
   name: DROID-IFY
   author: Iamlooker
@@ -262,6 +408,20 @@ apps:
     - AppStore
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - POST_NOTIFICATIONS
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - RUN_USER_INITIATED_JOBS
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - ENFORCE_UPDATE_OWNERSHIP
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - QUERY_ALL_PACKAGES
 - id: eu.kanade.tachiyomi.yokai
   name: Yōkai
   author: null2264
@@ -281,6 +441,23 @@ apps:
     - Manga
     prefer_prerelease: true
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - ACCESS_WIFI_STATE
+  - WAKE_LOCK
+  - FOREGROUND_SERVICE
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - com.android.launcher.permission.INSTALL_SHORTCUT
+  - VIBRATE
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
 - id: eu.kanade.tachiyomi.yokai
   name: Yōkai
   author: null2264
@@ -300,6 +477,23 @@ apps:
     - Manga
     prefer_prerelease: true
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - ACCESS_WIFI_STATE
+  - WAKE_LOCK
+  - FOREGROUND_SERVICE
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - com.android.launcher.permission.INSTALL_SHORTCUT
+  - VIBRATE
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
 - id: app.mihon
   name: Mihon
   author: mihonapp
@@ -319,6 +513,21 @@ apps:
     - Manga
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - WRITE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
+  - FOREGROUND_SERVICE_DATA_SYNC
 - id: app.anikku
   name: Anikku
   author: komikku-app
@@ -338,6 +547,24 @@ apps:
     - Anime
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - MANAGE_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - com.google.android.gms.permission.AD_ID
 - id: com.ryan.anymex
   name: AnymeX
   author: RyanYuuki
@@ -357,6 +584,19 @@ apps:
     - Anime
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - DOWNLOAD_WITHOUT_NOTIFICATION
+  - READ_MEDIA_IMAGES
+  - READ_MEDIA_VIDEO
+  - QUERY_ALL_PACKAGES
+  - SENSORS
 - id: dev.hayase.app
   name: Hayase
   author: atsuya-05
@@ -395,6 +635,17 @@ apps:
     - Movies
     prefer_prerelease: false
     archive: false
+  permissions:
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - INTERNET
+  - MANAGE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - READ_MEDIA_VIDEO
+  - SYSTEM_ALERT_WINDOW
+  - VIBRATE
+  - WRITE_EXTERNAL_STORAGE
+  - WRITE_SETTINGS
 - id: com.lagradost.cloudstream3
   name: CloudStream
   author: recloudstream
@@ -415,6 +666,23 @@ apps:
     - Anime
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - MODIFY_AUDIO_SETTINGS
+  - REQUEST_INSTALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - com.android.providers.tv.permission.WRITE_EPG_DATA
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - USE_BIOMETRIC
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - com.android.providers.tv.permission.READ_EPG_DATA
+  - QUERY_ALL_PACKAGES
 - id: com.krtirtho.spotube
   name: SpoTube
   author: KRTirtho
@@ -434,6 +702,14 @@ apps:
     - Music
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - WAKE_LOCK
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - READ_MEDIA_AUDIO
 - id: com.maxrave.simpmusic
   name: SimpMusic
   author: maxrave-dev
@@ -472,6 +748,23 @@ apps:
     - Music
     prefer_prerelease: false
     archive: false
+  permissions:
+  - WAKE_LOCK
+  - VIBRATE
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - POST_NOTIFICATIONS
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - READ_MEDIA_AUDIO
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - DETECT_SCREEN_CAPTURE
 - id: id.nhasix.app
   name: Kuron
   author: shirokun20
@@ -491,6 +784,20 @@ apps:
     - NSFW
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - POST_NOTIFICATIONS
+  - VIBRATE
+  - MANAGE_EXTERNAL_STORAGE
+  - ACCESS_MEDIA_LOCATION
+  - READ_MEDIA_IMAGES
+  - READ_MEDIA_VIDEO
+  - READ_MEDIA_AUDIO
+  - RECEIVE_BOOT_COMPLETED
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
 - id: com.nhapp.android
   name: nhappandroid
   author: e18lab
@@ -530,6 +837,10 @@ apps:
     - Player
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
 - id: org.signal
   name: Signal
   author: Signal Foundation
@@ -548,6 +859,57 @@ apps:
     - Messaging
     prefer_prerelease: false
     archive: false
+  permissions:
+  - USE_BIOMETRIC
+  - org.thoughtcrime.securesms.ACCESS_SECRETS
+  - READ_PROFILE
+  - READ_CONTACTS
+  - WRITE_CONTACTS
+  - ACCESS_NOTIFICATION_POLICY
+  - READ_PHONE_STATE
+  - READ_PHONE_NUMBERS
+  - WRITE_EXTERNAL_STORAGE
+  - CAMERA
+  - ACCESS_COARSE_LOCATION
+  - ACCESS_FINE_LOCATION
+  - NEARBY_WIFI_DEVICES
+  - RECORD_AUDIO
+  - MODIFY_AUDIO_SETTINGS
+  - READ_CALL_STATE
+  - RECEIVE_BOOT_COMPLETED
+  - VIBRATE
+  - ACCESS_NETWORK_STATE
+  - WAKE_LOCK
+  - INTERNET
+  - FOREGROUND_SERVICE
+  - GET_ACCOUNTS
+  - READ_SYNC_SETTINGS
+  - WRITE_SYNC_SETTINGS
+  - AUTHENTICATE_ACCOUNTS
+  - USE_CREDENTIALS
+  - INSTALL_SHORTCUT
+  - com.android.launcher.permission.INSTALL_SHORTCUT
+  - ACCESS_WIFI_STATE
+  - CHANGE_WIFI_STATE
+  - CHANGE_NETWORK_STATE
+  - BLUETOOTH
+  - BROADCAST_STICKY
+  - DISABLE_KEYGUARD
+  - RAISED_THREAD_PRIORITY
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - USE_FULL_SCREEN_INTENT
+  - MANAGE_OWN_CALLS
+  - SCHEDULE_EXACT_ALARM
+  - POST_NOTIFICATIONS
+  - READ_MEDIA_IMAGES
+  - READ_MEDIA_VIDEO
+  - READ_MEDIA_VISUAL_USER_SELECTED
+  - FOREGROUND_SERVICE_REMOTE_MESSAGING
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - FOREGROUND_SERVICE_MICROPHONE
+  - FOREGROUND_SERVICE_CAMERA
+  - FOREGROUND_SERVICE_PHONE_CALL
 - id: org.joinmastodon.android
   name: Mastodon
   author: Mastodon
@@ -559,13 +921,22 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://raw.githubusercontent.com/mastodon/mastodon-android/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+      url: https://raw.githubusercontent.com/mastodon/mastodon-android/master/mastodon/src/main/res/mipmap-xxxhdpi/ic_launcher.png
   fdroid:
     categories:
     - Communication
     - Social
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - VIBRATE
+  - WRITE_EXTERNAL_STORAGE
+  - ${applicationId}.permission.C2D_MESSAGE
+  - com.google.android.c2dm.permission.RECEIVE
+  - POST_NOTIFICATIONS
 - id: im.vector.app.android.x
   name: Element X
   author: element-hq
@@ -584,6 +955,8 @@ apps:
     - Messaging
     prefer_prerelease: false
     archive: false
+  permissions:
+  - REQUEST_INSTALL_PACKAGES
 - id: io.github.stardomains3.oxproxion
   name: Oxproxion
   author: stardomains3
@@ -603,6 +976,14 @@ apps:
     - Chat
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - FOREGROUND_SERVICE_REMOTE_MESSAGING
+  - POST_NOTIFICATIONS
+  - RECORD_AUDIO
+  - CAMERA
 - id: jp.nonbili.nora
   name: Nora
   author: nonbili
@@ -639,6 +1020,20 @@ apps:
     - Backup
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_WIFI_STATE
+  - POST_NOTIFICATIONS
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - RECEIVE_BOOT_COMPLETED
+  - SCHEDULE_EXACT_ALARM
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
 - id: juloo.keyboard2
   name: Unexpected Keyboard
   author: Julow
@@ -657,6 +1052,9 @@ apps:
     - Input
     prefer_prerelease: false
     archive: false
+  permissions:
+  - VIBRATE
+  - RECEIVE_BOOT_COMPLETED
 - id: com.stratumauth.app
   name: Stratum
   author: StratumAuth
@@ -668,13 +1066,20 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://raw.githubusercontent.com/stratumauth/app/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+      url: https://raw.githubusercontent.com/stratumauth/app/master/Stratum.Droid/Resources/mipmap-xxxhdpi/ic_launcher.png
   fdroid:
     categories:
     - Security
     - 2FA
     prefer_prerelease: false
     archive: false
+  permissions:
+  - CAMERA
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - FLASHLIGHT
+  - POST_NOTIFICATIONS
+  - ACCESS_NETWORK_STATE
+  - INTERNET
 - id: com.my.kizzy
   name: Kizzy
   author: dead8309
@@ -692,6 +1097,20 @@ apps:
     - Misc
     prefer_prerelease: false
     archive: false
+  permissions:
+  - SYSTEM_ALERT_WINDOW
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - FOREGROUND_SERVICE
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - QUERY_ALL_PACKAGES
+  - MEDIA_CONTENT_CONTROL
+  - WAKE_LOCK
+  - PACKAGE_USAGE_STATS
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - POST_NOTIFICATIONS
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
 - id: com.foxdebug.acodefree
   name: Acode
   author: Acode Foundation
@@ -746,6 +1165,9 @@ apps:
     - Utility
     prefer_prerelease: false
     archive: false
+  permissions:
+  - QUERY_ALL_PACKAGES
+  - moe.shizuku.manager.permission.API_V23
 - id: io.github.samolego.canta
   name: Canta
   author: Samolego
@@ -764,6 +1186,10 @@ apps:
     - Utility
     prefer_prerelease: false
     archive: false
+  permissions:
+  - QUERY_ALL_PACKAGES
+  - INTERNET
+  - ACCESS_NETWORK_STATE
 - id: ru.playsoftware.j2meloader
   name: J2ME Loader
   author: nikita36078
@@ -782,6 +1208,21 @@ apps:
     - Emulator
     prefer_prerelease: false
     archive: false
+  permissions:
+  - CAMERA
+  - POST_NOTIFICATIONS
+  - RECORD_AUDIO
+  - VIBRATE
+  - WRITE_EXTERNAL_STORAGE
+  - ACCESS_COARSE_LOCATION
+  - ACCESS_FINE_LOCATION
+  - INTERNET
+  - BLUETOOTH
+  - BLUETOOTH_ADMIN
+  - BLUETOOTH_ADVERTISE
+  - BLUETOOTH_CONNECT
+  - BLUETOOTH_SCAN
+  - com.android.launcher.permission.INSTALL_SHORTCUT
 - id: com.gaurav.avnc
   name: AVNC
   author: Gaurav Ujjwal
@@ -800,7 +1241,10 @@ apps:
     - Remote
     prefer_prerelease: false
     archive: false
-- id: dev.octoshrimpy.quik
+  permissions:
+  - INTERNET
+  - CHANGE_WIFI_MULTICAST_STATE
+- id: com.klinker.android.send_message
   name: Quik
   author: octoshrimpy
   url: https://github.com/octoshrimpy/quik
@@ -836,6 +1280,29 @@ apps:
     - Launcher
     prefer_prerelease: false
     archive: false
+  permissions:
+  - SET_ALARM
+  - com.android.alarm.permission.SET_ALARM
+  - GET_ACCOUNTS
+  - ACCESS_COARSE_LOCATION
+  - ACCESS_FINE_LOCATION
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - READ_CALENDAR
+  - WRITE_CALENDAR
+  - READ_CONTACTS
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - ACCESS_MEDIA_LOCATION
+  - REQUEST_INSTALL_PACKAGES
+  - INTERACT_ACROSS_PROFILES
+  - EXPAND_STATUS_BAR
+  - QUERY_ALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - CALL_PHONE
+  - VIBRATE
+  - org.tasks.permission.READ_TASKS
 - id: exa.lnx.a
   name: AnLinux
   author: EXALAB
@@ -872,6 +1339,8 @@ apps:
     - GitHubClient
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
 - id: app.marlboroadvance.mpvex
   name: mpvExtended
   author: MarlboroAdvance
@@ -892,6 +1361,15 @@ apps:
     - Player
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - READ_EXTERNAL_STORAGE
+  - READ_MEDIA_VIDEO
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - POST_NOTIFICATIONS
 - id: app.revenge.manager
   name: Revenge Manager
   author: Revenge Mod
@@ -910,6 +1388,18 @@ apps:
     - Utility
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - POST_NOTIFICATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - DOWNLOAD_WITHOUT_NOTIFICATION
+  - MANAGE_EXTERNAL_STORAGE
+  - REQUEST_DELETE_PACKAGES
+  - DELETE_PACKAGES
+  - QUERY_ALL_PACKAGES
 - id: info.guardianproject.panic
   name: PanicKit
   author: Guardian Project
@@ -947,6 +1437,21 @@ apps:
     - Anime
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - MANAGE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
+  - FOREGROUND_SERVICE_DATA_SYNC
 - id: eu.kanade.tachiyomiJ2K
   name: TachiyomiJ2K (Fork)
   author: Jays2Kings
@@ -965,6 +1470,25 @@ apps:
     - Manga
     prefer_prerelease: false
     archive: false
+  permissions:
+  - ACCESS_NETWORK_STATE
+  - INTERNET
+  - ACCESS_WIFI_STATE
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - WAKE_LOCK
+  - FOREGROUND_SERVICE
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - com.android.launcher.permission.INSTALL_SHORTCUT
+  - VIBRATE
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
 - id: animiru.app
   name: Animiru (Aniyomi Variant)
   author: Aniyomi Community
@@ -983,6 +1507,21 @@ apps:
     - Anime
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - WRITE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
+  - FOREGROUND_SERVICE_DATA_SYNC
 - id: com.kodjodevf.mangayomi
   name: Mangayomi (com)
   author: kodjodevf
@@ -1002,6 +1541,12 @@ apps:
     - Anime
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
+  - REQUEST_INSTALL_PACKAGES
 - id: org.komikku.app
   name: Komikku
   author: KomikkuOrg
@@ -1020,6 +1565,25 @@ apps:
     - Manga
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - MANAGE_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - READ_MEDIA_IMAGES
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
+  - FOREGROUND_SERVICE_DATA_SYNC
 - id: org.nubesurrealista.kumo
   name: Kumo (Mihon Fork)
   author: nubesurrealista
@@ -1038,6 +1602,21 @@ apps:
     - Manga
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - ACCESS_WIFI_STATE
+  - WRITE_EXTERNAL_STORAGE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - UPDATE_PACKAGES_WITHOUT_USER_ACTION
+  - QUERY_ALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - READ_APP_SPECIFIC_LOCALES
+  - FOREGROUND_SERVICE_DATA_SYNC
 - id: org.koitharu.kotatsu
   name: Kotatsu
   author: KotatsuApp
@@ -1056,6 +1635,28 @@ apps:
     - Manga
     archive: true
     prefer_prerelease: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - VIBRATE
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - GET_ACCOUNTS
+  - MANAGE_ACCOUNTS
+  - AUTHENTICATE_ACCOUNTS
+  - USE_CREDENTIALS
+  - READ_SYNC_STATS
+  - READ_SYNC_SETTINGS
+  - WRITE_SYNC_SETTINGS
+  - POST_NOTIFICATIONS
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - QUERY_ALL_PACKAGES
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
 - id: app.kotatsu.redo
   name: Kotatsu-Redo
   author: Kotatsu-Redo
@@ -1074,6 +1675,28 @@ apps:
     - Manga
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - FOREGROUND_SERVICE
+  - WAKE_LOCK
+  - VIBRATE
+  - RECEIVE_BOOT_COMPLETED
+  - REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  - GET_ACCOUNTS
+  - MANAGE_ACCOUNTS
+  - AUTHENTICATE_ACCOUNTS
+  - USE_CREDENTIALS
+  - READ_SYNC_STATS
+  - READ_SYNC_SETTINGS
+  - WRITE_SYNC_SETTINGS
+  - POST_NOTIFICATIONS
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - REQUEST_INSTALL_PACKAGES
+  - REQUEST_DELETE_PACKAGES
+  - QUERY_ALL_PACKAGES
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
 - id: my.noveldokusha
   name: NovelDokusha (Fork)
   author: nanihadesuka
@@ -1092,6 +1715,13 @@ apps:
     - Novels
     prefer_prerelease: false
     archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_DATA_SYNC
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - POST_NOTIFICATIONS
 - id: com.anxcye.anx_reader
   name: ANX Reader (Anxcye)
   author: Anxcye
@@ -1110,6 +1740,12 @@ apps:
     - Books
     prefer_prerelease: false
     archive: false
+  permissions:
+  - WAKE_LOCK
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - INTERNET
+  - VIBRATE
 - id: io.github.readest.readest
   name: Readest (New ID)
   author: Readest
@@ -1122,9 +1758,19 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://raw.githubusercontent.com/readest/readest/main/apps/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+      url: https://raw.githubusercontent.com/readest/readest/main/apps/readest-app/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher.png
   fdroid:
     categories:
     - Books
     prefer_prerelease: false
     archive: false# Trigger setup
+  permissions:
+  - INTERNET
+  - REQUEST_INSTALL_PACKAGES
+  - POST_NOTIFICATIONS
+  - FOREGROUND_SERVICE
+  - FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  - com.android.vending.BILLING
+  - READ_EXTERNAL_STORAGE
+  - WRITE_EXTERNAL_STORAGE
+  - MANAGE_EXTERNAL_STORAGE
