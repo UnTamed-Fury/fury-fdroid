@@ -2,7 +2,7 @@
 import os, sys, json, yaml, logging, subprocess, shutil
 from pathlib import Path
 
-from fdroidserver.common import ReadAPK
+from fdroidserver import common
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
@@ -39,8 +39,8 @@ def sign_apk(apk_path: Path):
 
 def get_version(apk: Path):
     try:
-        a = ReadAPK(str(apk))
-        return int(a.get_androidversion_code())
+        appid, versionCode, versionName = common.get_apk_id(str(apk))
+        return int(versionCode)
     except Exception as e:
         logging.warning(f"Failed to parse {apk.name}: {e}")
         return -1  # invalid apk gets purged later
