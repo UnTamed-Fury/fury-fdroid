@@ -28,7 +28,7 @@ Scan the QR code below with your F-Droid client:
     ```
 *   **Fingerprint (SHA-256):**
     ```text
-    BD:3D:60:C7:D6:AA:34:20:42:78:62:9B:0F:BC:EC:E7:B6:80:2E:6B:C6:7C:5F:11:12:D2:60:D4:21:86:EE:E6
+    D5:ED:79:60:17:1D:58:32:4A:D3:64:A0:90:0E:28:7A:51:F1:95:92:6C:B4:FB:AF:5E:BB:E7:E9:5A:81:DC:EF
     ```
 
 ---
@@ -56,29 +56,32 @@ This project uses a unique "stateless" approach to F-Droid repositories:
 
 **Key Point:** APKs are NOT stored in the git repository. They are downloaded during the build process and used only for index generation, keeping the repository lightweight.
 
+For detailed technical information about the architecture, see the [Architecture Documentation](docs/architecture.md).
+
 ---
 
 ## 📦 App Collection
 
-This repository hosts a variety of apps, including:
+This repository hosts a curated collection of open-source Android apps across multiple categories including System utilities, Entertainment, Development tools, Communication apps, and Security tools.
 
-| Category | Apps |
-| :--- | :--- |
-| **System** | PojavLauncher, Obtainium, Neo Store, Widgets Pro |
-| **Entertainment** | AnymeX, Mihon, CloudStream, Spotube, SimpMusic, Echo |
-| **Development** | Termux (Monet, API, Float, Style, X11), NeoTerm, Visual Code Space |
-| **Communication** | Signal, Mastodon, Element X |
-| **Security** | Stratum (Authenticator) |
+For a complete list of apps and their categories, see the [App Collection Documentation](docs/apps.md).
 
 *(See `apps.yaml` for the full live list)*
 
 ---
 
+## 📚 Documentation
+
+For detailed information about the repository, please see our [Documentation](docs/index.md):
+
+*   [App Collection](docs/apps.md) - Complete list of apps and categories
+*   [Architecture](docs/architecture.md) - Technical details about how the repository works
+
 ## 🤝 Contributing
 
 We welcome contributions! whether it's adding a new app or improving the build scripts.
 
-*   **Add a New App:** Read the [Contributing Guide](CONTRIBUTING.md) for instructions on editing `apps.yaml`.
+*   **Add a New App:** Use our [App Adder Script](docs/apps-add.md) to easily add new apps to the repository.
 *   **Report Issues:** Open an issue if an app is outdated or broken.
 
 ---

@@ -1,268 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fury's F-Droid Repo</title>
-  <meta name="description" content="Custom F-Droid repository for open-source Android apps." />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fury's F-Droid Repo</title>
+<meta name="description" content="Custom F-Droid repository for open-source Android apps." />
 
-  <style>
-    :root {
-      --scarlet-500: #fa052a;
-      --scarlet-600: #c80421;
-      --scarlet-300: #fc697f;
+<style>
+/* ================= THEME TOKENS ================= */
+:root {
+  /* light */
+  --bg-1:#f5f7fb;
+  --bg-2:#e9edf5;
+  --card:#ffffff;
+  --border:#d6dbea;
 
-      --space-950: #0d1016;
-      --space-900: #131720;
-      --space-800: #262e40;
-      --space-700: #394560;
+  --text:#0b0f1a;
+  --muted:#5f6b85;
 
-      --white: #ffffff;
-      --text-muted: #b8c0cb;
+  --accent:#ff2a4d;
+  --accent-2:#ff6b82;
 
-      --bg: linear-gradient(180deg, var(--space-950), var(--space-900));
-      --card-bg: linear-gradient(180deg, var(--space-900), var(--space-800));
-      --border: var(--space-700);
-      --accent: var(--scarlet-500);
-    }
+  --success:#2ecc71;
+  --success-dark:#27ae60;
+}
 
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-    }
+[data-theme="dark"] {
+  --bg-1:#0a0d14;
+  --bg-2:#0f1422;
+  --card:#141b2e;
+  --border:#253054;
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--white);
-      line-height: 1.6;
-    }
+  --text:#ffffff;
+  --muted:#a4acc2;
+}
 
-    header {
-      padding: clamp(2rem, 6vw, 3rem) 1.2rem;
-      text-align: center;
-    }
+/* ================= BASE ================= */
+* {
+  box-sizing:border-box;
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+}
 
-    header h1 {
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      margin-bottom: 0.5rem;
-    }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 500px at 50% -25%, rgba(255,42,77,.18), transparent 60%),
+    linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  transition:.25s ease;
+}
 
-    header p {
-      max-width: 640px;
-      margin: auto;
-      color: var(--text-muted);
-      font-size: clamp(0.95rem, 2.8vw, 1rem);
-    }
+@media (max-width:768px) {
+  body {
+    background:
+      radial-gradient(600px 320px at 50% -20%, rgba(255,42,77,.35), transparent 65%),
+      linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  }
+}
 
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 1.2rem;
-    }
+/* ================= HERO ================= */
+header {
+  text-align:center;
+  padding:clamp(3.5rem,8vw,5rem) 1.2rem 3rem;
+}
 
-    .card {
-      background: var(--card-bg);
-      border-radius: 18px;
-      padding: clamp(1.5rem, 4vw, 2.2rem);
-      border: 1px solid var(--border);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-    }
+header h1 {
+  font-size:clamp(2.4rem,6vw,3.4rem);
+  letter-spacing:-0.03em;
+}
 
-    h2, h3 {
-      margin-top: 0;
-    }
+header p {
+  max-width:760px;
+  margin:.9rem auto 0;
+  color:var(--muted);
+  font-size:1.05rem;
+}
 
-    p {
-      font-size: clamp(0.9rem, 2.8vw, 1rem);
-    }
+/* ================= LAYOUT ================= */
+main {
+  max-width:1100px;
+  margin:auto;
+  padding:0 1.2rem 4rem;
+}
 
-    /* INPUT ROW */
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      gap: 0.6rem;
-      margin-top: 0.8rem;
-    }
+.card {
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,0)),
+    var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:clamp(1.8rem,4vw,2.6rem);
+  box-shadow:0 40px 90px rgba(0,0,0,.25);
+  backdrop-filter:blur(6px);
+}
 
-    input {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--space-950);
-      color: var(--white);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: clamp(0.75rem, 3.2vw, 0.95rem);
-      letter-spacing: 0.02em;
-    }
+/* ================= TEXT ================= */
+h2 { font-size:1.45rem; margin:0 0 .3rem; }
+h3 { font-size:1.05rem; margin:1.6rem 0 .2rem; }
 
-    input:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-    }
+p {
+  margin:0;
+  color:var(--muted);
+  font-size:.95rem;
+}
 
-    button,
-    .tag {
-      padding: 0.8rem 1.2rem;
-      border-radius: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-      font-size: clamp(0.8rem, 3vw, 0.9rem);
-    }
+/* ================= FIELDS ================= */
+.field {
+  margin-top:1.1rem;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:.6rem;
+}
 
-    button {
-      border: none;
-      cursor: pointer;
-      background: linear-gradient(180deg, var(--scarlet-500), var(--scarlet-600));
-      color: #fff;
-    }
+input {
+  width:100%;
+  padding:1rem 1.05rem;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+    var(--bg-1);
+  color:var(--text);
+  font-family:ui-monospace,monospace;
+  font-size:.82rem;
+  letter-spacing:.02em;
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
+input:hover { border-color:var(--accent); }
 
-    .tag {
-      background: var(--space-950);
-      color: var(--scarlet-300);
-      border: 1px solid var(--border);
-      text-align: center;
-    }
+input:focus {
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(255,42,77,.25);
+}
 
-    /* QR */
-    .qr {
-      text-align: center;
-      margin: 2rem 0;
-    }
+#fp-colon,#fp-raw {
+  background:
+    linear-gradient(180deg, rgba(255,42,77,.12), rgba(255,42,77,0)),
+    var(--bg-1);
+}
 
-    .qr img {
-      width: 100%;
-      max-width: 200px;
-      border-radius: 12px;
-      border: 3px solid var(--white);
-    }
+/* ================= BUTTONS ================= */
+button {
+  min-width:96px;
+  padding:1rem 1.3rem;
+  border-radius:16px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  color:#fff;
+  background:linear-gradient(180deg,var(--accent),#d81e3c);
+}
 
-    /* STEPS */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
-    }
+button.copied {
+  background:linear-gradient(180deg,var(--success),var(--success-dark));
+}
 
-    .step {
-      background: var(--space-950);
-      border-radius: 14px;
-      padding: 1.2rem;
-      border: 1px solid var(--border);
-    }
+/* ================= QR ================= */
+.qr {
+  margin:2.6rem 0 2.2rem;
+  text-align:center;
+}
 
-    .step h3 {
-      color: var(--accent);
-      margin-bottom: 0.3rem;
-    }
+.qr img {
+  width:190px;
+  border-radius:18px;
+  border:3px solid var(--accent-2);
+}
 
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+/* ================= STEPS ================= */
+.steps {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1rem;
+  margin-top:2.4rem;
+}
 
-    /* MOBILE FIXES */
-    @media (max-width: 768px) {
-      .field-row {
-        grid-template-columns: 1fr;
-      }
+.step {
+  background:var(--bg-1);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:1.3rem;
+}
 
-      .tag {
-        text-align: center;
-      }
+.step h3 { color:var(--accent); }
 
-      button {
-        width: 100%;
-      }
-    }
-  </style>
+/* ================= FOOTER (INLINE, BASELINE-ALIGNED) ================= */
+footer {
+  border-top:1px solid var(--border);
+  padding:1.1rem 1.4rem;
+}
+
+.footer-inner {
+  max-width:1100px;
+  margin:auto;
+}
+
+.footer-text {
+  font-size:.8rem;
+  color:var(--muted);
+  display:inline-flex;
+  align-items:baseline; /* THIS is the key */
+  gap:.45rem;
+}
+
+.footer-text a {
+  color:var(--accent-2);
+  text-decoration:none;
+}
+
+/* ================= THEME SWITCH (INLINE CONTROL) ================= */
+.theme-switch {
+  display:inline-flex;
+  align-items:center;
+  margin-left:.2rem;
+}
+
+.theme-switch input {
+  display:none;
+}
+
+.switch {
+  width:34px;
+  height:18px;
+  background:var(--border);
+  border-radius:999px;
+  position:relative;
+  cursor:pointer;
+  transform:translateY(-2px); /* move switch slightly higher */
+}
+
+/* knob */
+.switch::after {
+  content:"";
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--card);
+  transition:.18s ease;
+}
+
+/* icons */
+.switch .icon {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:10px;
+  height:10px;
+  fill:var(--muted);
+  pointer-events:none;
+}
+
+.switch .sun { left:5px; }
+.switch .moon { right:5px; }
+
+/* dark mode */
+.theme-switch input:checked + .switch {
+  background:var(--accent);
+}
+
+.theme-switch input:checked + .switch::after {
+  transform:translateX(16px);
+}
+
+.theme-switch input:checked + .switch .sun { opacity:.35; }
+.theme-switch input:not(:checked) + .switch .moon { opacity:.35; }
+
+/* ================= MOBILE ================= */
+@media (max-width:700px) {
+  .field { grid-template-columns:1fr; }
+  button { width:100%; }
+  .footer-inner {
+    flex-direction:column;
+    align-items:center;
+    gap:.6rem;
+  }
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <h1>Fury's F-Droid Repo</h1>
-    <p>Open-source Android apps distributed through a custom F-Droid repository.</p>
-  </header>
 
-  <main>
-    <section class="card">
-      <h2>Repository URL</h2>
-      <p>Add this URL inside the F-Droid client.</p>
+<header>
+  <h1>Fury’s F-Droid Repo</h1>
+  <p>Open-source Android apps distributed through a custom F-Droid repository.</p>
+</header>
 
-      <div class="field-row">
-        <input id="repo" value="https://fury.untamedfury.space/repo" readonly />
-        <button data-copy="repo">Copy</button>
-        <span class="tag">URL</span>
-      </div>
+<main>
+<section class="card">
 
-      <div class="qr">
-        <img src="qr.png" alt="F-Droid repository QR code" />
-      </div>
+  <h2>Repository URL</h2>
+  <p>Add this inside any F-Droid compatible client.</p>
 
-      <h3>Repository Fingerprint</h3>
-      <p style="color:var(--text-muted);">Standard F-Droid format.</p>
+  <div class="field">
+    <input id="repo" readonly value="https://fury.untamedfury.space/repo">
+    <button data-copy="repo">Copy</button>
+  </div>
 
-      <div class="field-row">
-        <input id="fp-colon" readonly />
-        <button data-copy="fp-colon">Copy</button>
-        <span class="tag">SHA-256</span>
-      </div>
+  <div class="qr">
+    <img src="qr.png" alt="F-Droid repository QR">
+  </div>
 
-      <h3 style="margin-top:1.6rem;">Neo Store Compatible Fingerprint</h3>
-      <p style="color:var(--text-muted);">Same fingerprint without separators.</p>
+  <h3>Repository Fingerprint (SHA-256)</h3>
+  <p>Works with F-Droid, Neo Store, and Droid-ify.</p>
 
-      <div class="field-row">
-        <input id="fp-raw" readonly />
-        <button data-copy="fp-raw">Copy</button>
-        <span class="tag">RAW</span>
-      </div>
+  <div class="field">
+    <input id="fp-colon" readonly>
+    <button data-copy="fp-colon">Copy</button>
+  </div>
 
-      <div class="steps">
-        <div class="step">
-          <h3>1. Install an F-Droid client</h3>
-          <p>
-            You can use the official F-Droid app or any compatible client.
-            Recommended: <strong>F-Droid (official)</strong> or <strong>Neo Store</strong>.
-          </p>
-        </div>
-        <div class="step">
-          <h3>2. Add Repository</h3>
-          <p>Settings → Repositories → Add.</p>
-        </div>
-        <div class="step">
-          <h3>3. Refresh</h3>
-          <p>Update indexes and install apps.</p>
-        </div>
-      </div>
-    </section>
-  </main>
+  <h3>Neo Store / Droid-ify Fingerprint (RAW)</h3>
 
-    <footer>
-    © 2025 · <a href="https://github.com/UnTamed-Fury/fury-fdroid">Fury's F-Droid Repository</a> · Open Source
-    </footer>
+  <div class="field">
+    <input id="fp-raw" readonly>
+    <button data-copy="fp-raw">Copy</button>
+  </div>
 
-  <script>
-    const FINGERPRINT =
-      "BD:3D:60:C7:D6:AA:34:20:42:78:62:9B:0F:BC:EC:E7:B6:80:2E:6B:C6:7C:5F:11:12:D2:60:D4:21:86:EE:E6";
+  <div class="steps">
+    <div class="step"><h3>1 · Install Client</h3><p>F-Droid, Neo Store, or Droid-ify.</p></div>
+    <div class="step"><h3>2 · Add Repository</h3><p>Settings → Repositories → Add.</p></div>
+    <div class="step"><h3>3 · Refresh</h3><p>Update indexes and install apps.</p></div>
+  </div>
 
-    document.getElementById("fp-colon").value = FINGERPRINT;
-    document.getElementById("fp-raw").value = FINGERPRINT.replace(/:/g, "");
+</section>
+</main>
 
-    document.querySelectorAll("[data-copy]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        navigator.clipboard.writeText(
-          document.getElementById(btn.dataset.copy).value
-        );
-      });
+<footer>
+  <div class="footer-inner">
+    <span class="footer-text">
+      © 2025 ·
+      <a href="https://github.com/UnTamed-Fury/fury-fdroid">GitHub</a>
+      <label class="theme-switch" aria-label="Toggle theme">
+        <input id="themeToggle" type="checkbox">
+        <span class="switch">
+          <svg class="icon sun" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+          </svg>
+          <svg class="icon moon" viewBox="0 0 24 24">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+          </svg>
+        </span>
+      </label>
+    </span>
+  </div>
+</footer>
+
+<script>
+/* ================= THEME ================= */
+const root = document.documentElement;
+const toggle = document.getElementById("themeToggle");
+const saved = localStorage.getItem("theme");
+const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
+
+if (saved) {
+  root.dataset.theme = saved;
+  toggle.checked = saved === "dark";
+} else if (systemDark) {
+  root.dataset.theme = "dark";
+  toggle.checked = true;
+}
+
+toggle.addEventListener("change", () => {
+  const mode = toggle.checked ? "dark" : "light";
+  root.dataset.theme = mode;
+  localStorage.setItem("theme", mode);
+});
+
+/* ================= COPY + FINGERPRINT ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const FP =
+    "D5:ED:79:60:17:1D:58:32:4A:D3:64:A0:90:0E:28:7A:51:F1:95:92:6C:B4:FB:AF:5E:BB:E7:E9:5A:81:DC:EF";
+
+  const fpColon = document.getElementById("fp-colon");
+  const fpRaw = document.getElementById("fp-raw");
+
+  fpColon.value = FP;
+  fpRaw.value = FP.replace(/:/g, "");
+
+  document.querySelectorAll("[data-copy]").forEach(btn => {
+    const original = btn.textContent;
+    btn.addEventListener("click", async () => {
+      const el = document.getElementById(btn.dataset.copy);
+      await navigator.clipboard.writeText(el.value);
+      btn.classList.add("copied");
+      btn.textContent = "Copied";
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove("copied");
+      }, 1200);
     });
-  </script>
+  });
+});
+</script>
+
 </body>
 </html>
