@@ -113,34 +113,63 @@ for entry in apps['apps']:
         logging.error(f"Failed to decode JSON response for {repo}: {result}")
         continue
 
-    assets = []
+    # sort newest first by GitHub release ordering
+    # For each release, select the BEST single APK based on architecture priority
     for r in releases:
         # Ensure r is a dictionary
         if not isinstance(r, dict):
-            logging.warning(f"Expected a dict for release, but got {type(r)}: {r}")
             continue
         if r.get("prerelease") and not prerelease:
             continue
         if not r.get("prerelease") and prerelease:
             continue
+        
+        release_assets = []
         for a in r.get("assets", []):
             if isinstance(a, dict) and a.get("name", "").endswith(".apk"):
-                assets.append(a)
-
-    if not assets:
-        logging.warning(f"No matching APKs found for {package}")
-        continue
-
-    # sort newest first by GitHub release ordering
-    for asset in assets[:4]:  # safety bound
-        url = asset["browser_download_url"]
-        name = asset["name"]
-        target = pkg_dir / name
-        if target.exists():
+                release_assets.append(a)
+        
+        if not release_assets:
             continue
-        logging.info(f"Downloading: {name}")
-        subprocess.run(["curl", "-L", "-o", str(target), url], check=True)
-        sign_apk(target)
+
+        # Logic: arm64 > universal > generic > skip x86/other
+        best_asset = None
+        best_score = -1
+
+        for asset in release_assets:
+            name = asset["name"].lower()
+            
+            # Exclude unwanted architectures
+            if any(x in name for x in ["x86", "x64", "amd64", "desktop", "windows", "linux", "macos"]):
+                continue
+            
+            score = 0
+            if "arm64" in name or "aarch64" in name:
+                score = 3
+            elif "universal" in name or "all" in name:
+                score = 2
+            elif not any(x in name for x in ["arm", "7a", "eabi"]): # Generic/Clean name often means universal
+                score = 1
+            
+            if score > best_score:
+                best_score = score
+                best_asset = asset
+        
+        if best_asset:
+            url = best_asset["browser_download_url"]
+            name = best_asset["name"]
+            target = pkg_dir / name
+            if not target.exists():
+                logging.info(f"Downloading ({best_score}): {name}")
+                subprocess.run(["curl", "-L", "-o", str(target), url], check=True)
+                sign_apk(target)
+
+    # Cleanup unwanted architectures from disk
+    for f in pkg_dir.glob("*.apk"):
+        name = f.name.lower()
+        if any(x in name for x in ["x86", "x64", "amd64"]):
+            logging.info(f"Removing unwanted arch: {f.name}")
+            f.unlink()
 
     prune(package)
 
