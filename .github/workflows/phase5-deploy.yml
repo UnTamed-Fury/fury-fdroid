@@ -38,15 +38,15 @@ jobs:
       - name: Prepare deployment directory
         run: |
           # Create the proper structure for GitHub Pages
-          # F-Droid repository files need to be at the root for proper client access
-          mkdir -p public
+          # We keep the 'repo' subdirectory to match config.yml: repo_url: "https://fury.untamedfury.space/repo"
+          mkdir -p public/repo
 
-          # Copy F-Droid repository files to the root of public directory first
-          # This ensures index-v1.json, index-v1.jar, etc. are accessible at root
-          cp -r repo/* public/ 2>/dev/null || echo "No repo files to copy"
+          # Copy F-Droid repository files to the public/repo directory
+          # This ensures files are accessible at https://fury.untamedfury.space/repo/index-v1.jar etc.
+          cp -r repo/* public/repo/ 2>/dev/null || echo "No repo files to copy"
 
           # Copy the static website files to the root
-          # This makes the website accessible while preserving F-Droid repository structure
+          # This makes the website accessible at https://fury.untamedfury.space/
           cp website/index.html public/ 2>/dev/null || echo "No index.html to copy"
           cp website/qr.png public/ 2>/dev/null || echo "No qr.png to copy"
           cp -r website/public/* public/ 2>/dev/null || echo "No additional public files to copy"
