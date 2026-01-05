@@ -763,7 +763,7 @@ apps:
   - FOREGROUND_SERVICE
   - WAKE_LOCK
 - id: com.nhapp.android
-  name: nhappandroid
+  name: NHApp
   author: e18lab
   url: https://github.com/e18lab/NHAppAndroid
   classification:
