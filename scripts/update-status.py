@@ -17,7 +17,7 @@ def get_latest_release_info(repo_url):
         # Convert GitHub URL to API URL
         if repo_url.endswith('.git'):
             repo_url = repo_url[:-4]
-        
+
         # Extract owner and repo name from URL
         parts = repo_url.rstrip('/').split('/')
         if len(parts) >= 5 and 'github.com' in parts:
@@ -25,11 +25,11 @@ def get_latest_release_info(repo_url):
             if owner_idx + 1 < len(parts):
                 owner = parts[owner_idx]
                 repo = parts[owner_idx + 1]
-                
+
                 # Get latest release
                 api_url = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
-                response = requests.get(api_url)
-                
+                response = requests.get(api_url, timeout=10)  # Add timeout
+
                 if response.status_code == 200:
                     release_data = response.json()
                     return {
@@ -37,11 +37,11 @@ def get_latest_release_info(repo_url):
                         'prerelease': release_data.get('prerelease', False),
                         'published_at': release_data.get('published_at', 'N/A')
                     }
-                
+
                 # If latest release fails, try getting all releases
                 api_url = f"https://api.github.com/repos/{owner}/{repo}/releases"
-                response = requests.get(api_url)
-                
+                response = requests.get(api_url, timeout=10)  # Add timeout
+
                 if response.status_code == 200:
                     releases = response.json()
                     if releases:
@@ -51,9 +51,11 @@ def get_latest_release_info(repo_url):
                             'prerelease': latest.get('prerelease', False),
                             'published_at': latest.get('published_at', 'N/A')
                         }
+    except requests.exceptions.RequestException as e:
+        print(f"Network error fetching release info for {repo_url}: {e}")
     except Exception as e:
-        print(f"Error fetching release info for {repo_url}: {e}")
-    
+        print(f"Error processing release info for {repo_url}: {e}")
+
     return {'version': 'N/A', 'prerelease': False, 'published_at': 'N/A'}
 
 

@@ -34,12 +34,22 @@ def extract_info_from_repo(repo_path):
     }
     
     # Extract repo name and author from path
-    repo_parts = str(repo_path).split('/')
-    if len(repo_parts) >= 2:
-        author = repo_parts[-2]
-        repo_name = repo_parts[-1]
+    # Assuming the path is like: /some/path/author/repo_name
+    path_parts = str(repo_path).rstrip('/').split('/')
+    if len(path_parts) >= 2:
+        repo_name = path_parts[-1]
+        # Look for the author as the directory before the repo directory
+        # This assumes the format is like: .../author/repo_name
+        if len(path_parts) >= 2:
+            author = path_parts[-2]
+        else:
+            author = "unknown"
         app_info['author'] = author
         app_info['url'] = f"https://github.com/{author}/{repo_name}"
+    else:
+        # If we can't determine from path, use defaults
+        app_info['author'] = "unknown"
+        app_info['url'] = "https://github.com/unknown/unknown"
     
     # Try to get app name from repo name (convert from kebab-case or snake_case to title case)
     app_name = repo_name.replace('-', ' ').replace('_', ' ').title()
@@ -215,28 +225,15 @@ def main():
     # Create app entry
     app_entry = create_app_entry(app_info)
     
-    # Generate apps.yaml content
+    # Generate just the app entry
     yaml_content = yaml.dump([app_entry], default_flow_style=False, allow_unicode=True, indent=2)
-    
-    # Write to apps.yaml in current directory
-    with open("apps.yaml", "w", encoding="utf-8") as f:
-        f.write("# Fury's F-Droid Repository - Auto-generated app entry\n")
-        f.write("# Note: This tool only supports GitHub repositories\n")
-        f.write("\nschemaVersion: 2\n")
-        f.write("meta:\n")
-        f.write("  name: Fury's F-Droid Repo\n")
-        f.write("  description: Curated Android apps with clean, normalized metadata\n")
-        f.write("  source: https://github.com/UnTamed-Fury/FDroid--repo\n")
-        f.write("apps:\n")
-        # Indent the yaml content to be under the apps key
-        for line in yaml_content.split('\n'):
-            if line.strip():
-                f.write(f"  {line}\n")
-            else:
-                f.write("\n")
-    
-    print(f"\napps.yaml generated successfully!")
-    print(f"Added app: {app_info['name']} ({app_info['id']})")
+
+    # Print the app entry to stdout so user can copy it
+    print(f"\nApp entry generated for: {app_info['name']} ({app_info['id']})")
+    print("Copy and paste this entry into your apps.yaml file under the 'apps:' section:\n")
+    print("-" * 50)
+    print(yaml_content)
+    print("-" * 50)
     print("\nNote: This tool only supports GitHub repositories")
 
 
