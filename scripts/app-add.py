@@ -34,18 +34,25 @@ def extract_info_from_repo(repo_path):
     }
     
     # Extract repo name and author from path
-    # Assuming the path is like: /some/path/author/repo_name
-    path_parts = str(repo_path).rstrip('/').split('/')
+    # Resolve the path to get absolute path and avoid issues with ".."
+    repo_path_obj = Path(repo_path).resolve()
+    path_parts = repo_path_obj.parts
+
     if len(path_parts) >= 2:
         repo_name = path_parts[-1]
-        # Look for the author as the directory before the repo directory
-        # This assumes the format is like: .../author/repo_name
-        if len(path_parts) >= 2:
-            author = path_parts[-2]
+        author = path_parts[-2]
+
+        # Basic validation to ensure these look like valid GitHub identifiers
+        # Skip if author is something like ".." or other non-GitHub-like names
+        if (re.match(r'^[a-zA-Z0-9_.-]+$', author) and
+            re.match(r'^[a-zA-Z0-9_.-]+$', repo_name) and
+            author != ".." and author != "." and repo_name != ".." and repo_name != "."):
+            app_info['author'] = author
+            app_info['url'] = f"https://github.com/{author}/{repo_name}"
         else:
-            author = "unknown"
-        app_info['author'] = author
-        app_info['url'] = f"https://github.com/{author}/{repo_name}"
+            # If validation fails, use fallback values
+            app_info['author'] = "unknown"
+            app_info['url'] = f"https://github.com/unknown/{repo_name}"
     else:
         # If we can't determine from path, use defaults
         app_info['author'] = "unknown"
