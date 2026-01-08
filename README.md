@@ -65,6 +65,7 @@ For detailed information about the repository, please see our [Documentation](do
 We welcome contributions! whether it's adding a new app or improving the build scripts.
 
 - Add a New App: Use our [App Adder Script](docs/apps-add.md) to easily add new apps to the repository
+- Add from Cloned Repo: Use our [Simplified App Adder](docs/app-add-simple.md) for GitHub repositories
 - Report Issues: Open an issue if an app is outdated or broken
 
 ## License

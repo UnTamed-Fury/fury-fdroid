@@ -7,6 +7,7 @@ Welcome to the documentation for Fury's F-Droid Repository. This repository prov
 - [App Collection](apps.md) - List of apps and categories in the repository
 - [App Status](app-status.md) - Current status of all apps in the repository
 - [Adding Apps](apps-add.md) - Guide for adding new apps to the repository
+- [Adding Apps (Simple)](app-add-simple.md) - Simplified guide for adding apps from cloned repos
 - [Architecture](architecture.md) - Technical details about how the repository works
 - [Contributing](../CONTRIBUTING.md) - Guidelines for contributing to the project
 - [License](../LICENSE) - Licensing information
