@@ -1,0 +1,14 @@
+apply plugin: "com.android.application"
+android {
+    compileSdkVersion 33
+    namespace "com.example.app"
+    
+    defaultConfig {
+        applicationId "com.example.realapp"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0.0"
+    }
+}
+

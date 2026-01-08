@@ -1,6 +1,6 @@
-# App Adder Script (Simplified Version)
+# App Adder Script (Repository Analysis Version)
 
-This simplified script helps users add new apps to the Fury's F-Droid repository by analyzing a cloned app repository and generating the appropriate `apps.yaml` entry.
+This script helps users add new apps to the Fury's F-Droid repository by analyzing a cloned app repository and automatically extracting app information.
 
 ## Usage
 
