@@ -1350,7 +1350,7 @@ apps:
     categories:
     - System
     - Utility
-    prefer_prerelease: true
+    prefer_prerelease: false
     archive: false
   permissions:
   - INTERNET
