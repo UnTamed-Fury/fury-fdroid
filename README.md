@@ -75,3 +75,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Security Notice
 
 This repository uses a secure keystore for signing the F-Droid repository. The repository fingerprint uses 4096-bit RSA encryption for enhanced security.
+# Force Update
