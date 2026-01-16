@@ -1652,6 +1652,31 @@ apps:
   - FOREGROUND_SERVICE_MEDIA_PLAYBACK
   - INTERNET
   - VIBRATE
+- id: net.kdt.pojavlaunch.zh
+  name: 'Zalith Launcher'
+  author: PojavLauncherTeam
+  url: https://github.com/PojavLauncherTeam/PojavZenithHorizon
+  classification:
+    domain: Gaming
+    type: Launcher
+    content: Minecraft
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/PojavLauncherTeam/PojavZenithHorizon/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+  fdroid:
+    categories:
+    - Gaming
+    - Minecraft
+    prefer_prerelease: false
+    archive: false
+  permissions:
+  - INTERNET
+  - ACCESS_NETWORK_STATE
+  - WRITE_EXTERNAL_STORAGE
+  - READ_EXTERNAL_STORAGE
+  - POST_NOTIFICATIONS
 - id: io.github.readest.readest
   name: Readest (New ID)
   author: Readest
