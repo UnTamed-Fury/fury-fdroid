@@ -48,7 +48,7 @@ jobs:
           FDROID_KEY_PASS: ${{ secrets.KEY_PASS }}
         run: |
           cd fdroid
-          fdroid update --create-metadata --delete-removed
+          fdroid update --create-metadata --delete-unknown
 
       - name: Copy repository files to deployment directory
         run: |
