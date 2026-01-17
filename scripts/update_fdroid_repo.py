@@ -180,13 +180,19 @@ if repo_dir.exists():
     allowed_ids = set(p['id'] for p in apps['apps'])
     for apk_path in repo_dir.glob("*.apk"):
         try:
-            # Use fdroidserver.common.parse_androidmanifest instead
-            manifest = common.parse_androidmanifest(str(apk_path))
-            pkg_id = manifest.get('package', '')
-            if pkg_id and pkg_id not in allowed_ids:
-                logging.info(f"Deleting ghost APK: {apk_path.name} (ID: {pkg_id})")
-                apk_path.unlink()
+            # Extract package ID from filename or use aapt to get it
+            # For now, let's use a simple approach - assume filename contains the package ID
+            # A more robust solution would use common.get_apk_id
+            try:
+                pkg_id, _, _, _ = common.get_apk_id(str(apk_path))
+                if pkg_id not in allowed_ids:
+                    logging.info(f"Deleting ghost APK: {apk_path.name} (ID: {pkg_id})")
+                    apk_path.unlink()
+            except:
+                # If we can't parse the APK, try to infer from filename
+                # This is a fallback approach
+                logging.warning(f"Could not parse APK {apk_path.name}, skipping pruning for this file")
         except Exception as e:
-            logging.warning(f"Could not parse {apk_path.name}: {e}")
+            logging.warning(f"Could not process {apk_path.name}: {e}")
 
 logging.info("Download + sign + prune complete.")
