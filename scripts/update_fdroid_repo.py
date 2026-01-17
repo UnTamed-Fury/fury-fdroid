@@ -177,11 +177,13 @@ for entry in apps['apps']:
 repo_dir = ROOT / "fdroid" / "repo"
 if repo_dir.exists():
     logging.info("Pruning ghost APKs from repo/...")
-    allowed_ids = set(p['id'] for p in apps)
+    allowed_ids = set(p['id'] for p in apps['apps'])
     for apk_path in repo_dir.glob("*.apk"):
         try:
-            pkg_id, _, _, _ = common.get_apk_id(str(apk_path))
-            if pkg_id not in allowed_ids:
+            # Use fdroidserver.common.parse_androidmanifest instead
+            manifest = common.parse_androidmanifest(str(apk_path))
+            pkg_id = manifest.get('package', '')
+            if pkg_id and pkg_id not in allowed_ids:
                 logging.info(f"Deleting ghost APK: {apk_path.name} (ID: {pkg_id})")
                 apk_path.unlink()
         except Exception as e:

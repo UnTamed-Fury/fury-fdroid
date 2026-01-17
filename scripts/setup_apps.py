@@ -46,7 +46,7 @@ for app in data['apps']:
         metadata['AuthorName'] = app.get('author', '')
         metadata['WebSite'] = app.get('url', '')
         metadata['SourceCode'] = app.get('url', '')
-        
+
         categories = app.get('fdroid', {}).get('categories', [])
         if categories:
             metadata['Categories'] = categories
