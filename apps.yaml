@@ -3,6 +3,7 @@ meta:
   name: Fury's F-Droid Repo
   description: Curated Android apps with clean, normalized metadata
   source: https://github.com/UnTamed-Fury/FDroid--repo
+  last_updated: 2026-01-17
 apps:
 - id: net.kdt.pojavlaunch.debug
   name: 'PojavLauncher (Minecraft: Java Edition for Android)'
