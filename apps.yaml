@@ -1718,7 +1718,7 @@ apps:
   assets:
     icon:
       type: github-repo
-      url: https://github.com/xxxb-g/Pirna800Android/blob/main/app/src/main/pirna800-playstore.png
+      url: https://raw.githubusercontent.com/xxxb-g/Pirna800Android/refs/heads/main/app/src/main/pirna800-playstore.png
   fdroid:
     categories:
     - Nature
