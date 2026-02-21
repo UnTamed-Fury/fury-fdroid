@@ -1706,3 +1706,21 @@ apps:
   - READ_EXTERNAL_STORAGE
   - WRITE_EXTERNAL_STORAGE
   - MANAGE_EXTERNAL_STORAGE
+- id: xxxb.xxxb.pirna800
+  name: Pirna 800
+  author: xxxb
+  url: https://github.com/xxxb-g/Pirna800Android
+  classification:
+    domain: Entertainment
+    type: Nature
+    content: Trees
+    status: Stable
+  assets:
+    icon:
+      type: github-repo
+      url: https://raw.githubusercontent.com/xxxb-g/Pirna800Android/refs/heads/main/app/src/main/pirna800-playstore.png
+  fdroid:
+    categories:
+    - Nature
+  permissions:
+  - INTERNET
