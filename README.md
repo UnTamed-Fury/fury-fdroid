@@ -25,7 +25,7 @@ Scan the QR code below with your F-Droid client:
 
 ## Features
 
-- Automated Updates: Checks for new releases every 6 hours via GitHub Actions
+- Automated Updates: Checks for new releases everyday via GitHub Actions
 - Stateless Architecture: APKs are not stored in the git history, keeping the repository size small and builds fast
 - Smart Metadata: Automatically fetches app descriptions and icons from upstream GitHub repositories
 - Optimized Icons: Automatically converts and optimizes app icons for F-Droid compatibility
