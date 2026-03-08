@@ -6,6 +6,10 @@ A F-Droid repository for open source Android apps I use and recommend.
 [![GitHub License](https://img.shields.io/github/license/UnTamed-Fury/fury-fdroid)](LICENSE)
 [![Build Status](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/build.yml/badge.svg)](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/build.yml)
 
+> its literally bugged rn and i think ill ha e to work on it so till that time i hope u understand that this repo will probably not work
+
+
+
 A high-performance, automated F-Droid repository hosting a curated collection of open-source Android apps. This repository is **stateless** and **fully automated**, fetching updates, metadata, and icons directly from GitHub Releases.
 
 Website: [https://fury.untamedfury.space/](https://fury.untamedfury.space/)
