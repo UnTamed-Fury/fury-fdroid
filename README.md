@@ -6,7 +6,7 @@ A F-Droid repository for open source Android apps I use and recommend.
 [![GitHub License](https://img.shields.io/github/license/UnTamed-Fury/fury-fdroid)](LICENSE)
 [![Build Status](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/build.yml/badge.svg)](https://github.com/UnTamed-Fury/fury-fdroid/actions/workflows/build.yml)
 
-> its literally bugged rn and i think ill ha e to work on it so till that time i hope u understand that this repo will probably not work
+> its literally bugged rn. and it will be worked on later. Till then i hope u will forgive me and this repo.
 
 
 
