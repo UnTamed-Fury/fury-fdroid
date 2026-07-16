@@ -1,402 +1,483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fury's F-Droid Repo</title>
-<meta name="description" content="Custom F-Droid repository for open-source Android apps." />
-
+<meta name="description" content="Custom F-Droid repository for open-source Android apps.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦊</text></svg>">
 <style>
-/* ================= THEME TOKENS ================= */
 :root {
-  /* light */
-  --bg-1:#f5f7fb;
-  --bg-2:#e9edf5;
-  --card:#ffffff;
-  --border:#d6dbea;
-
-  --text:#0b0f1a;
-  --muted:#5f6b85;
-
-  --accent:#ff2a4d;
-  --accent-2:#ff6b82;
-
-  --success:#2ecc71;
-  --success-dark:#27ae60;
+  --bg: #f6f8fc;
+  --surface: #ffffff;
+  --border: #e2e6f0;
+  --text: #0d1117;
+  --muted: #5a6578;
+  --accent: #e6334a;
+  --accent-hover: #c9273d;
+  --accent-glow: rgba(230, 51, 74, 0.15);
+  --green: #1a9f56;
+  --green-hover: #158044;
+  --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace;
 }
 
 [data-theme="dark"] {
-  --bg-1:#0a0d14;
-  --bg-2:#0f1422;
-  --card:#141b2e;
-  --border:#253054;
-
-  --text:#ffffff;
-  --muted:#a4acc2;
+  --bg: #080b12;
+  --surface: #111827;
+  --border: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --accent: #f43f5e;
+  --accent-hover: #e11d48;
+  --accent-glow: rgba(244, 63, 94, 0.12);
+  --green: #22c55e;
+  --green-hover: #16a34a;
 }
 
-/* ================= BASE ================= */
-* {
-  box-sizing:border-box;
-  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
-}
+* { margin: 0; box-sizing: border-box; }
 
 body {
-  margin:0;
-  min-height:100vh;
-  color:var(--text);
-  background:
-    radial-gradient(1200px 500px at 50% -25%, rgba(255,42,77,.18), transparent 60%),
-    linear-gradient(180deg,var(--bg-1),var(--bg-2));
-  transition:.25s ease;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
 }
 
-@media (max-width:768px) {
-  body {
-    background:
-      radial-gradient(600px 320px at 50% -20%, rgba(255,42,77,.35), transparent 65%),
-      linear-gradient(180deg,var(--bg-1),var(--bg-2));
-  }
+body::before {
+  content: '';
+  position: fixed;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 500px;
+  background: radial-gradient(ellipse, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ================= HERO ================= */
 header {
-  text-align:center;
-  padding:clamp(3.5rem,8vw,5rem) 1.2rem 3rem;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: clamp(3rem, 10vw, 5.5rem) 1.5rem 2rem;
 }
 
 header h1 {
-  font-size:clamp(2.4rem,6vw,3.4rem);
-  letter-spacing:-0.03em;
+  font-size: clamp(2rem, 5.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
+
+header h1 span { color: var(--accent); }
 
 header p {
-  max-width:760px;
-  margin:.9rem auto 0;
-  color:var(--muted);
-  font-size:1.05rem;
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
-/* ================= LAYOUT ================= */
 main {
-  max-width:1100px;
-  margin:auto;
-  padding:0 1.2rem 4rem;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
 }
 
 .card {
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,0)),
-    var(--card);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:clamp(1.8rem,4vw,2.6rem);
-  box-shadow:0 40px 90px rgba(0,0,0,.25);
-  backdrop-filter:blur(6px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 8px 32px rgba(0,0,0,0.06);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
-/* ================= TEXT ================= */
-h2 { font-size:1.45rem; margin:0 0 .3rem; }
-h3 { font-size:1.05rem; margin:1.6rem 0 .2rem; }
-
-p {
-  margin:0;
-  color:var(--muted);
-  font-size:.95rem;
+[data-theme="dark"] .card {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.2),
+    0 8px 32px rgba(0,0,0,0.3);
 }
 
-/* ================= FIELDS ================= */
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.15rem;
+  line-height: 1.5;
+}
+
 .field {
-  margin-top:1.1rem;
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:.6rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
-input {
-  width:100%;
-  padding:1rem 1.05rem;
-  border-radius:16px;
-  border:1px solid var(--border);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
-    var(--bg-1);
-  color:var(--text);
-  font-family:ui-monospace,monospace;
-  font-size:.82rem;
-  letter-spacing:.02em;
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-input:hover { border-color:var(--accent); }
-
-input:focus {
-  outline:none;
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(255,42,77,.25);
+.input-wrap input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-#fp-colon,#fp-raw {
-  background:
-    linear-gradient(180deg, rgba(255,42,77,.12), rgba(255,42,77,0)),
-    var(--bg-1);
+.input-wrap input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-/* ================= BUTTONS ================= */
-button {
-  min-width:96px;
-  padding:1rem 1.3rem;
-  border-radius:16px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  color:#fff;
-  background:linear-gradient(180deg,var(--accent),#d81e3c);
+.input-wrap .fingerprint-badge {
+  position: absolute;
+  right: 8px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 6px;
+  pointer-events: none;
 }
 
-button.copied {
-  background:linear-gradient(180deg,var(--success),var(--success-dark));
+.copy-btn {
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 
-/* ================= QR ================= */
-.qr {
-  margin:2.6rem 0 2.2rem;
-  text-align:center;
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+.copy-btn:active { transform: scale(0.97); }
+
+.copy-btn.copied {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
 }
 
-.qr img {
-  width:190px;
-  border-radius:18px;
-  border:3px solid var(--accent-2);
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.75rem 0;
+  border: none;
 }
 
-/* ================= STEPS ================= */
+.qr-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.qr-wrap img {
+  width: 160px;
+  height: 160px;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  object-fit: cover;
+  transition: border-color 0.2s;
+}
+
+.qr-wrap img:hover { border-color: var(--accent); }
+
 .steps {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1rem;
-  margin-top:2.4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.25rem;
 }
 
 .step {
-  background:var(--bg-1);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:1.3rem;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  transition: border-color 0.2s, transform 0.2s;
 }
 
-.step h3 { color:var(--accent); }
+.step:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
 
-/* ================= FOOTER (INLINE, BASELINE-ALIGNED) ================= */
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.step h3 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.step p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 footer {
-  border-top:1px solid var(--border);
-  padding:1.1rem 1.4rem;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  transition: border-color 0.3s;
 }
 
 .footer-inner {
-  max-width:1100px;
-  margin:auto;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.footer-text {
-  font-size:.8rem;
-  color:var(--muted);
-  display:inline-flex;
-  align-items:baseline; /* THIS is the key */
-  gap:.45rem;
+.footer-left {
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.footer-text a {
-  color:var(--accent-2);
-  text-decoration:none;
+.footer-left a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
 }
 
-/* ================= THEME SWITCH (INLINE CONTROL) ================= */
-.theme-switch {
-  display:inline-flex;
-  align-items:center;
-  margin-left:.2rem;
+.footer-left a:hover { opacity: 0.75; }
+
+.theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, transform 0.15s;
 }
 
-.theme-switch input {
-  display:none;
+.theme-btn:hover { border-color: var(--accent); transform: scale(1.05); }
+.theme-btn:active { transform: scale(0.95); }
+
+.theme-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--muted);
+  transition: fill 0.2s;
 }
 
-.switch {
-  width:34px;
-  height:18px;
-  background:var(--border);
-  border-radius:999px;
-  position:relative;
-  cursor:pointer;
-  transform:translateY(-2px); /* move switch slightly higher */
-}
+.theme-btn:hover svg { fill: var(--accent); }
 
-/* knob */
-.switch::after {
-  content:"";
-  position:absolute;
-  top:2px;
-  left:2px;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:var(--card);
-  transition:.18s ease;
-}
+.theme-btn .icon-moon { display: none; }
+[data-theme="dark"] .theme-btn .icon-sun { display: none; }
+[data-theme="dark"] .theme-btn .icon-moon { display: block; }
 
-/* icons */
-.switch .icon {
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:10px;
-  height:10px;
-  fill:var(--muted);
-  pointer-events:none;
-}
-
-.switch .sun { left:5px; }
-.switch .moon { right:5px; }
-
-/* dark mode */
-.theme-switch input:checked + .switch {
-  background:var(--accent);
-}
-
-.theme-switch input:checked + .switch::after {
-  transform:translateX(16px);
-}
-
-.theme-switch input:checked + .switch .sun { opacity:.35; }
-.theme-switch input:not(:checked) + .switch .moon { opacity:.35; }
-
-/* ================= MOBILE ================= */
-@media (max-width:700px) {
-  .field { grid-template-columns:1fr; }
-  button { width:100%; }
-  .footer-inner {
-    flex-direction:column;
-    align-items:center;
-    gap:.6rem;
-  }
+@media (max-width: 600px) {
+  .field { grid-template-columns: 1fr; }
+  .copy-btn { width: 100%; }
+  .steps { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: 0.75rem; }
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>Fury’s F-Droid Repo</h1>
-  <p>Open-source Android apps distributed through a custom F-Droid repository.</p>
+  <h1>Fury's <span>F-Droid</span> Repo</h1>
+  <p>Open-source Android apps, distributed through a custom F-Droid repository.</p>
 </header>
 
 <main>
-<section class="card">
+  <div class="card">
 
-  <h2>Repository URL</h2>
-  <p>Add this inside any F-Droid compatible client.</p>
+    <div class="section-label">Repository</div>
+    <h2>Add to your client</h2>
+    <p class="desc">Paste this URL into F-Droid, Neo Store, or Droid-ify.</p>
 
-  <div class="field">
-    <input id="repo" readonly value="https://fury.untamedfury.space/repo">
-    <button data-copy="repo">Copy</button>
+    <div class="field">
+      <div class="input-wrap">
+        <input id="repo" readonly value="https://fury.untamedfury.space/repo">
+      </div>
+      <button class="copy-btn" data-copy="repo">Copy</button>
+    </div>
+
+    <div class="qr-wrap">
+      <img src="qr.png" alt="QR code" loading="lazy">
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Verification</div>
+    <h2>SHA-256 Fingerprint</h2>
+    <p class="desc">Verify the repository identity to prevent tampering.</p>
+
+    <div class="field">
+      <div class="input-wrap">
+        <input id="fp-colon" readonly>
+        <span class="fingerprint-badge">SHA-256</span>
+      </div>
+      <button class="copy-btn" data-copy="fp-colon">Copy</button>
+    </div>
+
+    <p class="desc" style="margin-top:0.5rem;">Raw hex format (no colons) for Neo Store and Droid-ify:</p>
+
+    <div class="field">
+      <div class="input-wrap">
+        <input id="fp-raw" readonly>
+        <span class="fingerprint-badge">RAW</span>
+      </div>
+      <button class="copy-btn" data-copy="fp-raw">Copy</button>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Quick Start</div>
+    <h2>Get set up in 3 steps</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Install a Client</h3>
+        <p>Get F-Droid, Neo Store, or Droid-ify on your device.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Add This Repo</h3>
+        <p>Go to Settings, then Repositories, and add the URL above.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Browse & Install</h3>
+        <p>Refresh the index, then browse and install apps.</p>
+      </div>
+    </div>
+
   </div>
-
-  <div class="qr">
-    <img src="qr.png" alt="F-Droid repository QR">
-  </div>
-
-  <h3>Repository Fingerprint (SHA-256)</h3>
-  <p>Works with F-Droid, Neo Store, and Droid-ify.</p>
-
-  <div class="field">
-    <input id="fp-colon" readonly>
-    <button data-copy="fp-colon">Copy</button>
-  </div>
-
-  <h3>Neo Store / Droid-ify Fingerprint (RAW)</h3>
-
-  <div class="field">
-    <input id="fp-raw" readonly>
-    <button data-copy="fp-raw">Copy</button>
-  </div>
-
-  <div class="steps">
-    <div class="step"><h3>1 · Install Client</h3><p>F-Droid, Neo Store, or Droid-ify.</p></div>
-    <div class="step"><h3>2 · Add Repository</h3><p>Settings → Repositories → Add.</p></div>
-    <div class="step"><h3>3 · Refresh</h3><p>Update indexes and install apps.</p></div>
-  </div>
-
-</section>
 </main>
 
 <footer>
   <div class="footer-inner">
-    <span class="footer-text">
-      © 2025 ·
+    <div class="footer-left">
+      &copy; 2025 &middot;
       <a href="https://github.com/UnTamed-Fury/fury-fdroid">GitHub</a>
-      <label class="theme-switch" aria-label="Toggle theme">
-        <input id="themeToggle" type="checkbox">
-        <span class="switch">
-          <svg class="icon sun" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
-          </svg>
-          <svg class="icon moon" viewBox="0 0 24 24">
-            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
-          </svg>
-        </span>
-      </label>
-    </span>
+    </div>
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.73 12.73l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+    </button>
   </div>
 </footer>
 
 <script>
-/* ================= THEME ================= */
+const FP = "D5:ED:79:60:17:1D:58:32:4A:D3:64:A0:90:0E:28:7A:51:F1:95:92:6C:B4:FB:AF:5E:BB:E7:E9:5A:81:DC:EF";
+
+document.getElementById("fp-colon").value = FP;
+document.getElementById("fp-raw").value = FP.replace(/:/g, "");
+
 const root = document.documentElement;
 const toggle = document.getElementById("themeToggle");
-const saved = localStorage.getItem("theme");
-const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
 
-if (saved) {
-  root.dataset.theme = saved;
-  toggle.checked = saved === "dark";
-} else if (systemDark) {
-  root.dataset.theme = "dark";
-  toggle.checked = true;
-}
-
-toggle.addEventListener("change", () => {
-  const mode = toggle.checked ? "dark" : "light";
+function setTheme(mode) {
   root.dataset.theme = mode;
   localStorage.setItem("theme", mode);
+}
+
+const saved = localStorage.getItem("theme");
+if (saved) {
+  setTheme(saved);
+} else if (matchMedia("(prefers-color-scheme: dark)").matches) {
+  setTheme("dark");
+}
+
+toggle.addEventListener("click", () => {
+  setTheme(root.dataset.theme === "dark" ? "light" : "dark");
 });
 
-/* ================= COPY + FINGERPRINT ================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const FP =
-    "D5:ED:79:60:17:1D:58:32:4A:D3:64:A0:90:0E:28:7A:51:F1:95:92:6C:B4:FB:AF:5E:BB:E7:E9:5A:81:DC:EF";
-
-  const fpColon = document.getElementById("fp-colon");
-  const fpRaw = document.getElementById("fp-raw");
-
-  fpColon.value = FP;
-  fpRaw.value = FP.replace(/:/g, "");
-
-  document.querySelectorAll("[data-copy]").forEach(btn => {
-    const original = btn.textContent;
-    btn.addEventListener("click", async () => {
-      const el = document.getElementById(btn.dataset.copy);
-      await navigator.clipboard.writeText(el.value);
-      btn.classList.add("copied");
-      btn.textContent = "Copied";
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.classList.remove("copied");
-      }, 1200);
-    });
+document.querySelectorAll("[data-copy]").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const input = document.getElementById(btn.dataset.copy);
+    try {
+      await navigator.clipboard.writeText(input.value);
+    } catch {
+      input.select();
+      document.execCommand("copy");
+    }
+    btn.classList.add("copied");
+    btn.textContent = "Copied";
+    setTimeout(() => {
+      btn.classList.remove("copied");
+      btn.textContent = "Copy";
+    }, 1200);
   });
 });
 </script>
-
 </body>
 </html>
